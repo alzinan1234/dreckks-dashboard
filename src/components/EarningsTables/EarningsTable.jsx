@@ -1,6 +1,6 @@
-
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 const dummyData = Array.from({ length: 90 }).map((_, i) => ({
   serial: `INV093${i}`,
@@ -76,10 +76,12 @@ export default function EarningsTable() {
               >
                 <td className="py-2 px-4">{item.serial}</td>
                 <td className="py-2 px-4 flex items-center gap-2">
-                  <img
+                  <Image
                     src="/user-icon.png"
                     alt="User"
-                    className="w-6 h-6 rounded-full"
+                    width={24}
+                    height={24}
+                    className="rounded-full"
                   />
                   {item.user}
                 </td>
@@ -89,10 +91,12 @@ export default function EarningsTable() {
                 <td className="py-2 px-4">{item.date}</td>
                 <td className="py-2 px-4 text-center">
                   <button>
-                    <img
+                    <Image
                       src="/action-icon.svg"
                       alt="action"
-                      className="w-5 h-5 inline"
+                      width={20}
+                      height={20}
+                      className="inline"
                     />
                   </button>
                 </td>
