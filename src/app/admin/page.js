@@ -6,18 +6,18 @@ import { Area, ResponsiveContainer } from "recharts";
 const Admin = () => {
   return (
     <>
-      <div>
-        <div className="py-[24px] p-6 px-[12px] grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3 border border-red-500 w-full">
+      <div className="">
+        <div className=" p-6  grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3  w-full">
           <StatCard
             title="Total User"
             value="2,500"
-            change="+4%"
+            change="4%"
             period="From last month"
           />
           <StatCard
             title="Total Service provider"
             value="200"
-            change="+4%"
+            change="4%"
             period="From last month"
           />
         </div>
