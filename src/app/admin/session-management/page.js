@@ -1,7 +1,12 @@
-import React from 'react'
+import SessionManagement from "@/components/SessionManagement/SessionManagement";
+import React from "react";
 
-export const page = () => {
+const SessionManagementPage = () => {
   return (
-    <div>page</div>
-  )
-}
+    <div>
+      <SessionManagement />
+    </div>
+  );
+};
+
+export default SessionManagementPage;
