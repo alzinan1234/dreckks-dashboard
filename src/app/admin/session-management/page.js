@@ -1,3 +1,4 @@
+"use client";
 import SessionManagement from "@/components/SessionManagement/SessionManagement";
 import React from "react";
 

@@ -21,17 +21,42 @@ const UserManagement = () => {
             <button className="border border-teal-400 text-sm px-4 py-1 rounded-full text-teal-300 hover:bg-teal-900">
               Manage Service provider job titles
             </button>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search"
-                className="bg-[#1e1e1e] text-sm pl-8 pr-4 py-2 rounded-full text-white focus:outline-none"
-              />
-              <FaSearch className="absolute left-2 top-2.5 text-white w-4 h-4" />
-            </div>
-            <button className="p-2 rounded-full hover:bg-[#1f1f1f]">
-              <FaCog className="text-white w-5 h-5" />
-            </button>
+            <div className="flex items-center bg-[#0000001A] rounded-full overflow-hidden p-1 shadow-inner ">
+                             {/* Search Icon (Magnifying Glass) */}
+                             <div className="flex items-center justify-center w-10 h-10 text-[#DBDBDB]">
+                               <svg
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 className="h-5 w-5"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 strokeWidth={2}
+                               >
+                                 <path
+                                   strokeLinecap="round"
+                                   strokeLinejoin="round"
+                                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                 />
+                               </svg>
+                             </div>
+                   
+                             {/* Search Input Field */}
+                             <input
+                               type="text"
+                               className="flex-grow bg-transparent outline-none text-[#DBDBDB] placeholder-gray-200 px-2 py-2 text-lg w-[197.76px] h-[32px]"
+                               placeholder="Search"
+                               aria-label="Search input"
+                             />
+                   
+                             {/* Filter Button */}
+                             <button
+                               className="flex-shrink-0 bg-black text-white rounded-full w-10 h-10 flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+                               aria-label="Filter search results"
+                             >
+                               <Image src="/icon/search-icon.svg" alt="Search Icon" width={20} height={20} />
+                             </button>
+                           </div>
+          
           </div>
         </div>
 

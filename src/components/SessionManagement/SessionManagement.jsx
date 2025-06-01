@@ -1,32 +1,65 @@
-import React from "react";
+// components/SessionManagement.jsx (or wherever your main component is)
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import { FaSearch, FaPlus, FaCog, FaFileAlt } from "react-icons/fa";
+import AddNewSessionModal from './AddNewSessionModal'; // Import the modal component
 
-const sessions = new Array(13).fill({
-  id: "1234",
+const sessions = Array.from({ length: 13 }, (_, index) => ({
+  id: `session-${index + 1}`, // Generate unique IDs for each session
   name: "Find Balance & Clarity",
   time: "4:00 PM - 5:00 PM",
   therapist: "John Smith",
   status: "Active",
-});
+}));
 
 const SessionManagement = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(''); // Added for search functionality
+
+  const filteredSessions = sessions.filter(session =>
+    session.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    session.therapist.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    session.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className="bg-[#1e1e1e] p-6 rounded-lg text-white">
+    <div className="bg-[#343434] p-6 rounded-lg text-white">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Session Management</h2>
         <div className="flex items-center gap-2">
-          <button className="bg-white text-black text-sm px-4 py-2 rounded-full flex items-center gap-2 hover:bg-gray-200">
+          {/* Add New Session Button */}
+          <button
+            onClick={() => setIsModalOpen(true)} // Open modal on click
+            className="bg-white text-black text-sm px-4 py-2 rounded-full flex items-center gap-2 hover:bg-gray-200"
+          >
             <FaPlus /> Add New Session
           </button>
-          <div className="relative">
+          <div className="flex items-center bg-[#0000001A] rounded-full overflow-hidden p-1 shadow-inner ">
+            {/* Search Icon (Magnifying Glass) */}
+            <div className="flex items-center justify-center w-10 h-10 text-[#DBDBDB]">
+              <FaSearch className="h-5 w-5" />
+            </div>
+
+            {/* Search Input Field */}
             <input
               type="text"
+              className="flex-grow bg-transparent outline-none text-[#DBDBDB] placeholder-gray-200 px-2 py-2 text-lg w-[197.76px] h-[32px]"
               placeholder="Search"
-              className="bg-[#2d2d2d] text-sm pl-8 pr-4 py-2 rounded-full text-white focus:outline-none"
+              aria-label="Search input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <FaSearch className="absolute left-2 top-2.5 text-white w-4 h-4" />
+
+            {/* Filter Button */}
+            <button
+              className="flex-shrink-0 bg-black text-white rounded-full w-10 h-10 flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+              aria-label="Filter search results"
+            >
+              {/* Using FaSearch here, but you might want FaFilter */}
+              <FaSearch className="h-5 w-5" />
+            </button>
           </div>
           <button className="p-2 rounded-full hover:bg-[#2d2d2d]">
             <FaCog className="text-white w-5 h-5" />
@@ -49,8 +82,8 @@ const SessionManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {sessions.map((session, index) => (
-              <tr key={index} className="bg-[#2b2b2b] text-sm text-white py-5">
+            {filteredSessions.map((session) => (
+              <tr key={session.id} className="bg-[#2b2b2b] text-sm text-white py-5">
                 <td className="py-2 px-4 text-center">{session.id}</td>
                 <td className="py-2 px-4 text-center">{session.name}</td>
                 <td className="py-2 px-4 text-center">
@@ -87,6 +120,12 @@ const SessionManagement = () => {
           &#8250;
         </button>
       </div>
+
+      {/* AddNewSessionModal Component */}
+      <AddNewSessionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
