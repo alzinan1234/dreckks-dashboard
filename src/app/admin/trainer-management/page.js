@@ -1,7 +1,17 @@
+
+import TrainerManagement from '@/components/TrainerManagement/TrainerManagement'
 import React from 'react'
 
-export const page = () => {
+const TrainerManagements = () => {
   return (
-    <div>page</div>
+    <div>
+      <>
+
+      <TrainerManagement />
+      </>
+      
+    </div>
   )
 }
+
+export default TrainerManagements

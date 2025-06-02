@@ -17,7 +17,7 @@ const navItems = [
   { name: 'User Management', href: '/admin/user-management', icon: Users },
   { name: 'Promotion Setup', href: '/admin/promotion-setup', icon: Megaphone },
   { name: 'Session Management', href: '/admin/session-management', icon: Network },
-  { name: 'Trainer Management', href: '/trainer-management', icon: Dumbbell },
+  { name: 'Trainer Management', href: '/admin/trainer-management', icon: Dumbbell },
   { name: 'Banner Management', href: '/banner-management', icon: ImageIcon },
   { name: 'Subscriptions', href: '/subscriptions', icon: CreditCard },
   { name: 'Support', href: '/support', icon: HelpCircle },

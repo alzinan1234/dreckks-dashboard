@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { FaSearch, FaCog } from "react-icons/fa";
 
 const users = new Array(12).fill({
   id: "1234",
@@ -21,48 +20,52 @@ const UserManagement = () => {
             <button className="border border-teal-400 text-sm px-4 py-1 rounded-full text-teal-300 hover:bg-teal-900">
               Manage Service provider job titles
             </button>
-            <div className="flex items-center bg-[#0000001A] rounded-full overflow-hidden p-1 shadow-inner ">
-                             {/* Search Icon (Magnifying Glass) */}
-                             <div className="flex items-center justify-center w-10 h-10 text-[#DBDBDB]">
-                               <svg
-                                 xmlns="http://www.w3.org/2000/svg"
-                                 className="h-5 w-5"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke="currentColor"
-                                 strokeWidth={2}
-                               >
-                                 <path
-                                   strokeLinecap="round"
-                                   strokeLinejoin="round"
-                                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                 />
-                               </svg>
-                             </div>
-                   
-                             {/* Search Input Field */}
-                             <input
-                               type="text"
-                               className="flex-grow bg-transparent outline-none text-[#DBDBDB] placeholder-gray-200 px-2 py-2 text-lg w-[197.76px] h-[32px]"
-                               placeholder="Search"
-                               aria-label="Search input"
-                             />
-                   
-                             {/* Filter Button */}
-                             <button
-                               className="flex-shrink-0 bg-black text-white rounded-full w-10 h-10 flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-                               aria-label="Filter search results"
-                             >
-                               <Image src="/icon/search-icon.svg" alt="Search Icon" width={20} height={20} />
-                             </button>
-                           </div>
-          
+            <div className="flex items-center bg-[#0000001A] rounded overflow-hidden p-1 shadow-inner">
+              {/* Search Icon */}
+              <div className="flex items-center justify-center w-10 h-10 text-[#DBDBDB]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+
+              {/* Search Input */}
+              <input
+                type="text"
+                className="flex-grow bg-transparent outline-none text-[#DBDBDB] placeholder-gray-200 px-2 py-2 text-lg w-[197.76px] h-[32px]"
+                placeholder="Search"
+                aria-label="Search input"
+              />
+
+              {/* Filter Button */}
+              <button
+                className="flex-shrink-0 bg-black text-white rounded-full w-10 h-10 flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+                aria-label="Filter search results"
+              >
+                <Image
+                  src="/icon/search-icon.svg"
+                  alt="Search Icon"
+                  width={20}
+                  height={20}
+                />
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <table className="min-w-full border-separate border-spacing-y-2">
+          <table className="min-w-full border-collapse">
             <thead className="bg-cyan-700">
               <tr className="text-sm text-white">
                 <th className="py-3 px-4 text-center">User ID</th>
@@ -74,9 +77,11 @@ const UserManagement = () => {
             </thead>
             <tbody>
               {users.map((user, index) => (
-                <tr key={index} className="bg-[#1e1e1e] text-sm text-white">
-                  <td className="py-2 px-4 text-center">{user.id}</td>
-                  <td className="py-2 px-4 text-center">
+                <tr key={index} className="text-sm text-white">
+                  <td className="py-2 px-4 text-center border-b border-gray-600">
+                    {user.id}
+                  </td>
+                  <td className="py-2 px-4 text-center border-b border-gray-600">
                     <div className="flex justify-center items-center gap-2">
                       <Image
                         src={user.avatar}
@@ -88,9 +93,13 @@ const UserManagement = () => {
                       {user.name}
                     </div>
                   </td>
-                  <td className="py-2 px-4 text-center">{user.email}</td>
-                  <td className="py-2 px-4 text-center">{user.date}</td>
-                  <td className="py-2 px-4 text-center">
+                  <td className="py-2 px-4 text-center border-b border-gray-600">
+                    {user.email}
+                  </td>
+                  <td className="py-2 px-4 text-center border-b border-gray-600">
+                    {user.date}
+                  </td>
+                  <td className="py-2 px-4 text-center border-b border-gray-600">
                     <div className="flex justify-center gap-2">
                       <button className="px-3 py-1 text-xs border border-purple-500 text-purple-400 rounded-full hover:bg-purple-800">
                         View

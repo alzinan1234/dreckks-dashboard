@@ -46,7 +46,7 @@ export default function EarningsTable() {
          
 
           {/* search icon */}
-          <div className="flex items-center bg-[#0000001A] rounded-full overflow-hidden p-1 shadow-inner ">
+          <div className="flex items-center bg-[#0000001A] rounded overflow-hidden p-1 shadow-inner ">
                    {/* Search Icon (Magnifying Glass) */}
                    <div className="flex items-center justify-center w-10 h-10 text-[#DBDBDB]">
                      <svg
