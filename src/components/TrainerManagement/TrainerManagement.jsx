@@ -101,16 +101,16 @@ const TrainerManagement = () => {
             </button>
 
             {/* Search Input and Button Group */}
-            <div className="flex items-center bg-[#0000001A] rounded overflow-hidden p-1 shadow-inner">
+            <div className="flex items-center bg-[#0000001A] rounded overflow-hidden  shadow-inner">
               {/* Search Icon */}
-              <div className="flex items-center justify-center w-10 h-10 text-[#DBDBDB]">
-                <FaSearch className="h-5 w-5" />
+              <div className="flex items-center justify-center w-10 h-10 text-[#B0B0B0]">
+                <FaSearch className="h-4 w-4" />
               </div>
 
               {/* Search Input Field */}
               <input
                 type="text"
-                className="flex-grow bg-transparent outline-none text-[#DBDBDB] placeholder-gray-200 px-2 py-2 text-lg w-[197.76px] h-[32px]"
+                className="flex-grow bg-transparent outline-none text-[#dfdada] placeholder-gray-500 px-2 py-2 text-lg w-[197.76px] h-[32px]"
                 placeholder="Search"
                 aria-label="Search input"
                 value={searchTerm}
@@ -126,10 +126,7 @@ const TrainerManagement = () => {
               </button>
             </div>
 
-            {/* Settings/Cog Icon Button */}
-            <button className="p-2 rounded-full hover:bg-[#2d2d2d]">
-              <FaCog className="text-white w-5 h-5" />
-            </button>
+           
           </div>
         </div>
 

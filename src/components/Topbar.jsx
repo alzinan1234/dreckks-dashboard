@@ -2,7 +2,7 @@ import { Bell, Circle } from "lucide-react";
 
 export default function Topbar() {
   return (
-    <header className="flex items-center justify-end bg-[#343434] p-3.5 border-b border-[#D6D6D6]">
+    <header className="  flex items-center justify-end bg-[#343434] p-3.5 border-b border-[#D6D6D6]">
       <div className="flex items-center gap-6">
         <div className="relative cursor-pointer">
           <Bell className="text-white" />

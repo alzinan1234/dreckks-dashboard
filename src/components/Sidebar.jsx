@@ -18,11 +18,11 @@ const navItems = [
   { name: 'Promotion Setup', href: '/admin/promotion-setup', icon: Megaphone },
   { name: 'Session Management', href: '/admin/session-management', icon: Network },
   { name: 'Trainer Management', href: '/admin/trainer-management', icon: Dumbbell },
-  { name: 'Banner Management', href: '/banner-management', icon: ImageIcon },
-  { name: 'Subscriptions', href: '/subscriptions', icon: CreditCard },
-  { name: 'Support', href: '/support', icon: HelpCircle },
-  { name: 'Notifications', href: '/notifications', icon: Bell },
-  { name: 'Settings', href: '/settings', icon: Settings },
+  { name: 'Banner Management', href: '/admin/banner-management', icon: ImageIcon },
+  { name: 'Subscriptions', href: '/admin/subscriptions', icon: CreditCard },
+  { name: 'Support', href: '/admin/support', icon: HelpCircle },
+  { name: 'Notifications', href: '/admin/notifications', icon: Bell },
+  { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];
 
 const Sidebar = ({ isOpen, setIsOpen }) => {

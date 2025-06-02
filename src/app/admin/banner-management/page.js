@@ -1,9 +1,13 @@
+"use client";
+import BannerManagement from '@/components/BannerManagement/BannerManagement.'
 import React from 'react'
 
-export const page = () => {
+const page = () => {
   return (
     <div>
-        
+    <BannerManagement />
     </div>
   )
 }
+
+export default page
