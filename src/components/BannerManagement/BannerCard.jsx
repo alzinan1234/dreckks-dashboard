@@ -5,19 +5,19 @@ import Image from "next/image";
 
 const BannerCard = ({ banner }) => {
   return (
-    <div className="relative w-full max-w-sm h-64 rounded-[42px] overflow-hidden shadow-lg text-white">
+    <div className="relative w-full max-w-sm h-[249px] rounded-[42px] overflow-hidden shadow-lg text-white">
       {/* Background Image */}
       <Image
         src={banner.imageUrl || "https://via.placeholder.com/400x200"}
         alt={banner.title}
         fill
-        className="object-cover w-full h-full"
+        className=" w-full h-full"
         priority
       />
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-[#00000080]  p-4 flex flex-col justify-end rounded-2xl">
-       <div className="  mb-20">
+       <div className=" mb-27">
          <h3 className="text-lg font-semibold ">{banner.title}</h3>
         <p className="text-sm text-white">{banner.description}</p>
 
