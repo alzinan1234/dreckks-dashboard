@@ -20,7 +20,7 @@ const UserManagement = () => {
             <button className="border border-teal-400 text-sm px-4 py-1 rounded-full text-teal-300 hover:bg-teal-900">
               Manage Service provider job titles
             </button>
-            <div className="flex items-center bg-[#0000001A] rounded overflow-hidden p-1 shadow-inner">
+            <div className="flex items-center bg-[#0000001A] rounded overflow-hidden  shadow-inner">
               {/* Search Icon */}
               <div className="flex items-center justify-center w-10 h-10 text-[#DBDBDB]">
                 <svg
@@ -42,7 +42,7 @@ const UserManagement = () => {
               {/* Search Input */}
               <input
                 type="text"
-                className="flex-grow bg-transparent outline-none text-[#DBDBDB] placeholder-gray-200 px-2 py-2 text-lg w-[197.76px] h-[32px]"
+                className="flex-grow bg-transparent outline-none text-[#DBDBDB] placeholder-gray-400 px-2 py-2 text-sm w-[197.76px] h-[32px]"
                 placeholder="Search"
                 aria-label="Search input"
               />

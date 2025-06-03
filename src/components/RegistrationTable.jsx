@@ -41,7 +41,7 @@ export default function RegistrationTable() {
 
           {/* Filter Button */}
           <button
-            className="flex-shrink-0 bg-black text-white rounded-full w-10 h-10 flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+            className="flex-shrink-0  text-white rounded-full w-10 h-10 flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
             aria-label="Filter search results"
           >
             <Image src="/icon/search-icon.svg" alt="Search Icon" width={20} height={20} />

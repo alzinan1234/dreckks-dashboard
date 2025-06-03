@@ -63,7 +63,8 @@ const SessionManagement = () => {
 
 
   return (
-    <div className="bg-[#343434] p-6 rounded-lg text-white">
+    <div>
+      <div className="bg-[#343434] p-6 rounded-lg text-white">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Session Management</h2>
@@ -71,20 +72,20 @@ const SessionManagement = () => {
           {/* Add New Session Button */}
           <button
             onClick={() => setIsAddNewModalOpen(true)}
-            className="bg-white text-black text-sm px-4 py-2 rounded-2xl flex items-center gap-2 hover:bg-gray-200"
+            className="bg-white text-black text-sm px-4 py-2 rounded-full flex items-center gap-2 hover:bg-gray-200"
           >
             <FaPlus /> Add New Session
           </button>
-          <div className="flex items-center bg-[#0000001A] rounded rounded-r-full overflow-hidden p-1 shadow-inner ">
+          <div className="flex items-center bg-[#0000001A] rounded rounded-r-full overflow-hidden  shadow-inner ">
             {/* Search Icon (Magnifying Glass) */}
             <div className="flex items-center justify-center w-10 h-10 text-[#DBDBDB]">
-              <FaSearch className="h-5 w-5" />
+              <FaSearch className="text-[#c5c0c0]" />
             </div>
 
             {/* Search Input Field */}
             <input
               type="text"
-              className="flex-grow bg-transparent outline-none text-[#DBDBDB] placeholder-gray-200 px-2 py-2 text-lg w-[197.76px] h-[32px]"
+              className="flex-grow bg-transparent outline-none text-[#DBDBDB] placeholder-gray-400 px-2 py-2 text-sm w-[197.76px] h-[32px]"
               placeholder="Search"
               aria-label="Search input"
               value={searchTerm}
@@ -99,9 +100,7 @@ const SessionManagement = () => {
              <Image src="/icon/search-icon.svg" alt="Delete" width={25} height={25} />
             </button>
           </div>
-          <button className="p-2 rounded-full hover:bg-[#2d2d2d]">
-            <FaCog className="text-white w-5 h-5" />
-          </button>
+         
         </div>
       </div>
 
@@ -158,7 +157,15 @@ const SessionManagement = () => {
         </table>
       </div>
 
-      {/* Pagination */}
+      
+
+      {/* AddNewSessionModal Component */}
+      <AddNewSessionModal
+        isOpen={isAddNewModalOpen}
+        onClose={() => setIsAddNewModalOpen(false)}
+      />
+    </div>
+    {/* Pagination */}
       <div className="flex justify-end items-center mt-6 gap-2 text-sm">
         <button className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#2d2d2d]">
           &#8249;
@@ -173,12 +180,6 @@ const SessionManagement = () => {
           &#8250;
         </button>
       </div>
-
-      {/* AddNewSessionModal Component */}
-      <AddNewSessionModal
-        isOpen={isAddNewModalOpen}
-        onClose={() => setIsAddNewModalOpen(false)}
-      />
     </div>
   );
 };
