@@ -1,10 +1,11 @@
-import Subscriptions from '@/components/Subscriptions/Subscriptions'
+
+import SubscriptionsPage from '@/components/Subscriptions/SubscriptionsPage'
 import React from 'react'
 
 const page = () => {
   return (
     <div>
-      <Subscriptions/>
+      <SubscriptionsPage/>
     </div>
   )
 }

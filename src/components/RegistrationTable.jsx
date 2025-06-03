@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import eye from '../../public/icon/eye.svg'
 
 const dummyRows = [
   { id: "NK-01", name: "Alice Johnson", email: "alice@email.com", date: "2024-01-21" },
@@ -71,7 +72,7 @@ export default function RegistrationTable() {
                   <div className="flex items-center justify-center gap-2">
                     <Image className="cursor-pointer" src="/icon/right.svg" alt="Right" width={26} height={26} />
                     <Image className="cursor-pointer" src="/icon/trash.svg" alt="Trash" width={26} height={26} />
-                    <Image className="cursor-pointer" src="/icon/eye.svg" alt="Eye" width={26} height={26} />
+                    <Image className="cursor-pointer" src={eye} alt="Eye" width={26} height={26} />
                   </div>
                 </td>
               </tr>
