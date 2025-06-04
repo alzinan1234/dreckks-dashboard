@@ -178,34 +178,21 @@ export default function SubscriptionsPage() {
         )}
       </div>
 
-      <div className="flex justify-end mt-8">
-        <nav className="flex space-x-1" aria-label="Pagination">
-          {/* Pagination buttons */}
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 text-gray-400 hover:bg-gray-600">
-            &lt;
-          </button>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white">
-            1
-          </button>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 text-gray-400 hover:bg-gray-600">
-            2
-          </button>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 text-gray-400 hover:bg-gray-600">
-            3
-          </button>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 text-gray-400 hover:bg-gray-600">
-            4
-          </button>
-          <span className="w-8 h-8 flex items-center justify-center text-gray-400">
-            ...
-          </span>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 text-gray-400 hover:bg-gray-600">
-            30
-          </button>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 text-gray-400 hover:bg-gray-600">
-            &gt;
-          </button>
-        </nav>
+      
+      {/* Pagination Section */}
+      <div className="flex justify-end items-center mt-6 gap-2 text-sm">
+        <button className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#2d2d2d] text-gray-400">
+          &#8249; {/* Left arrow */}
+        </button>
+        <button className="w-8 h-8 bg-cyan-500 text-white rounded">1</button>
+        <button className="w-8 h-8 hover:bg-[#2d2d2d] text-gray-400">2</button>
+        <button className="w-8 h-8 hover:bg-[#2d2d2d] text-gray-400">3</button>
+        <button className="w-8 h-8 hover:bg-[#2d2d2d] text-gray-400">4</button>
+        <span className="px-2 text-gray-400">...</span>
+        <button className="w-8 h-8 hover:bg-[#2d2d2d] text-gray-400">30</button>
+        <button className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#2d2d2d] text-gray-400">
+          &#8250; {/* Right arrow */}
+        </button>
       </div>
     </div>
   );
