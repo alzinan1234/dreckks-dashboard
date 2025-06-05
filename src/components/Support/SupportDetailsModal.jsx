@@ -6,8 +6,8 @@ const SupportDetailsModal = ({ isOpen, onClose, ticket }) => {
   if (!isOpen || !ticket) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#1a1a1a] border border-[#404040] rounded-lg shadow-xl w-full max-w-2xl mx-auto p-6 relative">
+    <div className="fixed inset-0  bg-opacity-75 flex items-center justify-center z-50 p-4">
+      <div className="bg-[#343434] border border-[#404040] rounded-lg shadow-xl w-full max-w-2xl mx-auto p-6 relative">
         {/* Header with Close Button */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold text-white">Support Details</h2>
