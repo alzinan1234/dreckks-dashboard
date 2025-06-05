@@ -65,8 +65,8 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             })}
 
               {/* Logout Button */}
-          <div className="border-t border-[#D6D6D6] pt-4 ">
-            <button className="flex ml-5 items-center text-red-500 hover:text-red-600">
+          <div className="border-t border-[#D6D6D6] pt-6 ">
+            <button className="flex ml-9 items-center text-red-500 hover:text-red-600">
               <LogOut className="w-5 h-5 mr-2" />
               Logout
             </button>

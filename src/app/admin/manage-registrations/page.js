@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const dummyRows = [
   { id: "NK-01", name: "Alice Johnson", email: "alice@email.com", date: "2024-01-21" },
   { id: "NK-02", name: "Bob Smith", email: "bob@email.com", date: "2024-02-11" },
@@ -40,9 +42,8 @@ export default function RegistrationTable() {
           {/* Filter Button */}
           <button
             className="flex-shrink-0 bg-black text-white rounded-full w-10 h-10 flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-            aria-label="Filter search results"
           >
-            <img src="./icon/search-icon.svg" alt="" />
+            <Image src="/icon/search-icon.svg" alt="Search" width={20} height={20} />
           </button>
         </div>
       </div>
@@ -68,12 +69,11 @@ export default function RegistrationTable() {
                 <td className="text-center">{row.name}</td>
                 <td className="text-center">{row.email}</td>
                 <td className="text-center">{row.date}</td>
-                <td className="py-2">
-                  <div className="flex items-center justify-center gap-2">
-                    <img className=" cursor-pointer" src="./icon/right.svg" alt="Right" />
-                    <img className=" cursor-pointer" src="./icon/trash.svg" alt="Trash" />
-                    <img className=" cursor-pointer" src="./icon/eye.svg" alt="Eye" />
-                  </div>
+                <td className="text-center flex justify-center gap-2 py-2">
+                  <Image className="cursor-pointer" src="/icon/right.svg" alt="Right" width={24} height={24} />
+                  <Image className="cursor-pointer" src="/icon/trash.svg" alt="Trash" width={24} height={24} />
+                  <Image className="cursor-pointer" src="/icon/eye.svg" alt="Eye" width={24} height={24} />
+                 
                 </td>
               </tr>
             ))}

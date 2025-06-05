@@ -1,7 +1,13 @@
+import SupportTable from '@/components/Support/SupportTable'
 import React from 'react'
 
-export const page = () => {
+const page = () => {
   return (
-    <div>page</div>
+    <div>
+      
+      <SupportTable/>
+    </div>
   )
 }
+
+export default page

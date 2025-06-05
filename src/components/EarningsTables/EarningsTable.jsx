@@ -159,10 +159,10 @@ export default function EarningsTable() {
                 <td className="py-2 px-4">
                   <button>
                     <Image
-                      src="/action-icon.svg"
+                      src="/icon/eye.svg"
                       alt="action"
-                      width={20}
-                      height={20}
+                      width={24}
+                      height={24}
                       className="inline"
                     />
                   </button>
