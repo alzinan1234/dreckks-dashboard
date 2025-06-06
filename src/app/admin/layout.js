@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './admin.css';
 import Sidebar from '@/components/Sidebar';
 import Topbar from '@/components/Topbar';
+import NotificationPage from '@/components/Notification/NotificationPage';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -20,6 +21,19 @@ const geistMono = Geist_Mono({
 export default function RootLayout({ children }) {
   const [isOpen, setIsOpen] = useState(false);
 
+    // State to control whether NotificationPage is shown
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  // Function to toggle notification page visibility
+  const handleBellClick = () => {
+    setShowNotifications(true);
+  };
+
+  // Function to go back from NotificationPage (e.g., from the back arrow)
+  const handleGoBack = () => {
+    setShowNotifications(false);
+  };
+
   return (
     <html lang="en">
       <body
@@ -33,8 +47,16 @@ export default function RootLayout({ children }) {
               isOpen ? 'ml-64' : 'ml-0'
             }`}
           >
-            <Topbar />
-            <div className="p-4">{children}</div>
+         {/* Topbar always visible */}
+      <Topbar onBellClick={handleBellClick} />
+
+      {/* Conditionally render NotificationPage or MainContent */}
+      {showNotifications ? (
+        <NotificationPage onBackClick={handleGoBack} /> // Pass handler to NotificationPage
+      ) : (
+        <div className="p-4">{children}</div>
+      )}
+            
           </main>
         </div>
       </body>

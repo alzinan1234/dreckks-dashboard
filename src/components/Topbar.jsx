@@ -1,15 +1,21 @@
-import { Bell, Circle } from "lucide-react";
+'use client';
 
-export default function Topbar() {
+import React from 'react';
+import { Bell, Circle } from "lucide-react";
+import Image from 'next/image';
+
+// Topbar component now accepts an onBellClick prop
+export default function Topbar({ onBellClick }) {
   return (
-    <header className="  flex items-center justify-end bg-[#343434] p-3.5 border-b border-[#D6D6D6]">
+    <header className="flex items-center justify-end bg-[#343434] p-3.5 border-b border-[#D6D6D6]">
       <div className="flex items-center gap-6">
-        <div className="relative cursor-pointer">
-          <Bell className="text-white" />
-          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+        {/* Notification Bell with onClick handler */}
+        <div className="relative cursor-pointer flex items-center gap-2 bg-[#0000001A] rounded-[38px] py-[5px] px-[8px]" onClick={onBellClick}>
+           <Image  src="/icon/notification-02.svg" alt="Elements Icon" width={32} height={32} />
+          <span className=" text-[#4BB54B] bg-[#000] rounded-full  px-3 py-1">8</span>
         </div>
-        <div className="relative w-8 h-8 rounded-full bg-gray-600">
-          <Circle className="absolute bottom-0 right-0 text-green-500 w-3 h-3" fill="green" />
+        <div className="relative rounded-full">
+           <Image src="/image/userImage.png" alt="Elements Icon" width={40} height={40} />
         </div>
       </div>
     </header>

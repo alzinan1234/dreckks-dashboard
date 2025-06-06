@@ -1,7 +1,13 @@
+import NotificationPage from '@/components/Notification/NotificationPage'
 import React from 'react'
 
-export const page = () => {
+const page = () => {
   return (
-    <div>page</div>
+    <div>
+
+      <NotificationPage/>
+    </div>
   )
 }
+
+export default page

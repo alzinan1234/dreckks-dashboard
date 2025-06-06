@@ -37,7 +37,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       >
         <div className="flex flex-col h-full justify-between border-r border-[#D6D6D6]">
           {/* Logo & Close Button */}
-          <div className="flex items-center justify-between border-b border-[#D6D6D6] pb-4 p-4">
+          <div className="flex items-center justify-between border-b border-[#D6D6D6] pb-4 p-[26px]">
             <Image className='' src={dreckks} alt="logo" width={135} height={36} />
             <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-[#444] rounded">
               <Image src={barss} alt="close" width={20} height={20} />

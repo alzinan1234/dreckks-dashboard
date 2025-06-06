@@ -7,6 +7,7 @@ import { getTicketById } from '../lib/data'; // To fetch single ticket for modal
 import SupportDetailsModal from './SupportDetailsModal'; // Import the modal component
 import { MagnifyingGlassIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'; // For search and filter icons
 import { EyeIcon } from '@heroicons/react/24/solid'; // For the view icon
+import Image from 'next/image';
 
 const ITEMS_PER_PAGE = 10; // Number of rows per page
 const PAGE_RANGE = 2; // Number of pages to show around the current page (e.g., if current is 5, shows 3,4,5,6,7)
@@ -111,8 +112,8 @@ const SupportTable = () => {
     <>
       <div className=" bg-[#343434] text-white p-6 sm:p-6 lg:p-8 rounded shadow">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold">Support</h1>
-          <div className="flex items-center space-x-2 bg-[#262626] rounded p-2 pr-4 border border-[#404040] ">
+          <h1 className="text-[20px] sm:text-3xl font-semibold">Support</h1>
+          <div className="flex items-center space-x-2 bg-[#262626] rounded-l-xl p-2  border border-[#404040] ">
             <MagnifyingGlassIcon className="h-5 w-5 text-[#B0B0B0] ml-2" />
             <input
               type="text"
@@ -121,8 +122,8 @@ const SupportTable = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button className="text-[#B0B0B0] hover:text-white transition-colors duration-200">
-              <AdjustmentsHorizontalIcon className="h-5 w-5" />
+            <button className="text-[#B0B0B0] bg-[#000] p-1 hover:text-white transition-colors duration-200">
+           <Image  src="/icon/search-icon.svg" alt="Elements Icon" width={24} height={24} />
             </button>
           </div>
         </div>

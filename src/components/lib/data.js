@@ -4,7 +4,7 @@ export const supportTickets = Array.from({ length: 100 }, (_, i) => ({
   id: `TICKET-${1000 + i}`,
   submittedBy: "Haus & Herz",
   submittedById: `USER-${200 + (i % 5)}`, // Simulate different users
-  avatar: "/avatars/user-avatar.png", // Path to a generic user avatar in public folder
+  avatar: "/image/userImage.png", // Path to a generic user avatar in public folder
   title: "Payment not processed",
   dateSubmitted: `May ${7 + (i % 23)}, 2025`, // Varying dates
   status: i % 3 === 0 ? "Resolved" : i % 3 === 1 ? "Pending" : "Open", // Varying statuses

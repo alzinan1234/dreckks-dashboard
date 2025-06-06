@@ -1,24 +1,37 @@
 // components/SupportDetailsModal.js
 import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline"; // For the close button
+import Image from "next/image";
 
 const SupportDetailsModal = ({ isOpen, onClose, ticket }) => {
   if (!isOpen || !ticket) return null;
 
   return (
-    <div className="fixed inset-0  bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#343434] border border-[#404040] rounded-lg shadow-xl w-full max-w-2xl mx-auto p-6 relative">
-        {/* Header with Close Button */}
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold text-white">Support Details</h2>
-          <button
+    // The backdrop div:
+    // - fixed inset-0: Covers the entire viewport
+    // - bg-black bg-opacity-75: Creates a semi-transparent black overlay
+    // - flex items-center justify-center: Centers the modal content
+    // - z-50: Ensures the modal is on top of other content
+    // - p-4: Adds some padding to prevent content from touching edges on small screens
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+      {/* The modal content div: */}
+      {/* - bg-[#343434] border border-[#404040] rounded-lg shadow-xl: Your existing styling for the modal card */}
+      {/* - w-full max-w-2xl mx-auto p-6 relative: Responsive width and centering */}
+      <div className="bg-[#343434] border border-[#404040] w-[1120px] rounded-lg shadow-xl  mx-auto p-6 relative ">
+         <div className="flex gap-6 items-center mb-6 ">
+           <button
             onClick={onClose}
-            className="text-[#B0B0B0] hover:text-white transition-colors duration-200"
+            className="text-[#B0B0B0] hover:text-white transition-colors duration-200  rounded-full p-[10px] py-[12px] bg-[#00C1C91A]"
             aria-label="Close"
           >
-            <XMarkIcon className="h-6 w-6" />
+           <Image src="/icon/elements.svg" alt="Elements Icon" width={24} height={24} />
           </button>
+          <h2 className="text-xl font-semibold text-white">Support Details</h2>
+         
         </div>
+       <div className="px-20 py-[20px]">
+         {/* Header with Close Button */}
+       
 
         {/* User Info (from second screenshot) */}
         <div className="flex flex-col items-center mb-6">
@@ -36,8 +49,8 @@ const SupportDetailsModal = ({ isOpen, onClose, ticket }) => {
             Date Submitted: {ticket.dateSubmitted}
           </p>
           {/* Action icons below avatar in details page */}
-          <div className="flex space-x-2 mt-4">
-            <button className="p-2 rounded-full bg-green-600 text-white flex items-center justify-center">
+          <div className="flex space-x-3 mt-4">
+            <button className="p-2 px-3 rounded-full bg-[#4BB54B1A] text-[#4BB54B] border  flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -53,7 +66,7 @@ const SupportDetailsModal = ({ isOpen, onClose, ticket }) => {
                 />
               </svg>
             </button>
-            <button className="p-2 rounded-full bg-red-600 text-white flex items-center justify-center">
+            <button className="p-2 px-3 rounded-full border border-[#FF0000] text-[#FF0000]  flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -69,21 +82,8 @@ const SupportDetailsModal = ({ isOpen, onClose, ticket }) => {
                 />
               </svg>
             </button>
-            <button className="p-2 rounded-full bg-yellow-500 text-white flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.023 9.348h4.923v.006l-2.457 2.457m-1.742-1.742V4.77m0 7.55v6.561M16.023 9.348l-2.457 2.457m-1.742-1.742V4.77m0 7.55v6.561M16.023 9.348l-2.457 2.457m-1.742-1.742V4.77m0 7.55v6.561M16.023 9.348l-2.457 2.457M16.023 9.348h4.923v.006l-2.457 2.457m-1.742-1.742V4.77m0 7.55v6.561m0 0H16.023c.758 0 1.343.498 1.574 1.157L17.48 18.2A2.25 2.25 0 0 1 15.15 20.25H9.75v-4.875c0-.621-.504-1.125-1.125-1.125H4.77"
-                />
-              </svg>
+            <button className="p-2  rounded-full bg-[#F4B5491A] border border-[#F4B549] text-white flex items-center justify-center">
+                 <Image  src="/icon/Union.svg" alt="Elements Icon" width={24} height={24} />
             </button>
           </div>
         </div>
@@ -95,7 +95,7 @@ const SupportDetailsModal = ({ isOpen, onClose, ticket }) => {
           </label>
           <input
             type="text"
-            className="w-full p-3 bg-[#0D0D0D] border border-[#404040] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#9155F7]"
+            className="w-full p-3  border border-[#929292] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#9155F7]"
             value={ticket.title}
             readOnly
           />
@@ -107,7 +107,7 @@ const SupportDetailsModal = ({ isOpen, onClose, ticket }) => {
             User Description
           </label>
           <textarea
-            className="w-full p-3 bg-[#0D0D0D] border border-[#404040] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#9155F7] min-h-[120px]"
+            className="w-full p-3  border border-[#929292] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#9155F7] min-h-[120px]"
             value={ticket.issueDescription}
             readOnly
           ></textarea>
@@ -115,6 +115,7 @@ const SupportDetailsModal = ({ isOpen, onClose, ticket }) => {
 
         {/* You can add more details here if needed */}
       </div>
+       </div>
     </div>
   );
 };
