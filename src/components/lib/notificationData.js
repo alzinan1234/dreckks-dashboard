@@ -43,6 +43,13 @@ export const notifications = [
     timestamp: '2025-06-04T15:30:00Z', // Older notification
     isRead: true,
   },
+  {
+    id: 'notif-6',
+    title: 'System Update Available',
+    description: 'A critical system update is ready for installation.',
+    timestamp: '2025-06-04T15:30:00Z', // Older notification
+    isRead: true,
+  },
 ];
 
 export const getNotificationById = (id) => {

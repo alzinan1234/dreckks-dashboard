@@ -14,6 +14,7 @@ import {
 // Corrected import path, assuming 'lib' is at the project root level
 // relative to 'app/components' or 'src/components'
 import { notifications as initialNotifications } from '../../components/lib/notificationData'; // Import mock data
+import Image from 'next/image';
 
 // NotificationPage now accepts an onBackClick prop
 const NotificationPage = ({ onBackClick }) => {
@@ -84,7 +85,7 @@ const NotificationPage = ({ onBackClick }) => {
       : 'text-white'; // Unread notifications stand out
 
     return (
-      <div className={`flex items-center justify-between p-4 border-b border-[#FFFFFF4D] ${notification.isRead ? '' : ''} last:border-b-0 transition-colors duration-200`}>
+      <div className={`flex items-center justify-between p-4  ${notification.isRead ? '' : ''} last:border-b-0 transition-colors duration-200`}>
         <div className="flex-grow">
           <p className={`text-base font-semibold ${statusClasses}`}>{notification.title}</p>
           <p className={`text-sm ${statusClasses}`}>{notification.description}</p>
@@ -94,8 +95,6 @@ const NotificationPage = ({ onBackClick }) => {
             {getRelativeTime(notification.timestamp)}
           </span>
           <div className="flex space-x-2">
-            {/* View/Eye Icon (Placeholder for details, no modal in this design for simplicity) */}
-           
             {/* Mark as Read/Unread Icon */}
             <button
               onClick={() => handleToggleReadStatus(notification.id)}
@@ -105,7 +104,7 @@ const NotificationPage = ({ onBackClick }) => {
               {notification.isRead ? (
                 <CheckCircleIcon className="h-5 w-5" />
               ) : (
-                <EyeIcon className="h-5 w-5" /> // Envelope for unread, check for read
+                <EyeIcon className="h-5 w-5" />
               )}
             </button>
             {/* Delete Icon */}
@@ -122,23 +121,22 @@ const NotificationPage = ({ onBackClick }) => {
     );
   };
 
-
   return (
-    <div className="bg-[#343434] min-h-screen text-white p-4 sm:p-6 lg:p-8">
+    <div className="bg-[#343434] rounded-2xl text-white p-6 sm:p-6 lg:p-8 ">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center space-x-4">
           {/* Back button now calls onBackClick prop */}
           <button
-            className="text-[#B0B0B0] hover:text-white transition-colors duration-200"
+            className="text-[#FFFFFF] bg-[#FFFFFF1A] rounded-[33px] p-[10px] hover:text-white transition-colors duration-200"
             onClick={onBackClick} // Add onClick handler
             aria-label="Go back"
           >
             <ArrowLeftIcon className="h-6 w-6" />
           </button>
-          <h1 className="text-2xl sm:text-3xl font-bold">Notification</h1>
+          <h1 className="text-[24px]  font-medium">Notification</h1>
         </div>
-        <div className="flex items-center space-x-2 bg-[#262626] rounded-md p-2 pr-4 border border-[#FFFFFF4D]">
+        <div className="flex items-center space-x-2 bg-[#262626] rounded-l-xl p-2  border border-[#404040] ">
           <MagnifyingGlassIcon className="h-5 w-5 text-[#B0B0B0] ml-2" />
           <input
             type="text"
@@ -147,51 +145,57 @@ const NotificationPage = ({ onBackClick }) => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className="text-[#B0B0B0] hover:text-white transition-colors duration-200">
-            <AdjustmentsHorizontalIcon className="h-5 w-5" />
-          </button>
+           <button className="text-[#B0B0B0] bg-[#000] p-1 hover:text-white transition-colors duration-200">
+                     <Image  src="/icon/search-icon.svg" alt="Elements Icon" width={24} height={24} />
+                      </button>
         </div>
       </div>
 
       {/* Notification List Container */}
-      <div className=" rounded-lg shadow-lg overflow-hidden border border-[#FFFFFF4D]">
+      <div className="rounded-lg overflow-hidden ">
         {groupedNotifications.today.length > 0 && (
-          <div className="py-2  border-b border-[#FFFFFF4D]">
-            <h2 className="text-lg font-semibold text-white">
-              Today <span className="text-[#B0B0B0] text-sm">({groupedNotifications.today.length})</span>
+          <div className="py-2"> {/* Removed px-4 from here for full-width items */}
+            <h2 className="text-lg font-semibold text-white px-4 py-4"> {/* Added padding for heading */}
+              Today <span className="text-[#71F50C] bg-[#71F50C1A] rounded-full text-[12px] p-2 px-3 font-normal">{groupedNotifications.today.length}</span>
             </h2>
             {groupedNotifications.today.map(notif => (
-              <NotificationItem key={notif.id} notification={notif} />
+              <div className='border border-[#FFFFFF4D] rounded  mt-2'>
+                 <NotificationItem  key={notif.id} notification={notif} />
+              </div>
             ))}
           </div>
         )}
 
         {groupedNotifications.yesterday.length > 0 && (
-          <div className="py-2 px-4 border-b border-[#FFFFFF4D]">
-            <h2 className="text-lg font-semibold text-white">
-              Yesterday <span className="text-[#B0B0B0] text-sm">({groupedNotifications.yesterday.length})</span>
+          <div className="py-2 "> {/* Changed from border-b to border-t for section separation */}
+            <h2 className="text-lg font-semibold text-white px-4 py-4"> {/* Added padding for heading */}
+              Yesterday <span className="text-[#71F50C] bg-[#71F50C1A] rounded-full text-[12px] p-2 px-3 font-normal">{groupedNotifications.yesterday.length}</span>
             </h2>
             {groupedNotifications.yesterday.map(notif => (
-              <NotificationItem key={notif.id} notification={notif} />
+              <div className='border border-[#FFFFFF4D] rounded mt-2'>
+                <NotificationItem key={notif.id} notification={notif} />
+              </div>
             ))}
           </div>
         )}
 
         {/* You can add an "Older" section if you want to display them, otherwise, they are filtered out implicitly by the grouping */}
         {groupedNotifications.older.length > 0 && (
-          <div className="py-2 px-4">
-            <h2 className="text-lg font-semibold text-white">
-              Older <span className="text-[#B0B0B0] text-sm">({groupedNotifications.older.length})</span>
+          <div className="py-2 "> {/* Added border-t for section separation */}
+            <h2 className="text-lg font-semibold text-white px-4 py-4"> {/* Added padding for heading */}
+              Older <span className="text-[#71F50C] bg-[#71F50C1A] rounded-full text-[12px] p-2 px-3 font-normal">{groupedNotifications.older.length}</span>
             </h2>
             {groupedNotifications.older.map(notif => (
-              <NotificationItem key={notif.id} notification={notif} />
+            <div className='border border-[#FFFFFF4D] rounded mt-2'>
+                  <NotificationItem key={notif.id} notification={notif} />
+            </div>
             ))}
           </div>
         )}
 
         {groupedNotifications.today.length === 0 &&
-         groupedNotifications.yesterday.length === 0 &&
-         groupedNotifications.older.length === 0 && (
+          groupedNotifications.yesterday.length === 0 &&
+          groupedNotifications.older.length === 0 && (
           <p className="p-4 text-center text-[#B0B0B0]">No notifications found.</p>
         )}
       </div>
