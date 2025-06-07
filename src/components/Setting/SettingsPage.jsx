@@ -162,7 +162,7 @@ const SettingsPage = ({ onBackClick }) => {
         <p className="text-sm text-light-gray-text mb-4">{tabContents[activeTab].date}</p>
 
         {/* Jodit Editor */}
-        <div className="bg-dark-card p-2 rounded-md mb-6 border border-[#FFFFFF4D]">
+        <div className="bg-dark-card p-4  rounded-md mb-6 border border-[#FFFFFF4D]">
           <JoditEditor
             ref={editor}
             value={editableContent}
