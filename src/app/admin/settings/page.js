@@ -1,7 +1,15 @@
+
+"use client"
+import SettingsPage from '@/components/Setting/SettingsPage'
 import React from 'react'
 
-export const page = () => {
+const page = () => {
   return (
-    <div>page</div>
+    <div>
+
+      <SettingsPage/>
+    </div>
   )
 }
+
+export default page

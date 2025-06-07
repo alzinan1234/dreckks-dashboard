@@ -1,3 +1,5 @@
+
+
 import StatCard from "@/components/StatCard";
 import RegistrationTable from "@/components/RegistrationTable";
 import ChartCard from "@/components/ChartCard";

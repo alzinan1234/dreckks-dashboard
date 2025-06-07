@@ -110,7 +110,7 @@ const NotificationPage = ({ onBackClick }) => {
             {/* Delete Icon */}
             <button
               onClick={() => handleDeleteNotification(notification.id)}
-              className="text-red-500 hover:text-red-400 p-1 rounded-full transition-colors duration-200"
+              className="text-[#FF0000] hover:text-red-400 p-1 rounded-full transition-colors duration-200"
               aria-label="Delete notification"
             >
               <TrashIcon className="h-5 w-5" />
