@@ -24,3 +24,19 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+
+.hero-section {
+  background-image: url('/image/background-image.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+}
+
+.backdrop-blur-custom {
+  backdrop-filter: blur(20.4px);
+  -webkit-backdrop-filter: blur(20.4px);
+}

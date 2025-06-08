@@ -149,7 +149,7 @@ const NotificationPage = ({ onBackClick }) => {
           />
            <button className="text-[#B0B0B0] bg-[#000] p-1 hover:text-white transition-colors duration-200">
                      <Image  src="/icon/search-icon.svg" alt="Elements Icon" width={24} height={24} />
-                      </button>
+             </button>
         </div>
       </div>
 
