@@ -85,7 +85,8 @@ const NotificationPage = ({ onBackClick }) => {
       : 'text-white'; // Unread notifications stand out
 
     return (
-      <div className={`flex items-center justify-between p-4  ${notification.isRead ? '' : ''} last:border-b-0 transition-colors duration-200`}>
+    <div className='p-5'>
+      <div className={`flex items-center justify-between   ${notification.isRead ? '' : ''} last:border-b-0 transition-colors duration-200`}>
         <div className="flex-grow">
           <p className={`text-base font-semibold ${statusClasses}`}>{notification.title}</p>
           <p className={`text-sm ${statusClasses}`}>{notification.description}</p>
@@ -118,6 +119,7 @@ const NotificationPage = ({ onBackClick }) => {
           </div>
         </div>
       </div>
+    </div>
     );
   };
 

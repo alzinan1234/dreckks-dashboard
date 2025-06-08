@@ -86,7 +86,7 @@ const SettingsPage = ({ onBackClick }) => {
       buttonsXS:
         'undo,redo,|,bold,italic,underline,strikethrough,|,ul,ol,|,link,cut,copy,paste,|,align,|,source',
       colors: {
-        '#00C1C9': '#00C1C9', // Add your active color to the Jodit color palette if needed
+        '#E1E1E1': '#E1E1E1', // Add your active color to the Jodit color palette if needed
       },
       // You can customize the toolbar buttons and more
       toolbarButtonSize: 'large', // Adjust button size if desired
@@ -127,7 +127,7 @@ const SettingsPage = ({ onBackClick }) => {
 
       {/* Tab Navigation for Privacy and security, Terms & Conditions, About Us */}
      <div className=' border-b '>
-       <div className="  w-[600px] flex justify-start bg-dark-bg rounded-t-lg ">
+       <div className=" md:w-[600px] flex justify-start bg-dark-bg rounded-t-lg ">
   
 {['privacy-security', 'terms-conditions', 'about-us'].map((tabId) => (
   <button
@@ -162,8 +162,9 @@ const SettingsPage = ({ onBackClick }) => {
         <p className="text-sm text-light-gray-text mb-4">{tabContents[activeTab].date}</p>
 
         {/* Jodit Editor */}
-        <div className="bg-dark-card p-4  rounded-md mb-6 border border-[#FFFFFF4D]">
+        <div className="rounded-md mb-6 py-2 ">
           <JoditEditor
+          className=' '
             ref={editor}
             value={editableContent}
             config={joditConfig}
@@ -173,14 +174,14 @@ const SettingsPage = ({ onBackClick }) => {
         </div>
 
         {/* Save & Change Button */}
-        <div className="flex justify-center">
-          <button
-            onClick={handleSaveAndChange}
-            className="bg-green-button text-black font-semibold py-3 px-8 rounded-full hover:opacity-90 transition-opacity duration-200 border border-green-button focus:outline-none focus:ring-2 focus:ring-green-button focus:ring-opacity-75"
+        <div className="col-span-full mt-4">
+              <button
+            type="submit"
+            className="w-full mx-auto flex justify-center items-center  rounded-[4px] bg-cyan-400 hover:bg-cyan-300 text-white py-2 font-medium  border-b-4 border-lime-400"
           >
-            Save & Change
+           Save & Change
           </button>
-        </div>
+          </div>
       </div>
     </div>
   );
