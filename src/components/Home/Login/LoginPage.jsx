@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import toast, { Toaster } from 'react-hot-toast'; // ONLY ADDITION: Import toast and Toaster
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -18,6 +19,7 @@ export default function LoginPage() {
     // --- Client-side validation ---
     if (!email || !password) {
       setError("Please enter both email and password.");
+      toast.error("Please enter both email and password."); // ONLY ADDITION: Toast for validation error
       setLoading(false);
       return;
     }
@@ -26,6 +28,7 @@ export default function LoginPage() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email address.");
+      toast.error("Please enter a valid email address."); // ONLY ADDITION: Toast for validation error
       setLoading(false);
       return;
     }
@@ -47,10 +50,12 @@ export default function LoginPage() {
 
       // if (response.ok) {
       //   console.log('Login successful!', data);
+      //   toast.success('Login successful!'); // ONLY ADDITION: Success toast
       //   // Redirect to dashboard or home page
       //   // router.push('/dashboard');
       // } else {
       //   setError(data.message || 'Login failed. Please check your credentials.');
+      //   toast.error(data.message || 'Login failed. Please check your credentials.'); // ONLY ADDITION: Error toast
       // }
 
       // --- Simulation of a successful/failed login ---
@@ -58,14 +63,17 @@ export default function LoginPage() {
 
       if (email === "user@example.com" && password === "password123") {
         console.log("Login successful!");
-        alert("Login Successful! (Simulated)"); // For demonstration
+        // alert("Login Successful! (Simulated)"); // Removed alert as toast replaces it
+        toast.success("Login Successful! (Simulated)"); // ONLY ADDITION: Success toast
         // In a real app, you'd handle session/token storage and redirection here
       } else {
         setError("Invalid email or password. (Simulated)");
+        toast.error("Invalid email or password. (Simulated)"); // ONLY ADDITION: Error toast
       }
     } catch (err) {
       console.error("Login error:", err);
       setError("An unexpected error occurred. Please try again.");
+      toast.error("An unexpected error occurred. Please try again."); // ONLY ADDITION: Catch-all error toast
     } finally {
       setLoading(false); // End loading state
     }
@@ -73,7 +81,10 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div  className="  backdrop-blur-custom p-[40px] rounded-2xl  w-[554px]  border border-[#FFFFFF4D]">
+      {/* ONLY ADDITION: Toaster component */}
+      <Toaster position="top-center" reverseOrder={false} /> 
+
+      <div className="backdrop-blur-custom p-[40px] rounded-2xl w-[554px] border border-[#FFFFFF4D]">
         <div className="w-[312px] mx-auto">
           <h2 className="text-white text-[24px] font-bold text-center mb-[18px]">
             Login to Account
@@ -94,7 +105,7 @@ export default function LoginPage() {
             <input
               type="email"
               id="email"
-              className="w-full p-3  text-white rounded-lg border border-[#DBDBDB] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 text-white rounded-lg border border-[#DBDBDB] focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -111,7 +122,7 @@ export default function LoginPage() {
             <input
               type="password"
               id="password"
-              className="w-full p-3  text-white rounded-[6px] border border-[#DBDBDB] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 text-white rounded-[6px] border border-[#DBDBDB] focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -135,9 +146,8 @@ export default function LoginPage() {
               </label>
             </div>
             <Link
-              href="#"
+              href="/Forgot-Password"
               className="text-[#FF0000] text-[12px] hover:underline"
-              onClick={(e) => e.preventDefault()}
             >
               Forgot Password?
             </Link>
@@ -158,8 +168,8 @@ export default function LoginPage() {
               justifyContent: "center",
             }}
             className={`text-white flex items-center justify-center mx-auto font-semibold transition duration-300 ease-in-out
-    ${loading ? "bg-gray-600 cursor-not-allowed" : ""}
-  `}
+              ${loading ? "bg-gray-600 cursor-not-allowed" : ""}
+            `}
             disabled={loading}
           >
             {loading ? "Signing In..." : "Sign In"}
