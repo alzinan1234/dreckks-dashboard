@@ -31,6 +31,7 @@ const PromotionSetupPage = () => {
       schedule: "Monday to Friday",
       views: 3000,
     },
+  
     // You would fetch real promotion data here
   ];
 

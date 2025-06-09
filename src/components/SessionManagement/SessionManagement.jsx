@@ -6,6 +6,7 @@ import Link from "next/link"; // Import Link for navigation
 import { FaSearch, FaPlus, FaCog, FaFileAlt } from "react-icons/fa";
 import AddNewSessionModal from './AddNewSessionModal';
 import { getAllSessions } from "../lib/sessions";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
  // Import data directly (or fetch if this were a separate page)
 
@@ -76,28 +77,59 @@ const SessionManagement = () => {
           >
             <FaPlus /> Add New Session
           </button>
-          <div className="flex items-center bg-[#0000001A] rounded rounded-r-full overflow-hidden  shadow-inner ">
-            {/* Search Icon (Magnifying Glass) */}
-            <div className="flex items-center justify-center w-10 h-10 text-[#DBDBDB]">
-              <FaSearch className="text-[#c5c0c0]" />
+          <div className="flex items-center ">
+            <div className="relative   ">
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="pl-10 pr-4 py-2 bg-[#F3FAFA1A] rounded-tl-[7.04px] rounded-bl-[7.04px] border-[1px] border-[#0000001A]  text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
 
-            {/* Search Input Field */}
-            <input
-              type="text"
-              className="flex-grow bg-transparent outline-none text-[#DBDBDB] placeholder-gray-400 px-2 py-2 text-sm w-[197.76px] h-[32px]"
-              placeholder="Search"
-              aria-label="Search input"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-
-            {/* Filter Button */}
-            <button
-              className="flex-shrink-0 bg-black text-white rounded-full w-10 h-10 flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-              aria-label="Filter search results"
-            >
-             <Image src="/icon/search-icon.svg" alt="Delete" width={25} height={25} />
+            <button className=" hover:bg-gray-700 transition-colors bg-[#2A2A2A] p-[5px]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+              >
+                <path
+                  d="M11 8.5L20 8.5"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M4 16.5L14 16.5"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+                <ellipse
+                  cx="7"
+                  cy="8.5"
+                  rx="3"
+                  ry="3"
+                  transform="rotate(90 7 8.5)"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+                <ellipse
+                  cx="17"
+                  cy="16.5"
+                  rx="3"
+                  ry="3"
+                  transform="rotate(90 17 16.5)"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
             </button>
           </div>
          

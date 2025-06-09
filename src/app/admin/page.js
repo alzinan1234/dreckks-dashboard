@@ -1,35 +1,66 @@
-
-
-import StatCard from "@/components/StatCard";
+import StatCard from "@/components/MetricCard";
 import RegistrationTable from "@/components/RegistrationTable";
-import ChartCard from "@/components/ChartCard";
+import ChartCard from "@/components/EarningSummaryChart";
 import { Area, ResponsiveContainer } from "recharts";
+import AlcoholConsumptionTrendChart from "@/components/AlcoholConsumptionTrendChart";
+import EarningSummaryChart from "@/components/EarningSummaryChart";
+import MetricCard from "@/components/MetricCard";
 
 const Admin = () => {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   return (
     <>
       <div className="">
-        <div className=" p-6  grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3  w-full">
-          <StatCard
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+          {/* Total User Card */}
+          <MetricCard
             title="Total User"
-            value="2,500"
-            change="4%"
-            period="From last month"
+            value={2500}
+            percentageChange={4}
+            percentageDirection="up"
+            timePeriodData={months}
           />
-          <StatCard
+
+          {/* Total Service Provider Card */}
+          <MetricCard
             title="Total Service provider"
-            value="200"
-            change="4%"
-            period="From last month"
+            value={200}
+            percentageChange={4}
+            percentageDirection="up" // Assuming it's also up, change to 'down' if needed
+            timePeriodData={months}
           />
         </div>
 
-        <div className="p-6 grid grid-cols-1 xl:grid-cols-2 gap-6">
-          <ChartCard title="Earning Summary" />
-          <ChartCard title="Alcohol Consumption Trend Line Chart" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-4">
+          {/* Earning Summary Chart */}
+          <div className="min-h-[340px]">
+            {" "}
+            {/* Ensure minimum height for chart visibility */}
+            <EarningSummaryChart />
+          </div>
+
+          {/* Alcohol Consumption Trend Line Chart */}
+          <div className="min-h-[340px]">
+            {" "}
+            {/* Ensure minimum height for chart visibility */}
+            <AlcoholConsumptionTrendChart />
+          </div>
         </div>
 
-        <div className="p-6">
+        <div className="p-4">
           <RegistrationTable />
         </div>
       </div>

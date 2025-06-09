@@ -113,19 +113,60 @@ const SupportTable = () => {
       <div className=" bg-[#343434] text-white p-6 sm:p-6 lg:p-8 rounded shadow">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-[20px] sm:text-3xl font-semibold">Support</h1>
-          <div className="flex items-center space-x-2 bg-[#262626] rounded-l-xl p-2  border border-[#404040] ">
-            <MagnifyingGlassIcon className="h-5 w-5 text-[#B0B0B0] ml-2" />
-            <input
-              type="text"
-              placeholder="Search"
-              className="bg-transparent focus:outline-none text-white placeholder-[#B0B0B0]"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <button className="text-[#B0B0B0] bg-[#000] p-1 hover:text-white transition-colors duration-200">
-           <Image  src="/icon/search-icon.svg" alt="Elements Icon" width={24} height={24} />
-            </button>
-          </div>
+          <div className="flex items-center">
+                    <div className="relative   ">
+                        <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <input
+                          type="text"
+                          placeholder="Search"
+                          className="pl-10 pr-4 py-2 bg-[#F3FAFA1A] rounded-tl-[7.04px] rounded-bl-[7.04px] border-[1px] border-[#0000001A]  text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                      </div>
+                   <button className=" hover:bg-gray-700 transition-colors bg-[#2A2A2A] p-[5px]">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="25"
+                          viewBox="0 0 24 25"
+                          fill="none"
+                        >
+                          <path
+                            d="M11 8.5L20 8.5"
+                            stroke="white"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M4 16.5L14 16.5"
+                            stroke="white"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                          <ellipse
+                            cx="7"
+                            cy="8.5"
+                            rx="3"
+                            ry="3"
+                            transform="rotate(90 7 8.5)"
+                            stroke="white"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                          <ellipse
+                            cx="17"
+                            cy="16.5"
+                            rx="3"
+                            ry="3"
+                            transform="rotate(90 17 16.5)"
+                            stroke="white"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                        </svg>
+                      </button>
+                  </div>
         </div>
 
         {/* Table Container */}
