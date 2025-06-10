@@ -118,7 +118,7 @@ export default function EarningSummaryChart() {
               itemStyle={{ color: '#00C1C9' }}
               formatter={(value) => [`${value.toLocaleString()}k`, 'Revenue']}
             />
-            <Bar dataKey="revenue" fill="#00C1C9" barSize={40} radius={[5, 5, 0, 0]} /> {/* Rounded top corners */}
+            <Bar dataKey="revenue" fill="#00C1C9" barSize={45} radius={[5, 5, 0, 0]} /> {/* Rounded top corners */}
           </BarChart>
         </ResponsiveContainer>
       </div>

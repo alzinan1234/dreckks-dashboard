@@ -147,7 +147,7 @@ export default function BannerManagement() {
   };
 
   return (
-    <div className=" bg-[#2E2E2E] rounded p-8">
+    <div className=" bg-[#2E2E2E] min-h-screen rounded p-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-xl font-bold text-white">Banner Management</h1>
         <div className="flex items-center space-x-4">

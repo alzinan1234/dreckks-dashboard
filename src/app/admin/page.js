@@ -47,14 +47,14 @@ const Admin = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-4">
           {/* Earning Summary Chart */}
           <div className="min-h-[340px]">
-            {" "}
+      
             {/* Ensure minimum height for chart visibility */}
             <EarningSummaryChart />
           </div>
 
           {/* Alcohol Consumption Trend Line Chart */}
           <div className="min-h-[340px]">
-            {" "}
+           
             {/* Ensure minimum height for chart visibility */}
             <AlcoholConsumptionTrendChart />
           </div>

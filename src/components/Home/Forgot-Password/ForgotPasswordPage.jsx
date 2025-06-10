@@ -132,7 +132,7 @@ export default function ForgotPasswordPage() {
             `}
             disabled={loading}
           >
-            {loading ? "Sending OTP..." : "Send OTP"}
+            {loading ? "Sending OTP ..." : "Send OTP"}
           </button>
         </form>
       </div>

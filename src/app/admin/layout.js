@@ -50,6 +50,8 @@ export default function RootLayout({ children }) {
          {/* Topbar always visible */}
       <Topbar onBellClick={handleBellClick} />
 
+      
+
       {/* Conditionally render NotificationPage or MainContent */}
       {showNotifications ? (
         <NotificationPage onBackClick={handleGoBack} /> // Pass handler to NotificationPage

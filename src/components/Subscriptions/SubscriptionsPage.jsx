@@ -66,7 +66,7 @@ export default function SubscriptionsPage() {
 
   return (
     <div>
-      <div className=" bg-[#2E2E2E] text-white p-8 rounded">
+      <div className=" bg-[#2E2E2E] min-h-screen text-white p-8 rounded">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-[20px] font-semibold">Subscriptions</h1>
           <button

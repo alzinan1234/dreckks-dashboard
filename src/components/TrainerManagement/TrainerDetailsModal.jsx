@@ -198,7 +198,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
               value={formData.timeSlots}
               onChange={handleChange}
               placeholder="e.g., 09:00 AM - 10:00 AM, 01:00 PM - 02:00 PM"
-              className="w-full p-2 rounded bg-[#2d2d2d] border border-gray-600 focus:outline-none focus:border-cyan-500"
+              className="w-full  p-2 rounded bg-[#2d2d2d] border border-gray-600 focus:outline-none focus:border-cyan-500"
             />
           </div>
 
