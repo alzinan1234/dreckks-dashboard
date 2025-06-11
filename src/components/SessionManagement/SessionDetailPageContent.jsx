@@ -67,14 +67,7 @@ const SessionDetailPageContent = ({ sessionData }) => {
             </p>
           </div>
 
-          <div className="mb-6">
-            <h3 className="text-lg font-medium mb-2">Therapist Certificates</h3>
-            <ul className="list-disc list-inside text-gray-300 text-sm space-y-1">
-              {sessionData.aboutDoctor.certificates.map((cert, index) => (
-                <li key={index}>{cert}</li>
-              ))}
-            </ul>
-          </div>
+          
 
           <div>
             <h3 className="text-lg font-medium mb-2">Availability</h3>
@@ -117,6 +110,15 @@ const SessionDetailPageContent = ({ sessionData }) => {
               />
               <p className="text-gray-300">{sessionData.therapist}</p>
             </div>
+          </div>
+
+          <div className="mb-6">
+            <h3 className="text-lg font-medium mb-2">Therapist Certificates</h3>
+            <ul className="list-disc list-inside text-gray-300 text-sm space-y-1">
+              {sessionData.aboutDoctor.certificates.map((cert, index) => (
+                <li key={index}>{cert}</li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

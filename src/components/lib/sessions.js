@@ -3,7 +3,7 @@
 const allSessions = Array.from({ length: 8 }, (_, index) => ({
   id: `session-${index + 1}`,
   name: "Find Balance & Clarity",
-  thumbnail: "/images/session-thumbnail.png", // Placeholder thumbnail
+  thumbnail: "/image/Thumbnail.png", // Placeholder thumbnail
   time: "10:40 AM - 11:00 AM", // Based on the provided image
   therapist: "John Smith",
   status: "Active",

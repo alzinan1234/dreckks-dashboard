@@ -20,7 +20,9 @@ export default function ProfilePage() {
         className="flex items-center gap-4  cursor-pointer ml-5 "
         onClick={handleBackClick}
       >
-        <ArrowLeft className="text-white" size={24} />
+       <div className="">
+         <ArrowLeft className="text-white bg-[#FFFFFF1A] rounded-full p-2 " size={40} />
+       </div>
         <h1 className="text-2xl font-bold">Profile</h1>
       </div>{" "}
       {/* Added flex, justify-center, items-start, pt-8, pb-8 */}
@@ -64,7 +66,7 @@ export default function ProfilePage() {
               className={`py-2 px-6 text-[16px] font-semibold ${
                 activeTab === "editProfile"
                   ? "border-b-2 border-[#17787C] text-[#17787C]"
-                  : "text-gray-400 hover:text-gray-300"
+                  : "text-white hover:text-gray-300"
               }`}
               onClick={() => setActiveTab("editProfile")}
             >
@@ -74,7 +76,7 @@ export default function ProfilePage() {
               className={`py-2 px-6 text-[16px] font-semibold ${
                 activeTab === "changePassword"
                   ? "border-b-2 border-[#17787C] text-[#17787C]"
-                  : "text-gray-400 hover:text-gray-300"
+                  : "text-white hover:text-gray-300"
               }`}
               onClick={() => setActiveTab("changePassword")}
             >

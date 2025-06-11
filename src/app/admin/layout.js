@@ -54,7 +54,9 @@ export default function RootLayout({ children }) {
 
       {/* Conditionally render NotificationPage or MainContent */}
       {showNotifications ? (
-        <NotificationPage onBackClick={handleGoBack} /> // Pass handler to NotificationPage
+        <div className='p-6'>
+          <NotificationPage onBackClick={handleGoBack} />
+        </div> // Pass handler to NotificationPage
       ) : (
         <div className="p-4">{children}</div>
       )}
