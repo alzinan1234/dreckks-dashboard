@@ -205,7 +205,7 @@ export default function EarningsTable() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-teal-600 text-white text-center">
+              <tr className="bg-[#17787C] text-white text-center">
                 <th className="py-2 px-4">Serial</th>
                 <th className="py-2 px-4">User</th>
                 <th className="py-2 px-4">Subscription Type</th>

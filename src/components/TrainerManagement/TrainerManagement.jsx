@@ -165,7 +165,7 @@ const TrainerManagement = () => {
         {/* Table Section */}
         <div className="overflow-x-auto">
           <table className="min-w-full border-separate border-spacing-y-4">
-            <thead className="bg-cyan-700">
+            <thead className="bg-[#17787C]">
               <tr className="text-sm text-white">
                 <th className="py-3 px-4 text-center">Trainer ID</th>
                 <th className="py-3 px-4 text-center">Name</th>

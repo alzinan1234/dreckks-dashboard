@@ -335,7 +335,7 @@ const UserManagement = () => {
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="min-w-full border-collapse">
-            <thead className="bg-[#00C1C9]">
+            <thead className="bg-[#17787C]">
               <tr className="text-sm text-white">
                 <th className="py-3 px-4 text-center">User ID</th>
                 <th className="py-3 px-4 text-center">Name</th>
