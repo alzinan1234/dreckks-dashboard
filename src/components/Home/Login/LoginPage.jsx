@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import toast, { Toaster } from 'react-hot-toast'; // ONLY ADDITION: Import toast and Toaster
+import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/navigation'; // ONLY ADDITION: Import useRouter
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -10,6 +11,7 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter(); // ONLY ADDITION: Initialize useRouter
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +21,7 @@ export default function LoginPage() {
     // --- Client-side validation ---
     if (!email || !password) {
       setError("Please enter both email and password.");
-      toast.error("Please enter both email and password."); // ONLY ADDITION: Toast for validation error
+      toast.error("Please enter both email and password.");
       setLoading(false);
       return;
     }
@@ -28,7 +30,7 @@ export default function LoginPage() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email address.");
-      toast.error("Please enter a valid email address."); // ONLY ADDITION: Toast for validation error
+      toast.error("Please enter a valid email address.");
       setLoading(false);
       return;
     }
@@ -50,12 +52,12 @@ export default function LoginPage() {
 
       // if (response.ok) {
       //   console.log('Login successful!', data);
-      //   toast.success('Login successful!'); // ONLY ADDITION: Success toast
+      //   toast.success('Login successful!');
       //   // Redirect to dashboard or home page
       //   // router.push('/dashboard');
       // } else {
       //   setError(data.message || 'Login failed. Please check your credentials.');
-      //   toast.error(data.message || 'Login failed. Please check your credentials.'); // ONLY ADDITION: Error toast
+      //   toast.error(data.message || 'Login failed. Please check your credentials.');
       // }
 
       // --- Simulation of a successful/failed login ---
@@ -63,17 +65,17 @@ export default function LoginPage() {
 
       if (email === "user@example.com" && password === "password123") {
         console.log("Login successful!");
-        // alert("Login Successful! (Simulated)"); // Removed alert as toast replaces it
-        toast.success("Login Successful! (Simulated)"); // ONLY ADDITION: Success toast
-        // In a real app, you'd handle session/token storage and redirection here
+        toast.success("Login Successful! (Simulated)");
+        // ONLY ADDITION: Redirect to /admin route
+        router.push('/admin'); 
       } else {
         setError("Invalid email or password. (Simulated)");
-        toast.error("Invalid email or password. (Simulated)"); // ONLY ADDITION: Error toast
+        toast.error("Invalid email or password. (Simulated)");
       }
     } catch (err) {
       console.error("Login error:", err);
       setError("An unexpected error occurred. Please try again.");
-      toast.error("An unexpected error occurred. Please try again."); // ONLY ADDITION: Catch-all error toast
+      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false); // End loading state
     }
@@ -81,8 +83,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      {/* ONLY ADDITION: Toaster component */}
-      <Toaster position="top-center" reverseOrder={false} /> 
+      <Toaster position="top-center" reverseOrder={false} />
 
       <div className="backdrop-blur-custom p-[40px] rounded-2xl w-[554px] border border-[#FFFFFF4D]">
         <div className="w-[312px] mx-auto">

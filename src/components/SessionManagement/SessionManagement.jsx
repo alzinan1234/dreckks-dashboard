@@ -324,22 +324,20 @@ const SessionManagement = () => {
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1 || isLoading}
-          className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#2d2d2d] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-8 h-8 flex items-center border rounded-full justify-center  hover:bg-[#2d2d2d] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-         <div style={{width: '100%', height: '100%', position: 'relative'}}>
-    <div style={{width: 24, height: 24, left: 0, top: 0, position: 'absolute', overflow: 'hidden'}}>
-        <div style={{width: 6, height: 12, left: 9, top: 6, position: 'absolute', outline: '1.50px #E2E2E2 solid', outlineOffset: '-0.75px'}} />
-    </div>
-</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
+  <path d="M1.00005 1C1.00005 1 6.99999 5.41893 7 7.00005C7.00001 8.58116 1 13 1 13" stroke="#C8C8C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
         </button>
         {renderPaginationButtons()}
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages || isLoading}
-          className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#2d2d2d] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-8 h-8 flex items-center justify-center border rounded-full hover:bg-[#2d2d2d] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
-  <path d="M1.00005 1C1.00005 1 6.99999 5.41893 7 7.00005C7.00001 8.58116 1 13 1 13" stroke="#C8C8C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
+  <path d="M6.99995 13C6.99995 13 1.00001 8.58107 0.999999 6.99995C0.999986 5.41884 7 1 7 1" stroke="#E2E2E2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
         </button>
       </div>
