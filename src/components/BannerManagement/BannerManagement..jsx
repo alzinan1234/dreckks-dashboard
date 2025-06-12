@@ -88,18 +88,7 @@ export default function BannerManagement() {
       link: "#",
       location: "Riverside Park",
     },
-    {
-      id: 7,
-      title: "Photography Workshop",
-      description: "Learn the art of photography from experts.",
-      imageUrl: "/bannerImage/Photography.jpg", // Make sure this path exists or use a placeholder
-      startDate: "2025-10-20",
-      startTime: "09:00 AM",
-      endDate: "2025-10-22",
-      endTime: "05:00 PM",
-      link: "#",
-      location: "Creative Hub",
-    },
+  
   ];
 
   useEffect(() => {
