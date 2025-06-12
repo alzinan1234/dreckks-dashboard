@@ -5,24 +5,13 @@ import ViewCategoryModal from "./ViewCategoryModal";
 import CreateCategoryModal from "./CreateCategoryModal";
 
 export default function SubscriptionsPage() {
-  const [showCreateSubscriptionModal, setShowCreateSubscriptionModal] =
-    useState(false);
+  const [showCreateSubscriptionModal, setShowCreateSubscriptionModal] = useState(false);
   const [showViewCategoryModal, setShowViewCategoryModal] = useState(false);
   const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
+  const [editingSubscription, setEditingSubscription] = useState(null); // New state for editing
 
-  const openCreateSubscriptionModal = () =>
-    setShowCreateSubscriptionModal(true);
-  const closeCreateSubscriptionModal = () =>
-    setShowCreateSubscriptionModal(false);
-
-  const openViewCategoryModal = () => setShowViewCategoryModal(true);
-  const closeViewCategoryModal = () => setShowViewCategoryModal(false);
-
-  const openCreateCategoryModal = () => setShowCreateCategoryModal(true);
-  const closeCreateCategoryModal = () => setShowCreateCategoryModal(false);
-
-  // Sample subscription data
-  const subscriptions = [
+  // Sample subscription data (now mutable with useState)
+  const [subscriptions, setSubscriptions] = useState([
     {
       id: 1,
       title: "Premium Membership",
@@ -62,11 +51,58 @@ export default function SubscriptionsPage() {
         "Can add up to 2 contacts",
       ],
     },
-  ];
+  ]);
+
+  const openCreateSubscriptionModal = () => {
+    setEditingSubscription(null); // Ensure we're in 'create' mode
+    setShowCreateSubscriptionModal(true);
+  };
+  const closeCreateSubscriptionModal = () => setShowCreateSubscriptionModal(false);
+
+  const openViewCategoryModal = () => setShowViewCategoryModal(true);
+  const closeViewCategoryModal = () => setShowViewCategoryModal(false);
+
+  const openCreateCategoryModal = () => setShowCreateCategoryModal(true);
+  const closeCreateCategoryModal = () => setShowCreateCategoryModal(false);
+
+  // Function to handle adding a new subscription
+  const handleAddSubscription = (newSubscription) => {
+    setSubscriptions((prevSubscriptions) => [
+      ...prevSubscriptions,
+      { ...newSubscription, id: prevSubscriptions.length + 1 }, // Simple ID generation
+    ]);
+    setShowCreateSubscriptionModal(false);
+  };
+
+  // Function to handle editing an existing subscription
+  const handleUpdateSubscription = (updatedSubscription) => {
+    setSubscriptions((prevSubscriptions) =>
+      prevSubscriptions.map((sub) =>
+        sub.id === updatedSubscription.id ? updatedSubscription : sub
+      )
+    );
+    setEditingSubscription(null); // Clear editing state
+    setShowCreateSubscriptionModal(false);
+  };
+
+  // Function to handle deleting a subscription
+  const handleDeleteSubscription = (id) => {
+    if (window.confirm("Are you sure you want to delete this subscription?")) {
+      setSubscriptions((prevSubscriptions) =>
+        prevSubscriptions.filter((sub) => sub.id !== id)
+      );
+    }
+  };
+
+  // Function to open the modal for editing
+  const handleEditClick = (subscription) => {
+    setEditingSubscription(subscription);
+    setShowCreateSubscriptionModal(true);
+  };
 
   return (
     <div>
-      <div className=" bg-[#2E2E2E] min-h-screen text-white p-8 rounded">
+      <div className="bg-[#2E2E2E] min-h-screen text-white p-8 rounded">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-[20px] font-semibold">Subscriptions</h1>
           <button
@@ -114,6 +150,7 @@ export default function SubscriptionsPage() {
                       className="w-7 h-5 text-[#595959] mr-2"
                       fill="currentColor"
                       viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
                         fillRule="evenodd"
@@ -126,7 +163,10 @@ export default function SubscriptionsPage() {
                 ))}
               </ul>
               <div className="flex space-x-2">
-                <button className="text-gray-400 hover:text-white border p-[10px] border-[#FFFFFF1A] rounded-full">
+                <button
+                  onClick={() => handleEditClick(subscription)} // Pass the whole subscription object
+                  className="text-gray-400 hover:text-white border p-[10px] border-[#FFFFFF1A] rounded-full"
+                >
                   <svg
                     className="w-5 h-5"
                     fill="none"
@@ -142,7 +182,10 @@ export default function SubscriptionsPage() {
                     ></path>
                   </svg>
                 </button>
-                <button className="text-red-500 hover:text-red-400 border rounded-full border-[#FF000033] p-[10px]">
+                <button
+                  onClick={() => handleDeleteSubscription(subscription.id)}
+                  className="text-red-500 hover:text-red-400 border rounded-full border-[#FF000033] p-[10px]"
+                >
                   <svg
                     className="w-5 h-5"
                     fill="none"
@@ -168,6 +211,8 @@ export default function SubscriptionsPage() {
             onClose={closeCreateSubscriptionModal}
             onViewCategory={openViewCategoryModal}
             onCreateCategory={openCreateCategoryModal}
+            initialData={editingSubscription} // Pass data for editing
+            onSave={editingSubscription ? handleUpdateSubscription : handleAddSubscription} // Choose save function
           />
         )}
         {showViewCategoryModal && (
@@ -178,11 +223,10 @@ export default function SubscriptionsPage() {
         )}
       </div>
 
-      
-      {/* Pagination Section */}
-      <div className="flex justify-end items-center mt-6 gap-2 text-sm">
+      {/* Pagination Section (kept commented as in your original code) */}
+      {/* <div className="flex justify-end items-center mt-6 gap-2 text-sm">
         <button className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#2d2d2d] text-gray-400">
-          &#8249; {/* Left arrow */}
+          &#8249; 
         </button>
         <button className="w-8 h-8 bg-cyan-500 text-white rounded">1</button>
         <button className="w-8 h-8 hover:bg-[#2d2d2d] text-gray-400">2</button>
@@ -191,9 +235,9 @@ export default function SubscriptionsPage() {
         <span className="px-2 text-gray-400">...</span>
         <button className="w-8 h-8 hover:bg-[#2d2d2d] text-gray-400">30</button>
         <button className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#2d2d2d] text-gray-400">
-          &#8250; {/* Right arrow */}
+          &#8250; 
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -242,13 +242,13 @@ export default function BannerManagement() {
         ))}
       </div>
 
-      {banners.length > bannersPerPage && (
+      {/* {banners.length > bannersPerPage && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />
-      )}
+      )} */}
 
       <AddBannerModal
         isOpen={isModalOpen}
