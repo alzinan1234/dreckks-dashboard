@@ -111,36 +111,40 @@ const PromotionSetupPage = () => {
         </div>
 
         <div className="flex items-center space-x-4">
-          <button
-            onClick={handleOpenModal} // Add onClick handler to open the modal
-            className="flex items-center space-x-2 pt-0 pr-[13px] pb-0 pl-[2px] bg-[#FFFFFF1A] hover:bg-gray-700 rounded-full transition-colors"
+         <button
+            onClick={() => handleOpenModal(true)}
+            className="flex items-center gap-2 pl-[2px] pr-[13px] py-1"
+            style={{
+              borderRadius: "22px",
+              background: "rgba(255,255,255,0.10)",
+            }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="27"
-              viewBox="0 0 28 27"
-              fill="none"
-            >
-              <rect x="0.23999" width="27" height="27" rx="13.5" fill="white" />
-              <path
-                d="M13.74 6.75L13.74 20.25"
-                stroke="#6A6A6A"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-              <path
-                d="M20.49 13.5L6.98999 13.5"
-                stroke="#6A6A6A"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
-            <span className="text-[12px] font-normal text-white">
-              Add New Promotion
+            <span className="w-[27px] h-[27px] flex items-center justify-center text-black rounded-full bg-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 27 27"
+                fill="none"
+              >
+                <path
+                  d="M13.49 6.75L13.49 20.25"
+                  stroke="#6A6A6A"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M20.24 13.5L6.73999 13.5"
+                  stroke="#6A6A6A"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+            <span className="text-white font-medium text-[12px]">
+              Add New Trainer
             </span>
           </button>
-
           <div className="flex items-center ">
             <div className="relative">
               <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />

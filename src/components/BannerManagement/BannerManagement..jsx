@@ -88,7 +88,6 @@ export default function BannerManagement() {
       link: "#",
       location: "Riverside Park",
     },
-  
   ];
 
   useEffect(() => {
@@ -142,31 +141,43 @@ export default function BannerManagement() {
         <div className="flex items-center space-x-4">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center px-4  py-2 bg-teal rounded-full text-black font-medium text-[12px] hover:bg-opacity-90 transition-colors duration-200 bg-[#ffffff]  shadow"
+            className="flex items-center gap-2 pl-[2px] pr-[13px] py-1"
+            style={{
+              borderRadius: "22px",
+              background: "rgba(255,255,255,0.10)",
+            }}
           >
-            <div className="">
+            <span className="w-[27px] h-[27px] flex items-center justify-center text-black rounded-full bg-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-2"
+                width="16"
+                height="16"
+                viewBox="0 0 27 27"
                 fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
               >
                 <path
+                  d="M13.49 6.75L13.49 20.25"
+                  stroke="#6A6A6A"
+                  strokeWidth="1.5"
                   strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 4v16m8-8H4"
+                />
+                <path
+                  d="M20.24 13.5L6.73999 13.5"
+                  stroke="#6A6A6A"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
                 />
               </svg>
-            </div>
-            Add New Banner
+            </span>
+            <span className="text-white font-medium text-[12px]">
+              Add New Trainer
+            </span>
           </button>
 
           <div className="flex items-center ">
             {/* Search Icon */}
             <div className="relative ">
-               <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
             </div>
 
             {/* Search Input Field */}

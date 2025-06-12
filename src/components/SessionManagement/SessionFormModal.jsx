@@ -108,7 +108,7 @@ const AddNewSessionModal = ({ isOpen, onClose }) => {
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-0 right-0 bg-white rounded-full p-3 text-black text-xl hover:text-gray-300 transition-colors"
+          className="absolute  right-0  rounded-full p-3 text-white text-xl hover:text-gray-300 transition-colors"
           aria-label="Close modal"
         >
           <FaTimes />

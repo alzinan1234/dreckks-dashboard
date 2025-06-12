@@ -138,16 +138,26 @@ const TrainerManagement = () => {
           <h2 className="text-xl font-semibold">Trainer Management</h2>
           <div className="flex items-center gap-2">
             {/* Add New Trainer Button */}
-            <button
-              onClick={() => setIsAddNewTrainerModalOpen(true)}
-              className="bg-white text-black text-sm px-4 py-2 rounded-full flex items-center gap-2 hover:bg-gray-200 transition-colors"
-            >
-              <FaPlus /> Add New Trainer
-            </button>
+         <button
+  onClick={() => setIsAddNewTrainerModalOpen(true)}
+  className="flex items-center gap-2 pl-[2px] pr-[13px] py-1"
+  style={{
+    borderRadius: '22px',
+    background: 'rgba(255,255,255,0.10)',
+  }}
+>
+  <span className="w-[27px] h-[27px] flex items-center justify-center text-black rounded-full bg-white">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 27 27" fill="none">
+      <path d="M13.49 6.75L13.49 20.25" stroke="#6A6A6A" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M20.24 13.5L6.73999 13.5" stroke="#6A6A6A" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  </span>
+  <span className="text-white font-medium text-[12px]">Add New Trainer</span>
+</button>
 
             {/* Search Input and Button Group */}
-            <div className="flex items-center ">
-              <div className="relative   ">
+            <div className="flex items-center "> 
+              <div className="relative ">
                 <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="text"

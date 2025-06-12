@@ -352,54 +352,70 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
 
               {/* Availability Calendar */}
               <div className="col-span-1 md:col-span-2 lg:col-span-1">
-                <label className="block text-sm font-medium mb-1 ">Availability Date</label>
-                <div className="bg-[#2b2b2b]  rounded-lg border border-[#C3C3C3] ">
-                  <div className="flex justify-between items-center mb-2  border-b border-[#C3C3C3]  px-4 py-4">
-                    <span className="font-semibold">JANUARI 2025</span>
-                    <div className="flex items-center gap-2  justify-center">
-                      <button type="button" className="text-gray-100 bg-gray-500 p-2 px-4 rounded-full hover:text-white">
-                        &#8249;
-                      </button>
-
-                      <button type="button" className="text-gray-100 hover:text-white bg-gray-500 p-2 px-4 rounded-full">
-                        &#8250;
-                      </button>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-7 gap-1 text-base text-center text-white  p-4 ">
-                    <span>Mon</span>
-                    <span>Tue</span>
-                    <span>Wed</span>
-                    <span>Thu</span>
-                    <span>Fri</span>
-                    <span>Sat</span>
-                    <span>Sun</span>
-                  </div>
-                  <div className="grid grid-cols-7 gap-2 p-4">
-                    {/* Empty cells for leading days of the week */}
-                    {Array.from({ length: calendarStartOffset }).map((_, i) => (
-                      <div key={`empty-${i}`} className="w-8 h-8 flex items-center justify-center"></div>
-                    ))}
-                    {daysInMonth.map((day) => (
-                      <button
-                        key={day}
-                        type="button"
-                        onClick={() => handleDateSelect(day)}
-                        className={`w-8 h-8 flex items-center justify-center rounded-full text-black text-sm
-                      ${availableDates.includes(day)
-                            ? formData.availability.includes(day)
-                              ? "bg-cyan-500" // Selected available date
-                              : "bg-[#71F50C] hover:bg-green-600" // Available date
-                            : "bg-gray-700 text-gray-500 cursor-not-allowed" // Unavailable date
-                          }`}
-                        disabled={!availableDates.includes(day)}
-                      >
-                        {day}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
+  <label className="block text-sm font-medium mb-1">Availability Date</label>
+  <div className="bg-[#2b2b2b] rounded-[13.64px] border border-[#DCDCDC] p-4 relative overflow-hidden">
+    {/* Month header */}
+    <div className="flex justify-between items-center mb-2 border-b border-[#DCDCDC] px-2 pb-3">
+      <span className="font-bold text-[16px]">JANUARI 2025</span>
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          className="w-7 h-7 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition"
+        >
+          <span className="text-white text-lg">&#8249;</span>
+        </button>
+        <button
+          type="button"
+          className="w-7 h-7 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition"
+        >
+          <span className="text-white text-lg">&#8250;</span>
+        </button>
+      </div>
+    </div>
+    {/* Weekdays */}
+    <div className="grid grid-cols-7 gap-1 text-center text-white text-[12px] font-medium mb-2">
+      <span>Mon</span>
+      <span>Tue</span>
+      <span>Wed</span>
+      <span>Thu</span>
+      <span>Fri</span>
+      <span>Sat</span>
+      <span>Sun</span>
+    </div>
+    {/* Days grid */}
+    <div className="grid grid-cols-7 gap-y-2 gap-x-1">
+      {/* Empty cells for leading days */}
+      {Array.from({ length: calendarStartOffset }).map((_, i) => (
+        <div key={`empty-${i}`} className="w-10 h-10"></div>
+      ))}
+      {daysInMonth.map((day) => {
+        const isAvailable = availableDates.includes(day);
+        const isSelected = formData.availability.includes(day);
+        return (
+          <button
+            key={day}
+            type="button"
+            onClick={() => handleDateSelect(day)}
+            disabled={!isAvailable}
+            className={`
+              w-10 h-10 aspect-square flex items-center justify-center rounded-full font-bold text-[12px] transition
+              ${isAvailable
+                ? isSelected
+                  ? "bg-cyan-500 text-[#343434]"
+                  : "bg-[#71F50C] text-[#434343] hover:bg-green-600"
+                : "bg-[#4A4A4A] text-[#676767] cursor-not-allowed"}
+            `}
+            style={{
+              boxShadow: isSelected ? "0 0 0 2px #00C1C9" : undefined,
+            }}
+          >
+            {day}
+          </button>
+        );
+      })}
+    </div>
+  </div>
+</div>
 
               {/* Time Slots */}
               <div className="col-span-1 md:col-span-2 lg:col-span-1">

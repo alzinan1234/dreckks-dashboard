@@ -105,25 +105,39 @@ export default function SubscriptionsPage() {
       <div className="bg-[#2E2E2E] min-h-screen text-white p-8 rounded">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-[20px] font-semibold">Subscriptions</h1>
-          <button
-            onClick={openCreateSubscriptionModal}
-            className="bg-white hover:bg-blue-700 text-black font-medium text-[12px] py-2 px-4 rounded-full flex items-center"
+            <button
+            onClick={() => openCreateSubscriptionModal(true)}
+            className="flex items-center gap-2 pl-[2px] pr-[13px] py-1"
+            style={{
+              borderRadius: "22px",
+              background: "rgba(255,255,255,0.10)",
+            }}
           >
-            <svg
-              className="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              ></path>
-            </svg>
-            Create Subscriptions
+            <span className="w-[27px] h-[27px] flex items-center justify-center text-black rounded-full bg-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 27 27"
+                fill="none"
+              >
+                <path
+                  d="M13.49 6.75L13.49 20.25"
+                  stroke="#6A6A6A"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M20.24 13.5L6.73999 13.5"
+                  stroke="#6A6A6A"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+            <span className="text-white font-medium text-[12px]">
+              Add New Trainer
+            </span>
           </button>
         </div>
 
