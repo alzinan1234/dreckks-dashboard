@@ -403,64 +403,74 @@ const AddNewSessionModal = ({ isOpen, onClose }) => {
 
               <div className="grid grid-cols-1  gap-8">
                 {/* Calendar Section */}
-                <div className="bg-[#424242] rounded-lg border">
-                  <div className="flex justify-between items-center text-white text-lg font-medium mb-4 border-b py-4 px-4">
-                    <div className="">
-                      <span className=" uppercase font-bold text-[16px] text-white">
-                        {new Date(currentYear, currentMonth).toLocaleString("default", {
-                          month: "long",
-                        })}{" "}
-                        {currentYear}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => handleMonthChange("prev")}
-                        className="text-white hover:text-white bg-gray-600 rounded-full px-3 transition-colors"
-                      >
-                        &#8249;
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleMonthChange("next")}
-                        className="text-white hover:text-white bg-gray-600 rounded-full px-3 "
-                      >
-                        &#8250;
-                      </button>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-7 gap-2 text-center text-sm p-6">
-                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                      (day) => (
-                        <div key={day} className="text-white font-medium">
-                          {day}
-                        </div>
-                      )
-                    )}
-                    {leadingBlanks.map((_, i) => (
-                      <div key={`blank-${i}`} className="w-8 h-8"></div>
-                    ))}
-                    {days.map((day) => (
-                      <button
-                        key={day}
-                        type="button"
-                        onClick={() => handleDateClick(day)}
-                        className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors
-                        ${
-                          availabilityDates.includes(
-                            `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
-                          )
-                            ? "bg-cyan-500 text-white"
-                            : "text-white hover:bg-[#555]"
-                        }`}
-                      >
-                        {day}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+              <div className="bg-[#343434] rounded-[13.64px] border border-[#DCDCDC] relative overflow-hidden">
+  {/* Month header */}
+  <div className="flex justify-between items-center mb-2 border-b border-[#DCDCDC] px-4 pt-4 pb-3">
+    <span className="font-bold text-[16px] uppercase text-white">
+      {new Date(currentYear, currentMonth).toLocaleString("default", {
+        month: "long",
+      })}{" "}
+      {currentYear}
+    </span>
+    <div className="flex items-center gap-2">
+      <button
+        type="button"
+        onClick={() => handleMonthChange("prev")}
+        className="w-[22px] h-[22px] flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition"
+      >
+        <span className="text-white text-lg">&#8249;</span>
+      </button>
+      <button
+        type="button"
+        onClick={() => handleMonthChange("next")}
+        className="w-[22px] h-[22px] flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition"
+      >
+        <span className="text-white text-lg">&#8250;</span>
+      </button>
+    </div>
+  </div>
+  {/* Weekdays */}
+  <div className="grid grid-cols-7 gap-1 text-center text-white text-[12px] font-medium mb-2 px-4">
+    <span>Mon</span>
+    <span>Tue</span>
+    <span>Wed</span>
+    <span>Thu</span>
+    <span>Fri</span>
+    <span>Sat</span>
+    <span>Sun</span>
+  </div>
+  {/* Days grid */}
+  <div className="grid grid-cols-7 gap-y-2 gap-x-1 px-4 pb-4">
+    {/* Empty cells for leading days */}
+    {Array.from({ length: (firstDayOfMonth + 6) % 7 }).map((_, i) => (
+      <div key={`empty-${i}`} className="w-[38px] h-[38px]"></div>
+    ))}
+    {days.map((day) => {
+      const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+      const isSelected = availabilityDates.includes(dateStr);
+      // You can add your own logic for available/unavailable days
+      const isAvailable = true;
+      return (
+        <button
+          key={day}
+          type="button"
+          onClick={() => handleDateClick(day)}
+          disabled={!isAvailable}
+          className={`
+            w-[38px] h-[38px] flex items-center justify-center rounded-[27.28px] font-bold text-[12px] transition
+            ${isAvailable
+              ? isSelected
+                ? "bg-[#676767] text-[#343434] outline outline-2 "
+                : "bg-[#71F50C] text-[#434343] hover:bg-green-600"
+              : "bg-[#4A4A4A] text-[#676767] cursor-not-allowed"}
+          `}
+        >
+          {day}
+        </button>
+      );
+    })}
+  </div>
+</div>
 
                 {/* Time Slots Section */}
                 <div className=" rounded-lg p-6">
