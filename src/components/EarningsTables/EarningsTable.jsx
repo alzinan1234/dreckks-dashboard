@@ -169,13 +169,13 @@ export default function EarningsTable() {
 
         {/* Weekly/Monthly Revenue and Dropdown */}
         <div className="relative text-white flex flex-col justify-center items-center mb-6">
-          <div className="mb-1 text-sm">
+          <div className="mb-2 text-sm">
             {selected} Revenue <span className="font-bold">${selected === "Weekly" ? "12,322" : "35,000"}</span> {/* Dynamic revenue */}
           </div>
 
           <button
             onClick={() => setOpen(!open)}
-            className="flex items-center gap-[8.31px] w-[73px] h-[27px] pl-[6.65px] rounded-[18.28px] bg-white/10"
+            className="flex items-center gap-[8.31px] w-[73px] mb-5 h-[27px] pl-[6.65px] rounded-[18.28px] bg-white/10"
           >
             <span className="text-xs">{selected}</span>
             <ChevronDown size={16} className={`transform transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
