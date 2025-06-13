@@ -1,14 +1,11 @@
-// components/SettingsPage.tsx (or wherever you prefer to place it)
+// components/SettingsPage.js
 'use client';
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import JoditEditor from 'jodit-react';
-
-// import type { Config } from 'jodit'; // Removed because this is a JS file
+import dynamic from 'next/dynamic'; // Import dynamic for SSR compatibility
 
 // Mock data for dynamic content
-// The 'text' fields are now plain strings, not HTML, since we're not using a rich text editor.
 const contentData = {
   'privacy-security': {
     title: 'Privacy Policy',
@@ -52,30 +49,27 @@ const contentData = {
   },
 };
 
-/**
- * @typedef {'privacy-security' | 'terms-conditions' | 'about-us'} TabKey
- */
+// Dynamically import JoditEditor to prevent SSR issues
+// This ensures Jodit is only loaded on the client-side.
+const JoditEditor = dynamic(() => import('jodit-react'), { ssr: false });
+
 
 const SettingsPage = ({ onBackClick }) => {
   const editor = useRef(null);
-  // State to manage which tab is currently active
   const [activeTab, setActiveTab] = useState('privacy-security');
-  // State to hold the content being edited.
   const [editableContent, setEditableContent] = useState('');
 
-  // Use a piece of state to manage the original content for each tab.
   const [tabContents, setTabContents] = useState(contentData);
 
   // Effect hook to update the editableContent when the activeTab changes.
   useEffect(() => {
-    // Ensure content is loaded and Jodit is ready if needed
     setEditableContent(tabContents[activeTab].text);
   }, [activeTab, tabContents]);
 
   // Jodit editor config
   const joditConfig = useMemo(
     () => ({
-      readonly: false, // all options from https://xdsoft.net/jodit/docs/classes/Config.html
+      readonly: false,
       spellcheck: false,
       buttons:
         'undo,redo,|,bold,italic,underline,strikethrough,|,ul,ol,|,link,cut,copy,paste,|,align,|,source',
@@ -86,11 +80,13 @@ const SettingsPage = ({ onBackClick }) => {
       buttonsXS:
         'undo,redo,|,bold,italic,underline,strikethrough,|,ul,ol,|,link,cut,copy,paste,|,align,|,source',
       colors: {
-        '#E1E1E1': '#E1E1E1', // Add your active color to the Jodit color palette if needed
+        '#E1E1E1': '#E1E1E1',
       },
-      // You can customize the toolbar buttons and more
-      toolbarButtonSize: 'large', // Adjust button size if desired
+      toolbarButtonSize: 'large',
       theme: 'dark', // Jodit has a 'dark' theme option, let's use it for better integration
+      // Ensure Jodit's UI fits your dark theme; you might need custom CSS if default dark theme doesn't match
+      // For example, to make Jodit's background match your #343434:
+      // className: 'jodit-custom-theme' (then add custom CSS for .jodit-custom-theme .jodit.jodit_theme_dark)
     }),
     [],
   );
@@ -126,34 +122,34 @@ const SettingsPage = ({ onBackClick }) => {
       </div>
 
       {/* Tab Navigation for Privacy and security, Terms & Conditions, About Us */}
-     <div className=' border-b '>
-       <div className=" md:w-[600px] flex justify-start bg-dark-bg rounded-t-lg ">
-  
-{['privacy-security', 'terms-conditions', 'about-us'].map((tabId) => (
-  <button
-    key={tabId}
-    className={`
-      flex-1 py-4 text-center text-lg font-medium relative focus:outline-none transition-colors duration-200
-      ${
-        activeTab === tabId
-          ? 'text-[#00C1C9]' // Use Tailwind for active tab text color
-          : 'text-light-gray-text hover:text-white'
-      }
-    `}
-    onClick={() => setActiveTab(tabId)}
-  >
-    {tabContents[tabId].title}
-    {activeTab === tabId && (
-      <span
-        className="absolute bottom-0 left-0 right-0 h-[2px] -mb-[1px] bg-[#00C1C9]"
-        // Use Tailwind for underline color
-      ></span>
-    )}
-  </button>
-))}
+      <div className=' border-b '>
+        <div className="md:w-[600px] flex justify-start bg-dark-bg rounded-t-lg ">
 
+          {['privacy-security', 'terms-conditions', 'about-us'].map((tabId) => (
+            <button
+              key={tabId}
+              className={`
+                flex-1 py-4 text-center text-lg font-medium relative focus:outline-none transition-colors duration-200
+                ${
+                  activeTab === tabId
+                    ? 'text-[#00C1C9]' // Use Tailwind for active tab text color
+                    : 'text-light-gray-text hover:text-white'
+                }
+              `}
+              onClick={() => setActiveTab(tabId)}
+            >
+              {tabContents[tabId].title}
+              {activeTab === tabId && (
+                <span
+                  className="absolute bottom-0 left-0 right-0 h-[2px] -mb-[1px] bg-[#00C1C9]"
+                  // Use Tailwind for underline color
+                ></span>
+              )}
+            </button>
+          ))}
+
+        </div>
       </div>
-     </div>
 
       {/* Content Area for the selected tab */}
       <div className="bg-dark-bg p-4 rounded-b-lg -mt-px"> {/* -mt-px to cover the tab bottom border */}
@@ -164,30 +160,29 @@ const SettingsPage = ({ onBackClick }) => {
         {/* Jodit Editor */}
         <div className="rounded-md mb-6 py-2 ">
           <JoditEditor
-          className=' '
+            className=' ' // Keep your custom class
             ref={editor}
             value={editableContent}
             config={joditConfig}
-            onBlur={(newContent) => setEditableContent(newContent)} // Get content on blur
-            onChange={(newContent) => {}} // Handle change immediately if needed, or rely on blur
+            // Use `onChange` to update state immediately, as Jodit's value prop expects it.
+            // `onBlur` can still be used for other side effects if needed, but `onChange` is for content updates.
+            onChange={(newContent) => setEditableContent(newContent)}
           />
         </div>
 
         {/* Save & Change Button */}
         <div className="col-span-full mt-4">
-              <button
-            type="submit"
-            className="w-full mx-auto flex justify-center items-center  rounded-[4px] bg-cyan-400 hover:bg-cyan-300 text-white py-2 font-medium  border-b-4 border-lime-400"
+          <button
+            type="button" // Changed from submit to button to prevent default form submission if this is part of a larger form
+            onClick={handleSaveAndChange} // Added onClick handler
+            className="w-full mx-auto flex justify-center items-center rounded-[4px] bg-cyan-400 hover:bg-cyan-300 text-white py-2 font-medium border-b-4 border-lime-400"
           >
-           Save & Change
+            Save & Change
           </button>
-          </div>
+        </div>
       </div>
     </div>
   );
 };
 
 export default SettingsPage;
-
-
-
