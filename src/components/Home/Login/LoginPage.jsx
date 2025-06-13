@@ -5,11 +5,6 @@ import { useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
-// No need to import Image or specific SVG files directly if using inline SVG
-// import Image from "next/image";
-// import eye from "../public/icon/eye.svg";
-// import eyeSlash from "../public/icon/eye-slash.svg";
-
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -68,7 +63,7 @@ export default function LoginPage() {
         console.log("User Login successful!");
         toast.success("User Login Successful! (Simulated)");
         token = 'USER_TOKEN_SECRET'; // Set regular user token
-        redirectPath = '/admin'; // Redirect regular user to home
+        redirectPath = '/admin'; // This was `/` previously. Changed to `/admin` as per your input.
         success = true;
       }
       // --- Simulated Failed Login ---
@@ -145,17 +140,17 @@ export default function LoginPage() {
                 type="button"
                 onClick={handleTogglePassword}
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                
               >
-                {/* Inline SVG for eye icon */}
-                {showPassword ? (
+                {/* Conditional rendering of open eye or closed eye SVG */}
+                {/* {showPassword ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-6 h-6 text-[#DBDBDB] cursor-pointer" // Adjusted color for better visibility
+                    className="w-6 h-6 text-[#DBDBDB] cursor-pointer"
                   >
                     <path
                       strokeLinecap="round"
@@ -169,12 +164,26 @@ export default function LoginPage() {
                     />
                   </svg>
                 ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <path d="M10.1416 11.2627C10.051 11.491 10 11.7394 10 12C10 13.1046 10.8954 14 12 14C12.2604 14 12.5082 13.9479 12.7363 13.8574L14.2109 15.332C13.5774 15.7532 12.8178 16 12 16C9.79086 16 8 14.2091 8 12C8 11.1821 8.24569 10.4217 8.66699 9.78809L10.1416 11.2627ZM12 8C14.2091 8 16 9.79086 16 12C16 12.2736 15.9722 12.5407 15.9199 12.7988L11.2002 8.0791C11.4586 8.02668 11.7262 8 12 8Z" fill="#B0B0B0"/>
-  <path d="M7.57446 8.69531C6.45786 9.51286 5.52051 10.4768 4.85767 11.2461L4.58423 11.5703C4.48455 11.6913 4.40959 11.7817 4.3479 11.8613C4.29944 11.9239 4.26958 11.9686 4.24927 12C4.26958 12.0314 4.29944 12.0761 4.3479 12.1387C4.40959 12.2183 4.48455 12.3087 4.58423 12.4297L4.85767 12.7539C5.5373 13.5427 6.50526 14.5368 7.65942 15.3672C8.9864 16.3219 10.4745 17 12.0002 17C13.0478 17 14.077 16.6793 15.0491 16.1699L16.5178 17.6387C15.2048 18.4171 13.6701 18.9999 12.0002 19C9.89043 19 7.99446 18.0725 6.49146 16.9912C5.16931 16.04 4.08515 14.922 3.33911 14.0557L3.04028 13.7012C2.74418 13.3417 2.29093 12.8546 2.2356 12.1445L2.22974 12L2.2356 11.8555C2.29093 11.1454 2.74418 10.6583 3.04028 10.2988L3.33911 9.94434C4.01896 9.15488 4.98013 8.15738 6.14575 7.2666L7.57446 8.69531ZM12.0002 5C14.11 5.00007 16.0061 5.92749 17.509 7.00879C19.0199 8.09582 20.2204 9.40058 20.9602 10.2988L21.22 10.6152C21.4922 10.9626 21.7708 11.408 21.7708 12L21.7649 12.1445C21.7243 12.6653 21.4696 13.0662 21.22 13.3848L20.9602 13.7012C20.4735 14.2921 19.7851 15.0563 18.9426 15.8213L17.5266 14.4053C18.3066 13.7056 18.954 12.991 19.4163 12.4297L19.6526 12.1387C19.7008 12.0764 19.7299 12.0314 19.7502 12C19.7299 11.9686 19.7008 11.9236 19.6526 11.8613L19.4163 11.5703C18.7361 10.7445 17.66 9.58182 16.3411 8.63281C15.0141 7.67813 13.526 7.00007 12.0002 7C11.4494 7 10.9036 7.08922 10.3684 7.24707L8.80688 5.68555C9.79067 5.26876 10.8646 5 12.0002 5Z" fill="#B0B0B0"/>
-  <path d="M5 2L21 18" stroke="#B0B0B0" stroke-width="2"/>
-</svg>
-                )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6 text-[#B0B0B0] cursor-pointer" // Corrected color for closed eye to match fill in original path
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.981 18.067A10.03 10.03 0 0 0 12 21.75c4.638 0 8.573-3.007 9.963-7.173a1.012 1.012 0 0 0 0-.639C20.577 7.51 16.64 4.5 12 4.5c-1.126 0-2.204.168-3.207.477M4.5 12.75a7.5 7.5 0 0 1 10.94-7.864M12 11.25a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-9-9"
+                    />
+                  </svg>
+                )} */}
               </button>
             </div>
           </div>
