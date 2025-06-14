@@ -1,3 +1,5 @@
+"use client"
+
 import NotificationPage from '@/components/Notification/NotificationPage'
 import React from 'react'
 

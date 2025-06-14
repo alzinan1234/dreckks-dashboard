@@ -438,6 +438,8 @@ const AddNewSessionModal = ({ isOpen, onClose }) => {
     <span>Fri</span>
     <span>Sat</span>
     <span>Sun</span>
+  
+  
   </div>
   {/* Days grid */}
   <div className="grid grid-cols-7 gap-y-2 gap-x-1 px-4 pb-4">

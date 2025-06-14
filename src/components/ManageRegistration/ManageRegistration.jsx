@@ -5,33 +5,43 @@ import Image from "next/image";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
-// Assuming 'eye.svg' is in your public/icon directory
-import eye from "../../../public/icon/eye.svg";
+// Assuming these icons are in your public/icon directory
+// and match the colors in the screenshot (green check, red cross, purple eye)
+// If you don't have these exact colored SVGs, you might need to use Heroicons
+// and apply specific text colors to them (e.g., <CheckCircleIcon className="h-6 w-6 text-[#71F50C]" />)
+// For now, I'll assume you have the colored SVGs as per your existing eye.svg usage.
+import checkIcon from "../../../public/icon/right.svg"; // Placeholder for green check
+import crossIcon from "../../../public/icon/trash.svg"; // Placeholder for red cross
+import eyeIcon from "../../../public/icon/eye.svg";     // Your existing eye icon
 
 const dummyRows = [
   {
     id: "NK-01",
-    name: "Alice Johnson",
-    email: "alice@email.com",
+    name: "Mason Brooks", // Changed to match screenshot
+    email: "mason@gmail.com", // Changed to match screenshot
     date: "2024-01-21",
+    userImage: "/image/userImage.png", // Added user image path
   },
   {
     id: "NK-02",
-    name: "Bob Smith",
-    email: "bob@email.com",
+    name: "Alice Johnson",
+    email: "alice@email.com",
     date: "2024-02-11",
+    userImage: "/image/userImage.png",
   },
   {
     id: "NK-03",
-    name: "Charlie Brown",
-    email: "zinan@gmail.com",
+    name: "Bob Smith",
+    email: "bob@email.com",
     date: "2024-03-05",
+    userImage: "/image/userImage.png",
   },
   {
     id: "NK-04",
-    name: "Diana Prince",
-    email: "fuad@gmai.com",
+    name: "Charlie Brown",
+    email: "charlie@email.com",
     date: "2024-04-15",
+    userImage: "/image/userImage.png",
   },
 ];
 
@@ -54,34 +64,29 @@ export default function RegistrationTable() {
   };
 
   // Action handlers (placeholder functions)
+  const handleAccept = (rowId) => {
+    alert(`Accepted: ${rowId}`);
+    // Implement logic for accepting registration
+  };
+
+  const handleReject = (rowId) => {
+    alert(`Rejected: ${rowId}`);
+    // Implement logic for rejecting registration
+  };
+
   const handleView = (rowId) => {
     alert(`Viewing details for: ${rowId}`);
     // Implement navigation or modal display logic here
   };
 
-  const handleDelete = (rowId) => {
-    if (confirm(`Are you sure you want to delete ${rowId}?`)) {
-      alert(`Deleting: ${rowId}`);
-      // Implement actual deletion logic, e.g., update state or call API
-      setFilteredRows(prevRows => prevRows.filter(row => row.id !== rowId));
-    }
-  };
-
-  const handleEdit = (rowId) => {
-    alert(`Editing: ${rowId}`);
-    // Implement edit form/modal logic here
-  };
-
   const handleFilterClick = () => {
     alert("Filter button clicked! (Implement your filter modal/logic here)");
-    // This button could open a modal for advanced filtering,
-    // or apply predefined filters based on application needs.
   };
 
   return (
-    <div className="bg-[#343434] p-4 rounded-lg shadow-lg">
+    <div className="bg-[#343434] p-4 rounded-lg shadow-lg text-white"> {/* Added text-white here */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-[20px] font-semibold text-white">
+        <h2 className="text-[20px] font-semibold">
           Manage Registrations
         </h2>
 
@@ -92,7 +97,7 @@ export default function RegistrationTable() {
             <input
               type="text"
               placeholder="Search"
-              className="pl-10 pr-4 py-2 bg-[#F3FAFA1A] rounded-tl-[7.04px] rounded-bl-[7.04px] border-[1px] border-[#0000001A] text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="pl-10 pr-4 py-2 bg-[#F3FAFA1A] rounded-tl-[7.04px] rounded-bl-[7.04px] border-[1px] border-[#0000001A] text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-white" // Added text-white
               value={searchTerm}
               onChange={handleSearchChange}
             />
@@ -100,7 +105,7 @@ export default function RegistrationTable() {
 
           <button
             onClick={handleFilterClick}
-            className="hover:bg-gray-700 transition-colors bg-[#2A2A2A] p-[5px] rounded-tr-[7.04px] rounded-br-[7.04px]" // Added rounded corners for the button
+            className="hover:bg-gray-700 transition-colors bg-[#2A2A2A] p-[5px] rounded-tr-[7.04px] rounded-br-[7.04px]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -145,64 +150,82 @@ export default function RegistrationTable() {
           </button>
         </div>
       </div>
-      {/* Info row before table */}
+      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="text-white bg-[#00C1C980] border-b border-gray-700 ">
-              <th className="py-2 font-[700] text-[14px] text-center">
-                Membership ID
+            <tr className="bg-[#1A5B64]"> {/* Changed to match the teal-like header color */}
+              <th className="py-3 px-4 font-normal text-[14px] text-left"> {/* Aligned left */}
+                Name
               </th>
-              <th className="text-center">Name</th>
-              <th className="text-center">Email</th>
-              <th className="text-center">Date</th>
-              <th className="text-center">Action</th>
+              <th className="py-3 px-4 font-normal text-[14px] text-left"> {/* Aligned left */}
+                Email
+              </th>
+              <th className="py-3 px-4 font-normal text-[14px] text-center"> {/* Aligned center */}
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
             {filteredRows.length > 0 ? (
               filteredRows.map((row) => (
-                <tr key={row.id} className="border-b border-gray-700 text-white">
-                  <td className="py-2 text-center">{row.id}</td>
-                  <td className="text-center">{row.name}</td>
-                  <td className="text-center">{row.email}</td>
-                  <td className="text-center">{row.date}</td>
+                <tr key={row.id} className="border-b border-[#FFFFFF1A] last:border-b-0"> {/* Adjusted border color */}
+                  <td className="py-2 px-4">
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={row.userImage}
+                        alt={row.name}
+                        width={24} // Adjusted size for the user image
+                        height={24}
+                        className="rounded-full"
+                      />
+                      <span>{row.name}</span>
+                    </div>
+                  </td>
+                  <td className="py-2 px-4">{row.email}</td>
                   <td className="py-2">
                     <div className="flex items-center justify-center gap-2">
-                      {/* Right Arrow Icon (for Edit functionality) */}
-                      <Image
-                        className="cursor-pointer"
-                        src="/icon/right.svg" // Assuming this is your edit icon
-                        alt="Edit"
-                        width={26}
-                        height={26}
-                        onClick={() => handleEdit(row.id)}
-                      />
-                      {/* Trash Icon (for Delete functionality) */}
-                      <Image
-                        className="cursor-pointer"
-                        src="/icon/trash.svg"
-                        alt="Delete"
-                        width={26}
-                        height={26}
-                        onClick={() => handleDelete(row.id)}
-                      />
-                      {/* Eye Icon (for View functionality) */}
-                      <Image
-                        className="cursor-pointer"
-                        src={eye}
-                        alt="View"
-                        width={26}
-                        height={26}
+                      {/* Accept Icon (Green Circle Check) */}
+                      <button
+                        onClick={() => handleAccept(row.id)}
+                        className="p-1 rounded-full bg-[#0000001A]  transition-colors group" // Green border, subtle background
+                        aria-label="Accept Registration"
+                      >
+                         {/* If you have an SVG that changes color on hover, use it here.
+                             Otherwise, if using Heroicons, you'd apply text-green-500.
+                             Assuming checkIcon is a green SVG. */}
+                        <Image src={checkIcon} alt="Accept" width={25} height={25} className="group-hover:filter group-hover:brightness-0 group-hover:invert"/>
+                        {/* For Heroicon alternative: <CheckCircleIcon className="h-5 w-5 text-[#71F50C] group-hover:text-black" /> */}
+                      </button>
+
+                      {/* Reject Icon (Red Circle Cross) */}
+                      <button
+                        onClick={() => handleReject(row.id)}
+                        className="p-1 rounded-full bg-[#0000001A]  transition-colors group" // Red border
+                        aria-label="Reject Registration"
+                      >
+                         {/* Assuming crossIcon is a red SVG */}
+                        <Image src={crossIcon} alt="Reject" width={25} height={25} className="group-hover:filter group-hover:brightness-0 group-hover:invert"/>
+                        {/* For Heroicon alternative: <XCircleIcon className="h-5 w-5 text-[#FF0000] group-hover:text-black" /> */}
+                      </button>
+
+                      {/* View Icon (Purple Circle Eye) */}
+                      <button
                         onClick={() => handleView(row.id)}
-                      />
+                        className="p-1 rounded-full bg-[#0000001A]  transition-colors group" // Purple border
+                        aria-label="View Details"
+                      >
+                        {/* Assuming eyeIcon is a purple SVG */}
+                        <Image src={eyeIcon} alt="View" width={25} height={25} className="group-hover:filter group-hover:brightness-0 group-hover:invert"/>
+                        {/* For Heroicon alternative: <EyeIcon className="h-5 w-5 text-[#A460F9] group-hover:text-black" /> */}
+                      </button>
                     </div>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center py-4 text-gray-400">
+                <td colSpan="3" className="text-center py-4 text-gray-400"> {/* Adjusted colSpan */}
                   No matching registrations found.
                 </td>
               </tr>

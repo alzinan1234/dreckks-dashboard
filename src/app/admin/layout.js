@@ -34,6 +34,9 @@ export default function RootLayout({ children }) {
     setShowNotifications(false);
   };
 
+
+
+
   return (
     <html lang="en">
       <body
