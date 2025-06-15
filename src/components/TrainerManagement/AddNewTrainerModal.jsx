@@ -142,7 +142,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
-                  className="w-full p-2 bg-[#2b2b2b] border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
+                  className="w-full p-2  border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
                   required
                 />
               </div>
@@ -158,7 +158,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full p-2 bg-[#2b2b2b] border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
+                  className="w-full p-2  border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
                   required
                 />
               </div>
@@ -174,7 +174,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                   name="phoneNumber"
                   value={formData.phoneNumber}
                   onChange={handleChange}
-                  className="w-full p-2 bg-[#2b2b2b] border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
+                  className="w-full p-2  border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
                 />
               </div>
 
@@ -192,7 +192,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                   name="yearsOfExperience"
                   value={formData.yearsOfExperience}
                   onChange={handleChange}
-                  className="w-full p-2 bg-[#2b2b2b] border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
+                  className="w-full p-2  border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
                   min="0"
                 />
               </div>
@@ -208,7 +208,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                   value={formData.bio}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full p-2 bg-[#2b2b2b] border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
+                  className="w-full p-2  border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
                 ></textarea>
               </div>
             </div>
@@ -225,7 +225,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                   value={formData.achievements}
                   onChange={handleChange}
                   rows="3" // Adjust rows as needed
-                  className="w-full p-2 bg-[#2b2b2b] border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
+                  className="w-full p-2  border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
                 ></textarea>
               </div>
 
@@ -243,7 +243,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                   name="skillLevelExpertise"
                   value={formData.skillLevelExpertise}
                   onChange={handleChange}
-                  className="w-full p-2 bg-[#2b2b2b] border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
+                  className="w-full p-2  border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
                   placeholder="Beginner" // Placeholder from image
                 />
               </div>
@@ -259,7 +259,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                   name="location"
                   value={formData.location}
                   onChange={handleChange}
-                  className="w-full p-2 bg-[#2b2b2b] border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
+                  className="w-full p-2  border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
                 />
               </div>
 
@@ -278,7 +278,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                     name="currentPreferredLocationInput"
                     value={formData.currentPreferredLocationInput}
                     onChange={handleCurrentPreferredLocationInputChange}
-                    className="flex-grow p-2 bg-[#2b2b2b] border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
+                    className="flex-grow p-2  border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
                   />
                   <button
                     type="button"
@@ -319,7 +319,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                   name="perHourRate"
                   value={formData.perHourRate}
                   onChange={handleChange}
-                  className="w-full p-2 bg-[#2b2b2b] border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
+                  className="w-full p-2  border border-[#C3C3C3]  rounded focus:outline-none focus:border-cyan-500"
                   min="0"
                 />
               </div>
@@ -329,7 +329,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
               {/* Profile Picture Upload */}
               <div className="col-span-1 md:col-span-1 lg:col-span-1 row-span-2">
                 <label className="block text-sm font-medium mb-1">Profile Picture</label>
-                <div className="flex flex-col items-center justify-center w-full h-40 border-1 border-dashed border-[#C3C3C3]  rounded-lg cursor-pointer bg-[#2b2b2b] hover:bg-gray-700 transition-colors">
+                <div className="flex flex-col items-center justify-center w-full h-40 border-1 border-dashed border-[#C3C3C3]  rounded-lg cursor-pointer  hover:bg-gray-700 transition-colors">
                   <input
                     type="file"
                     id="profilePicture"
@@ -353,7 +353,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
               {/* Availability Calendar */}
               <div className="col-span-1 md:col-span-2 lg:col-span-1">
   <label className="block text-sm font-medium mb-1">Availability Date</label>
-  <div className="bg-[#2b2b2b] rounded-[13.64px] border border-[#DCDCDC] p-4 relative overflow-hidden">
+  <div className=" rounded-[13.64px] border border-[#DCDCDC] p-4 relative overflow-hidden">
     {/* Month header */}
     <div className="flex justify-between items-center mb-2 border-b border-[#DCDCDC] px-2 pb-3">
       <span className="font-bold text-[16px]">JANUARI 2025</span>
@@ -423,7 +423,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                   <div key={index} className="flex items-center gap-2 mb-2">
                     <input
                       type="time"
-                      className="flex-grow p-2 bg-[#2b2b2b] border border-[#C3C3C3] rounded focus:outline-none focus:border-cyan-500"
+                      className="flex-grow p-2 ] border border-[#C3C3C3] rounded focus:outline-none focus:border-cyan-500"
                       value={slot.startTime}
                       onChange={(e) =>
                         handleTimeSlotChange(index, "startTime", e.target.value)
@@ -432,7 +432,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                     />
                     <input
                       type="time"
-                      className="flex-grow p-2 bg-[#2b2b2b] border border-[#C3C3C3] rounded focus:outline-none focus:border-cyan-500"
+                      className="flex-grow p-2  border border-[#C3C3C3] rounded focus:outline-none focus:border-cyan-500"
                       value={slot.endTime}
                       onChange={(e) =>
                         handleTimeSlotChange(index, "endTime", e.target.value)
@@ -455,7 +455,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
                   <button
                     type="button"
                     onClick={addTimeSlot}
-                    className="w-full border px-48 flex items-center justify-center mx-auto rounded hover:bg-cyan-700 transition-colors text-xl leading-none"
+                    className="w-full border px-48 py-2 flex items-center justify-center mx-auto rounded hover:bg-cyan-700 transition-colors text-xl leading-none"
                   >
                     +
                   </button>
