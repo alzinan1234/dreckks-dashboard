@@ -83,7 +83,7 @@ const PromotionSetupPage = () => {
       {/* Header */}
       <header className="flex items-center justify-between pb-6 mb-6">
         <div className="flex items-center space-x-4">
-          <button className="rounded-full bg-[#FFFFFF1A] p-[10px] py-[12px] transition-colors">
+          {/* <button className="rounded-full bg-[#FFFFFF1A] p-[10px] py-[12px] transition-colors">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -106,7 +106,7 @@ const PromotionSetupPage = () => {
                 strokeLinejoin="round"
               />
             </svg>
-          </button>
+          </button> */}
           <h1 className="text-2xl font-semibold text-white">Promotion Setup</h1>
         </div>
 
@@ -240,7 +240,7 @@ const PromotionCard = ({ promotion }) => {
         <h2 className="text-lg font-semibold text-white">{promotion.title}</h2>
 
         {/* edit svg */}
-        <button
+        {/* <button
           onClick={handleEditClick} // Added onClick handler for the edit button
           className="p-1 rounded-full hover:bg-gray-700 transition-colors"
         >
@@ -263,7 +263,7 @@ const PromotionCard = ({ promotion }) => {
             />
             <path d="M12.5 7.5L16.5 11.5" stroke="white" strokeWidth="1.2" />
           </svg>
-        </button>
+        </button> */}
       </div>
       <p className="text-sm text-[#C2C2C2] leading-relaxed">
         {promotion.description}
