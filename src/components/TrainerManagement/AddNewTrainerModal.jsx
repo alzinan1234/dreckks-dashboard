@@ -353,7 +353,7 @@ const AddNewTrainerModal = ({ isOpen, onClose }) => {
               {/* Availability Calendar */}
               <div className="col-span-1 md:col-span-2 lg:col-span-1">
   <label className="block text-sm font-medium mb-1">Availability Date</label>
-  <div className=" rounded-[13.64px] border border-[#DCDCDC] p-4 relative overflow-hidden">
+  <div className=" rounded-[13.64px] border border-[#DCDCDC] p-3 relative overflow-hidden">
     {/* Month header */}
     <div className="flex justify-between items-center mb-2 border-b border-[#DCDCDC] px-2 pb-3">
       <span className="font-bold text-[16px]">JANUARI 2025</span>
