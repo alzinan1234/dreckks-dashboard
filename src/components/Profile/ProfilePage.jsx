@@ -1,46 +1,78 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react"; // 1. Import useRef
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import ChangePasswordForm from "./ChangePasswordForm"; // Import the ChangePasswordForm
+import ChangePasswordForm from "./ChangePasswordForm";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("changePassword"); // Set initial tab to 'changePassword'
+  const [activeTab, setActiveTab] = useState("changePassword");
+  
+  // 2. Add state to manage the profile image URL
+  const [profileImage, setProfileImage] = useState("/image/userImage.png");
+
+  // 3. Create a ref to reference the hidden file input element
+  const fileInputRef = useRef(null);
 
   const handleBackClick = () => {
-    router.back(); // Go back to the previous page
+    router.back();
+  };
+
+  // 4. This function is called when the user selects a new file
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Create a temporary URL for the selected image to show a preview
+      const newImageUrl = URL.createObjectURL(file);
+      setProfileImage(newImageUrl);
+
+      // Here, you would typically upload the 'file' object to your server
+      // For example:
+      // const formData = new FormData();
+      // formData.append("profilePicture", file);
+      // fetch('/api/upload-profile-picture', { method: 'POST', body: formData });
+    }
+  };
+
+  // 5. This function programmatically clicks the hidden file input
+  const handleImageClick = () => {
+    fileInputRef.current.click();
   };
 
   return (
     <div className="min-h-screen bg-[#343434] text-white flex justify-center items-start pt-8 pb-8 rounded-lg">
       <div
-        className="flex items-center gap-4  cursor-pointer ml-5 "
+        className="flex items-center gap-4 cursor-pointer ml-5 "
         onClick={handleBackClick}
       >
-       <div className="">
-         <ArrowLeft className="text-white bg-[#FFFFFF1A] rounded-full p-2 " size={40} />
-       </div>
+        <div className="">
+          <ArrowLeft className="text-white bg-[#FFFFFF1A] rounded-full p-2 " size={40} />
+        </div>
         <h1 className="text-2xl font-bold">Profile</h1>
       </div>{" "}
-      {/* Added flex, justify-center, items-start, pt-8, pb-8 */}
       <div className="w-full max-w-6xl mx-auto px-4">
-        {" "}
-        {/* Removed redundant mx-auto from here if parent centers */}
-        <div className="  p-6">
-          {" "}
-          {/* This is the inner card, not the entire page bg */}
+        <div className="p-6">
           <div className="flex justify-center gap-[18px] items-center mb-6">
-            <div className="relative rounded-full border-4 border-gray-600">
-              <Image
-                src="/image/userImage.png"
+            
+            {/* 6. Add onClick to the image container and make it a cursor-pointer */}
+            <div
+              className="relative rounded-full border-4 border-gray-600 cursor-pointer"
+              onClick={handleImageClick}
+            >
+             <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
+               <Image
+                // 7. Use the state variable for the image source
+                src={profileImage}
                 alt="User Profile"
-                width={80}
-                height={80}
+                width={100}
+                height={100}
                 className="rounded-full"
+                // Ensure the image covers the area, useful for non-square images
+                style={{ objectFit: "cover" }} 
               />
+             </div>
               <span className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-1 border-2 border-[#343434]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -56,12 +88,12 @@ export default function ProfilePage() {
                 </svg>
               </span>
             </div>
-         <div className="flex flex-col gap-[12px]">
+            <div className="flex flex-col gap-[12px]">
               <h2 className="text-[24px] font-bold mt-3 text-white">Lukas Wagner</h2>
-            <p className="text-white font-[400] text-xl">Admin</p>
-         </div>
+              <p className="text-white font-[400] text-xl">Admin</p>
+            </div>
           </div>
-          <div className="flex justify-center mb-6  ">
+          <div className="flex justify-center mb-6">
             <button
               className={`py-2 px-6 text-[16px] font-semibold ${
                 activeTab === "editProfile"
@@ -83,15 +115,19 @@ export default function ProfilePage() {
               Change Password
             </button>
           </div>
-          {/* Content based on active tab */}
+
+          {/* 8. Add the hidden file input element. It won't be visible to the user. */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleImageChange}
+            style={{ display: "none" }}
+            accept="image/png, image/jpeg, image/jpg" // Optionally restrict to image files
+          />
+
           {activeTab === "editProfile" && (
             <div className="p-6 flex flex-col items-center">
-              {" "}
-              {/* Added flex-col and items-center to center form fields */}
-             
               <form className="w-full max-w-[982px] ">
-                {" "}
-                {/* Constrain form width */}
                 <div className="mb-4">
                   <label
                     htmlFor="fullName"
@@ -102,7 +138,7 @@ export default function ProfilePage() {
                   <input
                     type="text"
                     id="fullName"
-                    className="shadow appearance-none rounded w-full h-[50px] py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  border border-[#C3C3C3] text-white" // Applied styles
+                    className="shadow appearance-none rounded w-full h-[50px] py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  border border-[#C3C3C3] text-white"
                     defaultValue="Lukas Wagner"
                   />
                 </div>
@@ -116,13 +152,11 @@ export default function ProfilePage() {
                   <input
                     type="email"
                     id="email"
-                    className="shadow appearance-none rounded w-full h-[50px] py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  border border-[#C3C3C3] text-white" // Applied styles
+                    className="shadow appearance-none rounded w-full h-[50px] py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  border border-[#C3C3C3] text-white"
                     defaultValue="lukas.wagner@example.com"
                   />
                 </div>
                 <div className="mb-4">
-                  {" "}
-                  {/* New Contact No field */}
                   <label
                     htmlFor="contactNo"
                     className="block text-[white ]text-sm font-bold mb-2"
@@ -130,10 +164,10 @@ export default function ProfilePage() {
                     Contact No
                   </label>
                   <input
-                    type="tel" // Use type="tel" for phone numbers
+                    type="tel"
                     id="contactNo"
-                    className="shadow appearance-none rounded w-full h-[50px] py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  border border-[#C3C3C3] text-white" // Applied styles
-                    defaultValue="+1234567890" // Example default value
+                    className="shadow appearance-none rounded w-full h-[50px] py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  border border-[#C3C3C3] text-white"
+                    defaultValue="+1234567890"
                   />
                 </div>
                 <div className="flex items-center justify-center mt-6">

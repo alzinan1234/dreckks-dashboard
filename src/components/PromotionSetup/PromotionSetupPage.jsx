@@ -20,7 +20,10 @@ import PromotionSetupModal from "./PromotionSetupModal";
 
 const PromotionSetupPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  
+  // State to control modal visibility
 
   // Dummy promotion data for demonstration
   const promotions = [
