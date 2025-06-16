@@ -136,7 +136,7 @@ export default function SubscriptionsPage() {
               </svg>
             </span>
             <span className="text-white font-medium text-[12px]">
-              Add New Trainer
+              Create Subscriptions 
             </span>
           </button>
         </div>

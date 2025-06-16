@@ -170,7 +170,7 @@ export default function BannerManagement() {
               </svg>
             </span>
             <span className="text-white font-medium text-[12px]">
-              Add New Trainer
+             Add New Banner
             </span>
           </button>
 

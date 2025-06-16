@@ -192,7 +192,7 @@ const SessionManagement = () => {
       <path d="M20.24 13.5L6.73999 13.5" stroke="#6A6A6A" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   </span>
-  <span className="text-white font-medium text-[12px]">Add New Trainer</span>
+  <span className="text-white font-medium text-[12px]">Add New Session</span>
 </button>
             <div className="flex items-center ">
               <div className="relative">
