@@ -5,47 +5,47 @@ import Image from "next/image";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
-// Assuming these icons are in your public/icon directory
-// and match the colors in the screenshot (green check, red cross, purple eye)
-// If you don't have these exact colored SVGs, you might need to use Heroicons
-// and apply specific text colors to them (e.g., <CheckCircleIcon className="h-6 w-6 text-[#71F50C]" />)
-// For now, I'll assume you have the colored SVGs as per your existing eye.svg usage.
-import checkIcon from "../../../public/icon/right.svg"; // Placeholder for green check (if it's a checkmark, update filename)
-import crossIcon from "../../../public/icon/trash.svg"; // Placeholder for red cross (if it's a cross, update filename)
-import eyeIcon from "../../../public/icon/eye.svg";     // Your existing eye icon
+// Assuming 'eye.svg' is in your public/icon directory
+
+ // Placeholder for red cross (if it's a cross, update filename)
+import eyeIcon from "../../../public/icon/eye.svg";  
 
 const dummyRows = [
   {
-    id: "NK-01",
-    name: "Mason Brooks", // Changed to match screenshot
-    email: "mason@gmail.com", // Changed to match screenshot
-    date: "2024-01-21", // This column is not displayed in the final table structure based on screenshot
-    userImage: "/image/userImage.png", // Added user image path
+    id: "reg-001",
+    name: "Robo Gladiators",
+    type: "Vendor",
+    subscriptionType: "Annual",
+    email: "robogladiators@gmail.com",
+    registrationDate: "March 15, 2024",
   },
   {
-    id: "NK-02",
-    name: "Alice Johnson",
-    email: "alice@email.com",
-    date: "2024-02-11",
-    userImage: "/image/userImage.png",
+    id: "reg-002",
+    name: "Robo Gladiators",
+    type: "Service Provider",
+    subscriptionType: "Annual",
+    email: "service@gmail.com",
+    registrationDate: "March 15, 2024",
   },
   {
-    id: "NK-03",
-    name: "Bob Smith",
-    email: "bob@email.com",
-    date: "2024-03-05",
-    userImage: "/image/userImage.png",
+    id: "reg-003",
+    name: "Robo Gladiators",
+    type: "Service Provider",
+    subscriptionType: "Annual",
+    email: "provider@gmail.com",
+    registrationDate: "March 15, 2024",
   },
   {
-    id: "NK-04",
-    name: "Charlie Brown",
-    email: "charlie@email.com",
-    date: "2024-04-15",
-    userImage: "/image/userImage.png",
+    id: "reg-004",
+    name: "Robo Gladiators",
+    type: "Vendor",
+    subscriptionType: "Annual",
+    email: "vendor@gmail.com",
+    registrationDate: "March 15, 2024",
   },
 ];
 
-export default function RegistrationTable() {
+export default function ManageRegistration() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredRows, setFilteredRows] = useState(dummyRows);
 
@@ -56,48 +56,44 @@ export default function RegistrationTable() {
 
     const newFilteredRows = dummyRows.filter(
       (row) =>
-        row.id.toLowerCase().includes(term) ||
         row.name.toLowerCase().includes(term) ||
-        row.email.toLowerCase().includes(term)
+        row.type.toLowerCase().includes(term) ||
+        row.subscriptionType.toLowerCase().includes(term) ||
+        row.email.toLowerCase().includes(term) ||
+        row.registrationDate.toLowerCase().includes(term)
     );
     setFilteredRows(newFilteredRows);
   };
 
   // Action handlers (placeholder functions)
-  const handleAccept = (rowId) => {
-    // In a real application, you would perform an API call here
-    // to update the registration status in your backend.
-    console.log(`Accepted: ${rowId}`);
-    // Example: update the local state to reflect the change, e.g., remove from table or change status
-    // For this dummy example, we just alert.
-    alert(`Accepted: ${rowId}`);
-  };
-
-  const handleReject = (rowId) => {
-    // In a real application, you would perform an API call here
-    console.log(`Rejected: ${rowId}`);
-    alert(`Rejected: ${rowId}`);
-  };
-
   const handleView = (rowId) => {
-    // In a real application, you would navigate to a detailed view
-    // or open a modal with more information.
-    console.log(`Viewing details for: ${rowId}`);
     alert(`Viewing details for: ${rowId}`);
+    // Implement navigation or modal display logic here
+  };
+
+  const handleDelete = (rowId) => {
+    if (confirm(`Are you sure you want to delete ${rowId}?`)) {
+      alert(`Deleting: ${rowId}`);
+      // Implement actual deletion logic, e.g., update state or call API
+      setFilteredRows((prevRows) => prevRows.filter((row) => row.id !== rowId));
+    }
+  };
+
+  const handleEdit = (rowId) => {
+    alert(`Editing: ${rowId}`);
+    // Implement edit form/modal logic here
   };
 
   const handleFilterClick = () => {
-    // This function would typically open a modal or show a dropdown
-    // for more advanced filtering options.
-    console.log("Filter button clicked!");
     alert("Filter button clicked! (Implement your filter modal/logic here)");
+    // This button could open a modal for advanced filtering,
+    // or apply predefined filters based on application needs.
   };
 
   return (
-    <div className="bg-[#343434] p-4 rounded-lg shadow-lg text-white">
-      {/* Header section with title and search/filter */}
+    <div className="bg-[#343434] p-4 rounded-lg shadow-lg">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-[20px] font-semibold">
+        <h2 className="text-[20px] font-semibold text-white">
           Manage Registrations
         </h2>
 
@@ -108,7 +104,7 @@ export default function RegistrationTable() {
             <input
               type="text"
               placeholder="Search"
-              className="pl-10 pr-4 py-2 bg-[#F3FAFA1A] rounded-tl-[7.04px] rounded-bl-[7.04px] border-[1px] border-[#0000001A] text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-white"
+              className="pl-10 pr-4 py-2 bg-[#F3FAFA1A] rounded-tl-[7.04px] rounded-bl-[7.04px] border-[1px] border-[#0000001A] text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
               value={searchTerm}
               onChange={handleSearchChange}
             />
@@ -116,10 +112,8 @@ export default function RegistrationTable() {
 
           <button
             onClick={handleFilterClick}
-            className="hover:bg-gray-700 transition-colors bg-[#2A2A2A] p-[5px] rounded-tr-[7.04px] rounded-br-[7.04px]"
-            aria-label="Filter" // Added aria-label for accessibility
+            className="hover:bg-gray-700 transition-colors bg-[#2A2A2A] p-[5px] rounded-tr-[7.04px] rounded-br-[7.04px]" // Added rounded corners for the button
           >
-            {/* Filter SVG icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -163,101 +157,68 @@ export default function RegistrationTable() {
           </button>
         </div>
       </div>
-
-      {/* Table container with overflow for responsiveness */}
+      {/* Info row before table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-sm"> {/* Removed text-left for global centering on cells */}
+        <table className="w-full text-left text-sm">
           <thead>
-            <tr className="bg-[#1A5B64]"> {/* Table header row */}
-              {/* Table header cells, all centered */}
-              <th className="py-3 px-4 font-normal text-[14px] text-center">
-                Name
-              </th>
-              <th className="py-3 px-4 font-normal text-[14px] text-center">
-                Email
-              </th>
-              <th className="py-3 px-4 font-normal text-[14px] text-center">
-                Action
-              </th>
+            <tr className="text-white bg-[#00C1C980] border-b border-gray-700 ">
+              <th className="py-2 font-[700] text-[14px] text-center">Name</th>
+              <th className="text-center">Type</th>
+              <th className="text-center">Subscription Type</th>
+              <th className="text-center">Email</th>
+              <th className="text-center">Registration Date</th>
+              <th className="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             {filteredRows.length > 0 ? (
               filteredRows.map((row) => (
-                <tr key={row.id} className="border-b border-[#FFFFFF1A] last:border-b-0">
-                  {/* Name cell: Uses flex to align image and text, then justify-center to center content */}
-                  <td className="py-2 px-4 flex items-center justify-center">
-                    <div className="flex items-center gap-2"> {/* Keeps image and text together */}
-                      <Image
-                        src={row.userImage}
-                        alt={row.name}
-                        width={24} // Adjusted size for the user image as per screenshot
-                        height={24}
-                        className="rounded-full"
-                      />
-                      <span>{row.name}</span>
-                    </div>
+                <tr key={row.id} className="border-b border-gray-700 text-white">
+                  <td className="py-2 text-center">{row.name}</td>
+                  <td className="text-center">
+                    <span className={row.type === "Vendor" ? "text-[#FF4D00]" : "text-[#4976F4]"}>
+                      {row.type}
+                    </span>
                   </td>
-                  {/* Email cell: Text content centered directly */}
-                  <td className="py-2 px-4 text-center">{row.email}</td>
-                  {/* Action cell: Flex container with justify-center to center action buttons */}
+                  <td className="text-center">{row.subscriptionType}</td>
+                  <td className="text-center">{row.email}</td>
+                  <td className="text-center">{row.registrationDate}</td>
                   <td className="py-2">
                     <div className="flex items-center justify-center gap-2">
-                      {/* Accept Icon Button */}
-                      <button
-                        onClick={() => handleAccept(row.id)}
-                        className="p-1 rounded-full bg-[#0000001A]  transition-colors group"
-                        aria-label="Accept Registration"
-                      >
-                        {/* Image for checkmark icon (ensure it's correctly placed and named in public/icon) */}
-                        <Image
-                          src={checkIcon} // This should point to a checkmark SVG, not right.svg based on typical UIs
-                          alt="Accept"
-                          width={25}
-                          height={25}
-                          className="group-hover:filter group-hover:brightness-0 group-hover:invert" // For hover effect
-                        />
-                      </button>
-
-                      {/* Reject Icon Button */}
-                      <button
-                        onClick={() => handleReject(row.id)}
-                        className="p-1 rounded-full bg-[#0000001A]  transition-colors group"
-                        aria-label="Reject Registration"
-                      >
-                        {/* Image for cross icon (ensure it's correctly placed and named in public/icon) */}
-                        <Image
-                          src={crossIcon} // This should point to a cross/X SVG, not trash.svg based on typical UIs
-                          alt="Reject"
-                          width={25}
-                          height={25}
-                          className="group-hover:filter group-hover:brightness-0 group-hover:invert" // For hover effect
-                        />
-                      </button>
-
-                      {/* View Icon Button */}
-                      <button
+                      {/* Right Arrow Icon (for Edit functionality) */}
+                      <Image
+                        className="cursor-pointer"
+                        src="/icon/right.svg" // Assuming this is your edit icon
+                        alt="Edit"
+                        width={26}
+                        height={26}
+                        onClick={() => handleEdit(row.id)}
+                      />
+                      {/* Trash Icon (for Delete functionality) */}
+                      <Image
+                        className="cursor-pointer"
+                        src="/icon/trash.svg"
+                        alt="Delete"
+                        width={26}
+                        height={26}
+                        onClick={() => handleDelete(row.id)}
+                      />
+                      {/* Eye Icon (for View functionality) */}
+                      <Image
+                        className="cursor-pointer"
+                        src={eyeIcon}
+                        alt="View"
+                        width={26}
+                        height={26}
                         onClick={() => handleView(row.id)}
-                        className="p-1 rounded-full bg-[#0000001A]  transition-colors group"
-                        aria-label="View Details"
-                      >
-                        {/* Image for eye icon (ensure it's correctly placed and named in public/icon) */}
-                        <Image
-                          src={eyeIcon}
-                          alt="View"
-                          width={25}
-                          height={25}
-                          className="group-hover:filter group-hover:brightness-0 group-hover:invert" // For hover effect
-                        />
-                      </button>
+                      />
                     </div>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                {/* Message when no registrations are found, spanning all 3 columns */}
-                <td colSpan="3" className="text-center py-4 text-gray-400">
+                <td colSpan="6" className="text-center py-4 text-gray-400">
                   No matching registrations found.
                 </td>
               </tr>

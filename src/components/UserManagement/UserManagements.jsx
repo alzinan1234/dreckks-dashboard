@@ -33,7 +33,7 @@ function AddJobTitleModal({ onClose, onSave, initialJobTitle = '' }) {
           <button onClick={onClose} className="text-[#00C1C9] bg-[#00C1C91A] rounded p-[10px] rounded-full hover:text-gray-300 transition-colors">
             <ArrowLeft size={24} />
           </button>
-          <h2 className="text-xl font-semibold text-white">{initialJobTitle ? 'Edit Job Title' : 'Add Job Title'}</h2>
+          <h2 className="text-xl font-semibold text-white">{initialJobTitle ? 'Edit Job Title' : 'Add Designation'}</h2>
         </div>
 
         {/* Form */}
@@ -109,13 +109,13 @@ function ServiceProviderJobTitlesModal({ onClose }) {
               <button onClick={onClose} className="text-[#00C1C9] bg-[#00C1C91A] rounded-full p-[10px] hover:text-gray-300 transition-colors">
                 <ArrowLeft size={24} />
               </button>
-              <h2 className="text-xl font-semibold text-white">Service Provider Job Titles</h2>
+              <h2 className="text-[16px] font-semibold text-white">Service provider Designations</h2>
             </div>
             <button
               onClick={() => { setEditingJobTitle(null); setShowAddJobTitleModal(true); }}
               className="flex items-center gap-1 border border-[#00C1C9] text-[12px] font-normal px-4 py-1 rounded-full bg-[#00C1C91A] text-white hover:bg-teal-900 transition-colors"
             >
-              <Plus size={16} /> Add job titles
+              <Plus size={16} /> Add Designations
             </button>
           </div>
 

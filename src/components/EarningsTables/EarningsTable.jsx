@@ -1,3 +1,4 @@
+// components/EarningsTable.js
 "use client";
 
 import { useState, useEffect } from "react";
@@ -9,40 +10,40 @@ import TransactionDetailsModal from "./TransactionDetailsModal"; // Import the n
 // Dummy data for weekly and monthly
 const dummyWeeklyData = Array.from({ length: 90 }).map((_, i) => ({
   serial: `INV093${i}`,
-  user: "Nothing Studio",
-  subscription: "Weekly Subscription",
-  amount: "$50",
-  accNumber: `**** **** *45${i % 10}`,
-  date: `Aug. ${15 + (i % 10)}, 2023 02:29 PM`,
+  userName: "Nothing Studio", // Changed from 'user' to 'userName'
+  userType: "Service provider", // New field for User Type
+  subscriptionType: "Annual Fee", // Changed from 'subscription' to 'subscriptionType'
+  amount: 50, // Stored as a number
+  accNumber: `4548465446`, // Consistent Account Number
+  date: `Aug. 15, 2023 02:29 PM`, // Consistent Date format
   fullName: "Jane Cooper",
   email: "abc@example.com",
   phone: "(319) 555-0115",
   transactionID: `TXN${100000 + i}`,
   accHolderName: "Wade Warren",
-  receivedAmount: 500,
-  detectPercentage: 100,
-  finalAmount: 400,
-  // Add a user image path to the dummy data
-  userImagePath: "/image/user-photo.png",
+  receivedAmount: 50, // Matches amount, assuming no additional calculations needed here for the modal.
+  detectPercentage: 10, // Example value
+  finalAmount: 45, // Example value (amount - percentage)
+  userImagePath: "/image/user-photo.png", // Assuming this path is correct
 }));
 
 const dummyMonthlyData = Array.from({ length: 75 }).map((_, i) => ({
   serial: `INV094${i}`,
-  user: "Design Co.",
-  subscription: "Annual Fee",
-  amount: "$150",
-  accNumber: `**** **** *78${i % 10}`,
-  date: `Sep. ${1 + (i % 10)}, 2023 10:00 AM`,
+  userName: "Design Co.",
+  userType: "Agency", // Example User Type for monthly
+  subscriptionType: "Monthly Subscription", // Example Subscription Type for monthly
+  amount: 150, // Stored as a number
+  accNumber: `987654321${i % 10}`,
+  date: `Sep. 01, 2023 10:00 AM`,
   fullName: "John Doe",
   email: "john.doe@example.com",
   phone: "(123) 456-7890",
   transactionID: `TXN${200000 + i}`,
   accHolderName: "Alice Smith",
-  receivedAmount: 1500,
-  detectPercentage: 300,
-  finalAmount: 1200,
-  // Add a user image path to the dummy data
-  userImagePath: "/image/user-photo.png",
+  receivedAmount: 150,
+  detectPercentage: 15,
+  finalAmount: 127.5,
+  userImagePath: "/image/user-photo.png", // Assuming this path is correct
 }));
 
 
@@ -70,10 +71,14 @@ export default function EarningsTable() {
 
 
   const filteredData = data.filter((item) =>
-    item.user.toLowerCase().includes(search.toLowerCase()) ||
+    item.userName.toLowerCase().includes(search.toLowerCase()) ||
+    item.userType.toLowerCase().includes(search.toLowerCase()) || // Include userType in search
     item.serial.toLowerCase().includes(search.toLowerCase()) ||
-    item.subscription.toLowerCase().includes(search.toLowerCase())
+    item.subscriptionType.toLowerCase().includes(search.toLowerCase()) || // Use subscriptionType
+    item.accNumber.toLowerCase().includes(search.toLowerCase()) || // Include accNumber in search
+    item.date.toLowerCase().includes(search.toLowerCase()) // Include date in search
   );
+
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const paginatedData = filteredData.slice(
@@ -207,7 +212,8 @@ export default function EarningsTable() {
             <thead>
               <tr className="bg-[#17787C] text-white text-center">
                 <th className="py-2 px-4">Serial</th>
-                <th className="py-2 px-4">User</th>
+                <th className="py-2 px-4">Name</th> {/* Changed from User to Name */}
+                <th className="py-2 px-4">User Type</th> {/* New header */}
                 <th className="py-2 px-4">Subscription Type</th>
                 <th className="py-2 px-4">Amount</th>
                 <th className="py-2 px-4">Acc Number</th>
@@ -230,10 +236,13 @@ export default function EarningsTable() {
                       height={24}
                       className="rounded-full"
                     />
-                    {item.user}
+                    {item.userName} {/* Use userName */}
                   </td>
-                  <td className="py-2 px-4">{item.subscription}</td>
-                  <td className="py-2 px-4">{item.amount}</td>
+                  <td className="py-2 px-4">
+                    <span className="text-[#4CB2E2]">{item.userType}</span> {/* Display userType with color */}
+                  </td>
+                  <td className="py-2 px-4">{item.subscriptionType}</td>
+                  <td className="py-2 px-4">${item.amount}</td> {/* Prepend $ */}
                   <td className="py-2 px-4">{item.accNumber}</td>
                   <td className="py-2 px-4">{item.date}</td>
                   <td className="py-2 px-4">
@@ -262,7 +271,7 @@ export default function EarningsTable() {
           className="w-8 h-8 flex items-center border rounded-full justify-center p-[10px] hover:bg-[#1f1f1f] disabled:opacity-50 disabled:cursor-not-allowed"
         >
         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
-  <path d="M6.99995 13C6.99995 13 1.00001 8.58107 0.999999 6.99995C0.999986 5.41884 7 1 7 1" stroke="#E2E2E2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M6.99995 13C6.99995 13 1.00001 8.58107 0.999999 6.99995C0.999986 5.41884 7 1 7 1" stroke="#E2E2E2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 </svg>
         </button>
         {Array.from({ length: totalPages }).map((_, index) => {
@@ -301,20 +310,20 @@ export default function EarningsTable() {
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="w-8 h-8 flex items-center border rounded-full  justify-center  hover:bg-[#1f1f1f] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-8 h-8 flex items-center border rounded-full  justify-center  hover:bg-[#1f1f1f] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
-  <path d="M1.00005 1C1.00005 1 6.99999 5.41893 7 7.00005C7.00001 8.58116 1 13 1 13" stroke="#C8C8C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M1.00005 1C1.00005 1 6.99999 5.41893 7 7.00005C7.00001 8.58116 1 13 1 13" stroke="#C8C8C8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 </svg>
         </button>
       </div>
 
       {/* Transaction Details Modal */}
-      <TransactionDetailsModal
+      {/* <TransactionDetailsModal
         isOpen={isModalOpen}
         onClose={closeTransactionDetails}
         transaction={selectedTransaction}
-      />
+      /> */}
     </>
   );
 }

@@ -10,28 +10,36 @@ import eye from "../../public/icon/eye.svg";
 
 const dummyRows = [
   {
-    id: "NK-01",
-    name: "Alice Johnson",
-    email: "alice@email.com",
-    date: "2024-01-21",
+    id: "reg-001",
+    name: "Robo Gladiators",
+    type: "Vendor",
+    subscriptionType: "Annual",
+    email: "robogladiators@gmail.com",
+    registrationDate: "March 15, 2024",
   },
   {
-    id: "NK-02",
-    name: "Bob Smith",
-    email: "bob@email.com",
-    date: "2024-02-11",
+    id: "reg-002",
+    name: "Robo Gladiators",
+    type: "Service Provider",
+    subscriptionType: "Annual",
+    email: "service@gmail.com",
+    registrationDate: "March 15, 2024",
   },
   {
-    id: "NK-03",
-    name: "Charlie Brown",
-    email: "zinan@gmail.com",
-    date: "2024-03-05",
+    id: "reg-003",
+    name: "Robo Gladiators",
+    type: "Service Provider",
+    subscriptionType: "Annual",
+    email: "provider@gmail.com",
+    registrationDate: "March 15, 2024",
   },
   {
-    id: "NK-04",
-    name: "Diana Prince",
-    email: "fuad@gmai.com",
-    date: "2024-04-15",
+    id: "reg-004",
+    name: "Robo Gladiators",
+    type: "Vendor",
+    subscriptionType: "Annual",
+    email: "vendor@gmail.com",
+    registrationDate: "March 15, 2024",
   },
 ];
 
@@ -46,9 +54,11 @@ export default function RegistrationTable() {
 
     const newFilteredRows = dummyRows.filter(
       (row) =>
-        row.id.toLowerCase().includes(term) ||
         row.name.toLowerCase().includes(term) ||
-        row.email.toLowerCase().includes(term)
+        row.type.toLowerCase().includes(term) ||
+        row.subscriptionType.toLowerCase().includes(term) ||
+        row.email.toLowerCase().includes(term) ||
+        row.registrationDate.toLowerCase().includes(term)
     );
     setFilteredRows(newFilteredRows);
   };
@@ -63,7 +73,7 @@ export default function RegistrationTable() {
     if (confirm(`Are you sure you want to delete ${rowId}?`)) {
       alert(`Deleting: ${rowId}`);
       // Implement actual deletion logic, e.g., update state or call API
-      setFilteredRows(prevRows => prevRows.filter(row => row.id !== rowId));
+      setFilteredRows((prevRows) => prevRows.filter((row) => row.id !== rowId));
     }
   };
 
@@ -150,12 +160,11 @@ export default function RegistrationTable() {
         <table className="w-full text-left text-sm">
           <thead>
             <tr className="text-white bg-[#00C1C980] border-b border-gray-700 ">
-              <th className="py-2 font-[700] text-[14px] text-center">
-                Membership ID
-              </th>
-              <th className="text-center">Name</th>
+              <th className="py-2 font-[700] text-[14px] text-center">Name</th>
+              <th className="text-center">Type</th>
+              <th className="text-center">Subscription Type</th>
               <th className="text-center">Email</th>
-              <th className="text-center">Date</th>
+              <th className="text-center">Registration Date</th>
               <th className="text-center">Action</th>
             </tr>
           </thead>
@@ -163,10 +172,15 @@ export default function RegistrationTable() {
             {filteredRows.length > 0 ? (
               filteredRows.map((row) => (
                 <tr key={row.id} className="border-b border-gray-700 text-white">
-                  <td className="py-2 text-center">{row.id}</td>
-                  <td className="text-center">{row.name}</td>
+                  <td className="py-2 text-center">{row.name}</td>
+                  <td className="text-center">
+                    <span className={row.type === "Vendor" ? "text-[#FF4D00]" : "text-[#4976F4]"}>
+                      {row.type}
+                    </span>
+                  </td>
+                  <td className="text-center">{row.subscriptionType}</td>
                   <td className="text-center">{row.email}</td>
-                  <td className="text-center">{row.date}</td>
+                  <td className="text-center">{row.registrationDate}</td>
                   <td className="py-2">
                     <div className="flex items-center justify-center gap-2">
                       {/* Right Arrow Icon (for Edit functionality) */}
@@ -202,7 +216,7 @@ export default function RegistrationTable() {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center py-4 text-gray-400">
+                <td colSpan="6" className="text-center py-4 text-gray-400">
                   No matching registrations found.
                 </td>
               </tr>

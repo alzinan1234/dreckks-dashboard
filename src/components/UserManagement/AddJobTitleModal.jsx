@@ -22,7 +22,7 @@ export default function AddJobTitleModal({ onClose, onSave }) {
           <button onClick={onClose} className="text-[#00C1C9] bg-[#00C1C91A] rounded-full transition-colors">
             <ArrowLeft size={24} />
           </button>
-          <h2 className="text-xl font-semibold text-white">Add Job Title</h2>
+          <h2 className="text-xl font-semibold text-white">Add Designations</h2>
         </div>
 
         {/* Form */}
