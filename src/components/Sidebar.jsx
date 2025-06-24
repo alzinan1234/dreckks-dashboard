@@ -2,9 +2,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
 import {
   LayoutDashboard, FileText, Wallet, Users, Megaphone, Network,
   Dumbbell, CreditCard, HelpCircle, Bell, Settings, LogOut, Image as ImageIcon,
+  BanknoteArrowDown,
 } from 'lucide-react';
 import Image from 'next/image';
 import dreckks from '../../public/dreckks-logo.png';
@@ -20,6 +22,7 @@ const navItems = [
   { name: 'Banner Approval', href: '/admin/banner-approval', icon: ImageIcon },
   { name: 'Subscriptions', href: '/admin/subscriptions', icon: CreditCard },
   { name: 'Support', href: '/admin/support', icon: HelpCircle },
+  { name: 'Withdrawal Requests', href: '/admin/withdrawal-requests', icon: BanknoteArrowDown },
   { name: 'Notifications', href: '/admin/notifications', icon: Bell },
   { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];

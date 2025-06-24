@@ -50,38 +50,8 @@ const SupportDetailsModal = ({ isOpen, onClose, ticket }) => {
           </p>
           {/* Action icons below avatar in details page */}
           <div className="flex space-x-3 mt-4">
-            <button className="p-2 px-3 rounded-full bg-[#4BB54B1A] text-[#4BB54B] border  flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m4.5 12.75 6 6 9-13.5"
-                />
-              </svg>
-            </button>
-            <button className="p-2 px-3 rounded-full border border-[#FF0000] text-[#FF0000]  flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18 18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+          
+          
             <button className="p-2  rounded-full bg-[#F4B5491A] border border-[#F4B549] text-white flex items-center justify-center">
                  <Image  src="/icon/Union.svg" alt="Elements Icon" width={24} height={24} />
             </button>

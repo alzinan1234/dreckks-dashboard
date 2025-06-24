@@ -1,45 +1,42 @@
 // components/SupportTable.js
 'use client';
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react'; // Import useCallback
-import { getAllTickets, getTicketById, updateTicketStatus, deleteTicket } from '../lib/Support'; // Import updated data functions
-import SupportDetailsModal from './SupportDetailsModal'; // Import the modal component
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'; // For search icon
-import { EyeIcon } from '@heroicons/react/24/solid'; // For the view icon
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { getAllTickets, getTicketById } from '../lib/Support'; // Removed updateTicketStatus, deleteTicket
+import SupportDetailsModal from './SupportDetailsModal';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { EyeIcon } from '@heroicons/react/24/solid'; // Still needed for the view icon
 import Image from 'next/image';
 
-const ITEMS_PER_PAGE = 10; // Number of rows per page
-const PAGE_RANGE = 2; // Number of pages to show around the current page (e.g., if current is 5, shows 3,4,5,6,7)
+const ITEMS_PER_PAGE = 10;
+const PAGE_RANGE = 2;
 
 const SupportTable = () => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [allTickets, setAllTickets] = useState([]); // Store all tickets, filtered by search
-    const [displayedTickets, setDisplayedTickets] = useState([]); // Store tickets for current page
+    const [allTickets, setAllTickets] = useState([]);
+    const [displayedTickets, setDisplayedTickets] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTicket, setSelectedTicket] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [refreshTrigger, setRefreshTrigger] = useState(0); // State to trigger data re-fetch
 
-    // Fetch all tickets and filter them based on search term
     useEffect(() => {
-        const fetchedTickets = getAllTickets(); // Get all tickets from mock data
+        const fetchedTickets = getAllTickets();
         const filtered = fetchedTickets.filter(ticket =>
             ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             ticket.submittedBy.toLowerCase().includes(searchTerm.toLowerCase()) ||
             ticket.id.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setAllTickets(filtered);
-        setCurrentPage(1); // Reset to first page on search or full data refresh
-    }, [searchTerm, refreshTrigger]); // Re-run when search term changes or data needs refresh
+        setCurrentPage(1);
+    }, [searchTerm, refreshTrigger]);
 
-    // Update displayed tickets based on current page and filtered 'allTickets'
     useEffect(() => {
         const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
         const endIndex = startIndex + ITEMS_PER_PAGE;
         setDisplayedTickets(allTickets.slice(startIndex, endIndex));
-    }, [currentPage, allTickets]); // Re-run when current page or filtered tickets change
+    }, [currentPage, allTickets]);
 
-    // Calculate total pages based on currently filtered tickets (allTickets)
     const totalPages = Math.ceil(allTickets.length / ITEMS_PER_PAGE);
 
     const handlePageChange = (page) => {
@@ -49,7 +46,7 @@ const SupportTable = () => {
     };
 
     const openDetailsModal = (ticketId) => {
-        const ticket = getTicketById(ticketId); // Fetch the full ticket data
+        const ticket = getTicketById(ticketId);
         setSelectedTicket(ticket);
         setIsModalOpen(true);
     };
@@ -57,30 +54,10 @@ const SupportTable = () => {
     const closeDetailsModal = () => {
         setIsModalOpen(false);
         setSelectedTicket(null);
-        // Refresh table data after modal close, in case a change was made in modal
         setRefreshTrigger(prev => prev + 1);
     };
 
-    // New: Handle Resolve Ticket
-    const handleResolveTicket = useCallback((ticketId) => {
-        const success = updateTicketStatus(ticketId, 'Resolved');
-        if (success) {
-            setRefreshTrigger(prev => prev + 1); // Trigger re-fetch
-            console.log(`Ticket ${ticketId} resolved.`);
-        }
-    }, []);
-
-    // New: Handle Delete Ticket
-    const handleDeleteTicket = useCallback((ticketId) => {
-        if (window.confirm(`Are you sure you want to delete ticket ${ticketId}?`)) {
-            const success = deleteTicket(ticketId);
-            if (success) {
-                setRefreshTrigger(prev => prev + 1); // Trigger re-fetch
-                console.log(`Ticket ${ticketId} deleted.`);
-            }
-        }
-    }, []);
-
+    // Removed handleResolveTicket and handleDeleteTicket as per request
 
     const getStatusClasses = (status) => {
         switch (status) {
@@ -95,12 +72,11 @@ const SupportTable = () => {
         }
     };
 
-    // Memoize the page numbers calculation for performance
     const pageNumbers = useMemo(() => {
         const pages = [];
-        const maxPageButtons = (PAGE_RANGE * 2) + 1; // e.g., for PAGE_RANGE=2, this means 5 visible page numbers
+        const maxPageButtons = (PAGE_RANGE * 2) + 1;
 
-        if (totalPages <= maxPageButtons + 2) { // If total pages are few enough to show all + first/last
+        if (totalPages <= maxPageButtons + 2) {
             for (let i = 1; i <= totalPages; i++) {
                 pages.push(i);
             }
@@ -108,20 +84,16 @@ const SupportTable = () => {
             const leftBound = Math.max(1, currentPage - PAGE_RANGE);
             const rightBound = Math.min(totalPages, currentPage + PAGE_RANGE);
 
-            // Add first page
             if (currentPage > PAGE_RANGE + 1 && totalPages > maxPageButtons + 2) {
                 pages.push(1);
             }
 
-
-            // Add left ellipsis
             if (leftBound > 2) {
                 pages.push('...');
             }
 
-            // Add pages around current page
             for (let i = leftBound; i <= rightBound; i++) {
-                if (i !== 1 || pages.includes(1)) { // Only add 1 if it's within the range AND not already added
+                if (i !== 1 || pages.includes(1)) {
                     if (i === totalPages && pages.includes(totalPages)) {
                         // Skip if totalPages is already added
                     } else {
@@ -130,21 +102,16 @@ const SupportTable = () => {
                 }
             }
 
-
-            // Add right ellipsis
             if (rightBound < totalPages - 1) {
                 pages.push('...');
             }
 
-            // Add last page (only if not the same as the first page or already added)
             if (totalPages !== 1 && !pages.includes(totalPages)) {
                 pages.push(totalPages);
             }
         }
-        // Remove duplicates that might occur if PAGE_RANGE overlaps with 1 or totalPages
         return [...new Set(pages)];
     }, [currentPage, totalPages]);
-
 
     return (
         <>
@@ -242,7 +209,14 @@ const SupportTable = () => {
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-white text-center">
                                             <div className="flex items-center justify-center">
                                                 <div className="flex-shrink-0 h-8 w-8 rounded-full overflow-hidden border border-[#404040]">
-                                                    <img className="h-full w-full object-cover" src={ticket.avatar} alt="User Avatar" />
+                                                    {/* Using Image component from next/image for optimized images */}
+                                                    <Image 
+                                                        src={ticket.avatar} 
+                                                        alt="User Avatar" 
+                                                        width={32} 
+                                                        height={32} 
+                                                        className="h-full w-full object-cover" 
+                                                    />
                                                 </div>
                                                 <div className="ml-3">
                                                     <div className="text-sm font-medium text-white">{ticket.submittedBy}</div>
@@ -262,24 +236,7 @@ const SupportTable = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
                                             <div className="flex justify-center space-x-2">
-                                                <button
-                                                    onClick={() => handleResolveTicket(ticket.id)}
-                                                    className="text-green-500 border cursor-pointer bg-[#4BB54B1A] hover:text-green-700 p-2 rounded-full hover:bg-green-900 transition-colors duration-200"
-                                                    aria-label="Resolve ticket"
-                                                >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                                                    </svg>
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDeleteTicket(ticket.id)}
-                                                    className="text-[#FF0000] hover:text-red-700 cursor-pointer p-2 rounded-full border hover:bg-red-900 transition-colors duration-200"
-                                                    aria-label="Delete ticket"
-                                                >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                                                    </svg>
-                                                </button>
+                                                {/* Only the View Details button remains */}
                                                 <button
                                                     onClick={() => openDetailsModal(ticket.id)}
                                                     className="text-[#9900FF] cursor-pointer border hover:text-[#b377ff] p-2 rounded-full hover:bg-purple-900 transition-colors duration-200"
@@ -311,43 +268,45 @@ const SupportTable = () => {
             </div>
 
             {/* Pagination */}
-            <div className="flex justify-end items-center mt-8 space-x-2">
-                <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="p-2 rounded-full bg-[#262626] border border-[#404040] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#404040] transition-colors duration-200"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                    </svg>
-                </button>
+            {totalPages > 1 && (
+                <div className="flex justify-end items-center mt-8 space-x-2">
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="p-2 rounded-full bg-[#262626] border border-[#404040] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#404040] transition-colors duration-200"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
 
-                {pageNumbers.map((page, index) => (
-                    page === '...' ? (
-                        <span key={`ellipsis-${index}`} className="px-4 py-2 text-white">...</span>
-                    ) : (
-                        <button
-                            key={page}
-                            onClick={() => handlePageChange(page)}
-                            className={`px-4 py-2 rounded ${
-                                currentPage === page ? 'bg-[#21F6FF] text-black' : 'text-white hover:bg-[#404040]'
-                            } transition-colors duration-200`}
-                        >
-                            {page}
-                        </button>
-                    )
-                ))}
+                    {pageNumbers.map((page, index) => (
+                        page === '...' ? (
+                            <span key={`ellipsis-${index}`} className="px-4 py-2 text-white">...</span>
+                        ) : (
+                            <button
+                                key={page}
+                                onClick={() => handlePageChange(page)}
+                                className={`px-4 py-2 rounded ${
+                                    currentPage === page ? 'bg-[#21F6FF] text-black' : 'text-white hover:bg-[#404040]'
+                                } transition-colors duration-200`}
+                            >
+                                {page}
+                            </button>
+                        )
+                    ))}
 
-                <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="p-2 rounded-full bg-[#262626] border border-[#404040] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#404040] transition-colors duration-200"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5 15.75 12l-7.5 7.5" />
-                    </svg>
-                </button>
-            </div>
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="p-2 rounded-full bg-[#262626] border border-[#404040] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#404040] transition-colors duration-200"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5 15.75 12l-7.5 7.5" />
+                        </svg>
+                    </button>
+                </div>
+            )}
         </>
     );
 };
