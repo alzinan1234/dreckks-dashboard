@@ -11,3 +11,6 @@ const Earning = () => {
 }
 
 export default Earning
+
+
+

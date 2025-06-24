@@ -17,7 +17,7 @@ const navItems = [
   { name: 'User Management', href: '/admin/user-management', icon: Users },
   { name: 'Promotion Approval', href: '/admin/promotion-approval', icon: Megaphone },
  
-  { name: 'Banner Approval', href: '/admin/banner-management', icon: ImageIcon },
+  { name: 'Banner Approval', href: '/admin/banner-approval', icon: ImageIcon },
   { name: 'Subscriptions', href: '/admin/subscriptions', icon: CreditCard },
   { name: 'Support', href: '/admin/support', icon: HelpCircle },
   { name: 'Notifications', href: '/admin/notifications', icon: Bell },
