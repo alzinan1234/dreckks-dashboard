@@ -16,8 +16,7 @@ const navItems = [
   { name: 'Earning', href: '/admin/earning', icon: Wallet },
   { name: 'User Management', href: '/admin/user-management', icon: Users },
   { name: 'Promotion Approval', href: '/admin/promotion-approval', icon: Megaphone },
-  { name: 'Session Management', href: '/admin/session-management', icon: Network },
-  { name: 'Trainer Management', href: '/admin/trainer-management', icon: Dumbbell },
+ 
   { name: 'Banner Approval', href: '/admin/banner-management', icon: ImageIcon },
   { name: 'Subscriptions', href: '/admin/subscriptions', icon: CreditCard },
   { name: 'Support', href: '/admin/support', icon: HelpCircle },
