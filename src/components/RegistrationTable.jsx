@@ -4,9 +4,10 @@
 import Image from "next/image";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 // Assuming 'eye.svg' is in your public/icon directory
-import eye from "../../public/icon/eye.svg";
+import eyeIcon from "../../public/icon/eye.svg";
 
 const dummyRows = [
   {
@@ -16,6 +17,7 @@ const dummyRows = [
     subscriptionType: "Annual",
     email: "robogladiators@gmail.com",
     registrationDate: "March 15, 2024",
+    details: "Detailed information for Robo Gladiators (Vendor) - reg-001.",
   },
   {
     id: "reg-002",
@@ -24,6 +26,7 @@ const dummyRows = [
     subscriptionType: "Annual",
     email: "service@gmail.com",
     registrationDate: "March 15, 2024",
+    details: "Detailed information for Robo Gladiators (Service Provider) - reg-002.",
   },
   {
     id: "reg-003",
@@ -32,6 +35,7 @@ const dummyRows = [
     subscriptionType: "Annual",
     email: "provider@gmail.com",
     registrationDate: "March 15, 2024",
+    details: "Detailed information for Robo Gladiators (Service Provider) - reg-003.",
   },
   {
     id: "reg-004",
@@ -40,12 +44,14 @@ const dummyRows = [
     subscriptionType: "Annual",
     email: "vendor@gmail.com",
     registrationDate: "March 15, 2024",
+    details: "Detailed information for Robo Gladiators (Vendor) - reg-004.",
   },
 ];
 
-export default function RegistrationTable() {
+export default function ManageRegistration() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredRows, setFilteredRows] = useState(dummyRows);
+  const router = useRouter(); // Initialize useRouter
 
   // Function to handle search input changes
   const handleSearchChange = (e) => {
@@ -63,10 +69,9 @@ export default function RegistrationTable() {
     setFilteredRows(newFilteredRows);
   };
 
-  // Action handlers (placeholder functions)
+  // Action handlers
   const handleView = (rowId) => {
-    alert(`Viewing details for: ${rowId}`);
-    // Implement navigation or modal display logic here
+    router.push(`/admin/manage-registrations/${rowId}`); // Navigate to the dynamic details page
   };
 
   const handleDelete = (rowId) => {
@@ -204,11 +209,11 @@ export default function RegistrationTable() {
                       {/* Eye Icon (for View functionality) */}
                       <Image
                         className="cursor-pointer"
-                        src={eye}
+                        src={eyeIcon}
                         alt="View"
                         width={26}
                         height={26}
-                        onClick={() => handleView(row.id)}
+                        onClick={() => handleView(row.id)} // Changed to use the new handleView
                       />
                     </div>
                   </td>

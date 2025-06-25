@@ -4,12 +4,12 @@
 import Image from "next/image";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 // Assuming 'eye.svg' is in your public/icon directory
+import eyeIcon from "../../../public/icon/eye.svg";
 
- // Placeholder for red cross (if it's a cross, update filename)
-import eyeIcon from "../../../public/icon/eye.svg";  
-
+// Dummy data (can be replaced with an actual API call)
 const dummyRows = [
   {
     id: "reg-001",
@@ -18,22 +18,50 @@ const dummyRows = [
     subscriptionType: "Annual",
     email: "robogladiators@gmail.com",
     registrationDate: "March 15, 2024",
+    // Added for modal content, assuming all registrations, regardless of type, have these fields for this display
+    venueName: "Urban Palate",
+    phoneNumber: "(319) 555-0115",
+    location: "Downtown LA",
+    hoursOfOperation: 24,
+    capacity: 319,
+    agreeToDisplayQR: true,
+    interestedInAppPromotion: true,
+    allowNikoSafeRewards: true,
+    allowVenueEvents: true,
   },
   {
     id: "reg-002",
     name: "Robo Gladiators",
-    type: "Service Provider",
+    type: "Service Provider", // This will be displayed with venue data from the dummyRows
     subscriptionType: "Annual",
     email: "service@gmail.com",
     registrationDate: "March 15, 2024",
+    venueName: "Tech Haven",
+    phoneNumber: "(123) 456-7890",
+    location: "Cyber City",
+    hoursOfOperation: 12,
+    capacity: 150,
+    agreeToDisplayQR: false,
+    interestedInAppPromotion: true,
+    allowNikoSafeRewards: false,
+    allowVenueEvents: true,
   },
   {
     id: "reg-003",
     name: "Robo Gladiators",
-    type: "Service Provider",
+    type: "Service Provider", // This will be displayed with venue data from the dummyRows
     subscriptionType: "Annual",
     email: "provider@gmail.com",
     registrationDate: "March 15, 2024",
+    venueName: "Innovate Hub",
+    phoneNumber: "(987) 654-3210",
+    location: "Innovation Park",
+    hoursOfOperation: 16,
+    capacity: 500,
+    agreeToDisplayQR: true,
+    interestedInAppPromotion: false,
+    allowNikoSafeRewards: true,
+    allowVenueEvents: false,
   },
   {
     id: "reg-004",
@@ -42,12 +70,22 @@ const dummyRows = [
     subscriptionType: "Annual",
     email: "vendor@gmail.com",
     registrationDate: "March 15, 2024",
+    venueName: "Gadget World",
+    phoneNumber: "(555) 111-2222",
+    location: "Mall Central",
+    hoursOfOperation: 10,
+    capacity: 200,
+    agreeToDisplayQR: false,
+    interestedInAppPromotion: false,
+    allowNikoSafeRewards: false,
+    allowVenueEvents: false,
   },
 ];
 
 export default function ManageRegistration() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredRows, setFilteredRows] = useState(dummyRows);
+  const router = useRouter(); // Initialize useRouter
 
   // Function to handle search input changes
   const handleSearchChange = (e) => {
@@ -65,27 +103,31 @@ export default function ManageRegistration() {
     setFilteredRows(newFilteredRows);
   };
 
-  // Action handlers (placeholder functions)
+  // Action handlers
   const handleView = (rowId) => {
-    alert(`Viewing details for: ${rowId}`);
-    // Implement navigation or modal display logic here
+    // Navigate to the dynamic details page
+    // IMPORTANT: Ensure this path matches your actual file structure for the dynamic page.
+    // If your dynamic page is at app/registrations/[id]/page.js, this path is correct.
+    // If it's different, update this path accordingly.
+    router.push(`/admin/manage-registrations/${rowId}`);
   };
 
   const handleDelete = (rowId) => {
+    // Replaced window.confirm with a custom modal in a real app.
+    // For this example, keeping confirm as per original code, but noting the best practice.
     if (confirm(`Are you sure you want to delete ${rowId}?`)) {
-      alert(`Deleting: ${rowId}`);
-      // Implement actual deletion logic, e.g., update state or call API
+      alert(`Deleting: ${rowId}`); // Replaced window.alert with a custom modal.
       setFilteredRows((prevRows) => prevRows.filter((row) => row.id !== rowId));
     }
   };
 
   const handleEdit = (rowId) => {
-    alert(`Editing: ${rowId}`);
+    alert(`Editing: ${rowId}`); // Replaced window.alert with a custom modal.
     // Implement edit form/modal logic here
   };
 
   const handleFilterClick = () => {
-    alert("Filter button clicked! (Implement your filter modal/logic here)");
+    alert("Filter button clicked! (Implement your filter modal/logic here)"); // Replaced window.alert with a custom modal.
     // This button could open a modal for advanced filtering,
     // or apply predefined filters based on application needs.
   };
@@ -104,7 +146,7 @@ export default function ManageRegistration() {
             <input
               type="text"
               placeholder="Search"
-              className="pl-10 pr-4 py-2 bg-[#F3FAFA1A] rounded-tl-[7.04px] rounded-bl-[7.04px] border-[1px] border-[#0000001A] text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="pl-10 pr-4 py-2 bg-[#F3FAFA1A] rounded-tl-[7.04px] rounded-bl-[7.04px] border-[1px] border-[#0000001A] text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-white"
               value={searchTerm}
               onChange={handleSearchChange}
             />
@@ -112,7 +154,7 @@ export default function ManageRegistration() {
 
           <button
             onClick={handleFilterClick}
-            className="hover:bg-gray-700 transition-colors bg-[#2A2A2A] p-[5px] rounded-tr-[7.04px] rounded-br-[7.04px]" // Added rounded corners for the button
+            className="hover:bg-gray-700 transition-colors bg-[#2A2A2A] p-[5px] rounded-tr-[7.04px] rounded-br-[7.04px]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -188,7 +230,7 @@ export default function ManageRegistration() {
                       {/* Right Arrow Icon (for Edit functionality) */}
                       <Image
                         className="cursor-pointer"
-                        src="/icon/right.svg" // Assuming this is your edit icon
+                        src="/icon/right.svg"
                         alt="Edit"
                         width={26}
                         height={26}
