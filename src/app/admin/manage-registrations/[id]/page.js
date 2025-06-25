@@ -4,13 +4,15 @@
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation"; // Import useRouter for navigating back
 import Image from "next/image"; // Import Image for icons
+import { useState } from "react"; // Import useState for the new modal
 
 // Assuming you have check.svg and cross.svg in your public/icon directory
 // Note: Using right.svg and trash.svg as checkmark/cross icons based on your previous code.
 // For a better visual representation, consider using actual checkmark and cross SVG files.
 import checkmarkIcon from "../../../../../public/icon/right.svg";
 import crossIcon from "../../../../../public/icon/trash.svg";
-import fileIcon from "../../../../../public/icon/file-icon.svg"; 
+import fileIcon from "../../../../../public/icon/file-icon.svg";
+
 // Dummy data (now with distinct fields for Vendor and Service Provider)
 const dummyRows = [
   {
@@ -84,6 +86,9 @@ export default function RegistrationDetailsPage() {
   const router = useRouter(); // Initialize useRouter
   const { id } = params;
 
+  const [showRejectReasonModal, setShowRejectReasonModal] = useState(false);
+  const [rejectReason, setRejectReason] = useState("");
+
   // Find the registration details based on the ID
   const registration = dummyRows.find((row) => row.id === id);
 
@@ -104,22 +109,34 @@ export default function RegistrationDetailsPage() {
     );
   }
 
-  // Handle Approve/Reject actions (placeholder for now)
+  // Handle Approve action
   const handleApprove = () => {
     alert(`Approved registration: ${registration.id}`);
     // Implement your approval logic here (e.g., API call, state update)
     router.back(); // Go back after action
   };
 
-  const handleReject = () => {
-    alert(`Rejected registration: ${registration.id}`);
+  // Handle Reject button click to open the modal
+  const handleRejectClick = () => {
+    setShowRejectReasonModal(true);
+  };
+
+  // Handle submission of the reject reason
+  const handleSubmitRejectReason = () => {
+    if (rejectReason.trim() === "") {
+      alert("Please provide a reason for rejection.");
+      return;
+    }
+    alert(`Rejected registration: ${registration.id} with reason: "${rejectReason}"`);
     // Implement your rejection logic here (e.g., API call, state update)
+    setShowRejectReasonModal(false); // Close modal
+    setRejectReason(""); // Clear reason
     router.back(); // Go back after action
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#343434] p-4 sm:p-8">
-      {/* Modal Container */}
+      {/* Main Details Modal Container */}
       <div className="bg-[#1E1E1E] p-6 rounded-lg shadow-lg w-full max-w-md relative border border-[#3A3A3A] font-sans">
         {/* Close Button (X icon) */}
         <button
@@ -162,7 +179,7 @@ export default function RegistrationDetailsPage() {
               <span className="font-semibold text-[#00C1C9]">Capacity:</span> {registration.capacity}
             </p>
 
-            <p className="flex items-center gap-2">
+            <p className="flex flex-col gap-2">
               <span className="font-semibold text-white">Agree to display QR codes at Tables / Counters:</span>{" "}
               {registration.agreeToDisplayQR ? (
                 <Image src={checkmarkIcon} alt="Yes" width={20} height={20} />
@@ -170,7 +187,7 @@ export default function RegistrationDetailsPage() {
                 <Image src={crossIcon} alt="No" width={20} height={20} />
               )}
             </p>
-            <p className="flex items-center gap-2">
+            <p className="flex flex-col gap-2">
               <span className="font-semibold text-white">Interested in-app promotion:</span>{" "}
               {registration.interestedInAppPromotion ? (
                 <Image src={checkmarkIcon} alt="Yes" width={20} height={20} />
@@ -178,7 +195,7 @@ export default function RegistrationDetailsPage() {
                 <Image src={crossIcon} alt="No" width={20} height={20} />
               )}
             </p>
-            <p className="flex items-center gap-2">
+            <p className="flex flex-col gap-2">
               <span className="font-semibold text-white">Allow users to earn NikoSafe Rewards at this venue:</span>{" "}
               {registration.allowNikoSafeRewards ? (
                 <Image src={checkmarkIcon} alt="Yes" width={20} height={20} />
@@ -186,7 +203,7 @@ export default function RegistrationDetailsPage() {
                 <Image src={crossIcon} alt="No" width={20} height={20} />
               )}
             </p>
-            <p className="flex items-center gap-2">
+            <p className="flex flex-col gap-2">
               <span className="font-semibold text-white">Allow venue events on activity feed:</span>{" "}
               {registration.allowVenueEvents ? (
                 <Image src={checkmarkIcon} alt="Yes" width={20} height={20} />
@@ -236,7 +253,7 @@ export default function RegistrationDetailsPage() {
             Approve
           </button>
           <button
-            onClick={handleReject}
+            onClick={handleRejectClick} // Changed to open the rejection modal
             className="flex items-center bg-transparent border border-[#EF4444] text-[#EF4444] px-4 py-2 rounded-full hover:bg-[#EF4444] hover:text-white transition-colors text-sm sm:text-base"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5 inline-block mr-1">
@@ -246,6 +263,59 @@ export default function RegistrationDetailsPage() {
           </button>
         </div>
       </div>
+
+      {/* Reject Reason Modal */}
+      {showRejectReasonModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50 p-4">
+          <div className="bg-[#1E1E1E] p-6 rounded-lg shadow-lg w-full max-w-sm relative border border-[#3A3A3A] font-sans">
+            <button
+              onClick={() => {
+                setShowRejectReasonModal(false);
+                setRejectReason(""); // Clear reason on close
+              }}
+              className="absolute top-3 right-3 text-white hover:text-gray-300 transition-colors"
+              aria-label="Close reject reason modal"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2.5"
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <h2 className="text-white text-xl font-semibold mb-4 text-center">Reason for Rejection</h2>
+            <textarea
+              className="w-full p-3 bg-[#343434] text-white rounded-md border border-[#3A3A3A] focus:outline-none focus:ring-1 focus:ring-[#00C1C9] mb-4 h-28 resize-none"
+              placeholder="Enter rejection reason here..."
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+            ></textarea>
+
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setShowRejectReasonModal(false);
+                  setRejectReason(""); // Clear reason on cancel
+                }}
+                className="bg-transparent border border-gray-600 text-gray-400 px-4 py-2 rounded-full hover:bg-gray-700 hover:text-white transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmitRejectReason}
+                className="bg-[#EF4444] text-white px-4 py-2 rounded-full hover:bg-[#DC2626] transition-colors"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
