@@ -47,24 +47,54 @@ const contentData = {
 <p>Our team is passionate about [area of expertise] and strives to [what your team does]. We are constantly working to improve our services and offer new features to meet your needs.</p>
 <p>Thank you for being a part of our community!</p>`,
   },
+  // New FAQs data structure
+  faqs: {
+    title: 'FAQs',
+    date: 'Dec 4, 2019 21:42',
+    questions: [
+      {
+        id: 1,
+        question: 'What is your refund policy?',
+        answer: '<p>Our refund policy states that...</p>',
+      },
+      {
+        id: 2,
+        question: 'How do I reset my password?',
+        answer: '<p>You can reset your password by...</p>',
+      },
+      {
+        id: 3,
+        question: 'How can I contact support?',
+        answer: '<p>You can contact support via...</p>',
+      },
+    ],
+  },
 };
 
 // Dynamically import JoditEditor to prevent SSR issues
-// This ensures Jodit is only loaded on the client-side.
 const JoditEditor = dynamic(() => import('jodit-react'), { ssr: false });
-
 
 const SettingsPage = ({ onBackClick }) => {
   const editor = useRef(null);
   const [activeTab, setActiveTab] = useState('privacy-security');
   const [editableContent, setEditableContent] = useState('');
+  const [faqs, setFaqs] = useState(contentData.faqs.questions);
+  const [selectedFaq, setSelectedFaq] = useState(faqs[0] || null);
 
   const [tabContents, setTabContents] = useState(contentData);
 
-  // Effect hook to update the editableContent when the activeTab changes.
+  // Effect hook to update the editableContent or selectedFaq when the activeTab changes.
   useEffect(() => {
-    setEditableContent(tabContents[activeTab].text);
-  }, [activeTab, tabContents]);
+    if (activeTab === 'faqs') {
+      // For FAQs, ensure selectedFaq is set when the tab is activated
+      if (faqs.length > 0 && !selectedFaq) {
+        setSelectedFaq(faqs[0]);
+      }
+      setEditableContent(selectedFaq ? selectedFaq.answer : '');
+    } else {
+      setEditableContent(tabContents[activeTab].text);
+    }
+  }, [activeTab, tabContents, faqs, selectedFaq]);
 
   // Jodit editor config
   const joditConfig = useMemo(
@@ -83,33 +113,50 @@ const SettingsPage = ({ onBackClick }) => {
         '#E1E1E1': '#E1E1E1',
       },
       toolbarButtonSize: 'large',
-      theme: 'dark', // Jodit has a 'dark' theme option, let's use it for better integration
-      // Ensure Jodit's UI fits your dark theme; you might need custom CSS if default dark theme doesn't match
-      // For example, to make Jodit's background match your #343434:
-      // className: 'jodit-custom-theme' (then add custom CSS for .jodit-custom-theme .jodit.jodit_theme_dark)
+      theme: 'dark',
     }),
     [],
   );
 
   // Handler for the "Save & Change" button.
   const handleSaveAndChange = () => {
-    // Update the local mock data
-    setTabContents((prevContents) => ({
-      ...prevContents,
-      [activeTab]: {
-        ...prevContents[activeTab],
-        text: editableContent, // Save the content from Jodit
-      },
-    }));
+    if (activeTab === 'faqs' && selectedFaq) {
+      setFaqs((prevFaqs) =>
+        prevFaqs.map((faq) =>
+          faq.id === selectedFaq.id
+            ? { ...faq, question: selectedFaq.question, answer: editableContent }
+            : faq,
+        ),
+      );
+      alert(`FAQ "${selectedFaq.question}" updated!`);
+    } else {
+      setTabContents((prevContents) => ({
+        ...prevContents,
+        [activeTab]: {
+          ...prevContents[activeTab],
+          text: editableContent, // Save the content from Jodit
+        },
+      }));
+      alert(`Content for "${tabContents[activeTab].title}" saved!`);
+    }
     console.log(`Saving content for ${tabContents[activeTab].title}:`, editableContent);
-    alert(`Content for "${tabContents[activeTab].title}" saved!`);
+  };
+
+  const handleQuestionChange = (e) => {
+    if (selectedFaq) {
+      setSelectedFaq({ ...selectedFaq, question: e.target.value });
+    }
+  };
+
+  const handleFaqSelection = (faqId) => {
+    setSelectedFaq(faqs.find((faq) => faq.id === faqId));
   };
 
   return (
     <div className="bg-[#343434] rounded-2xl min-h-screen text-white p-6 sm:p-6 lg:p-8">
       {/* Header section with Back button and Settings title */}
       <div className="flex items-center mb-6">
-        {onBackClick && ( // Only render back button if onBackClick is provided
+        {onBackClick && (
           <button
             className="text-light-gray-text hover:text-white transition-colors duration-200 mr-4"
             onClick={onBackClick}
@@ -121,18 +168,17 @@ const SettingsPage = ({ onBackClick }) => {
         <h1 className="text-2xl sm:text-3xl font-bold">Settings</h1>
       </div>
 
-      {/* Tab Navigation for Privacy and security, Terms & Conditions, About Us */}
-      <div className=' border-b '>
-        <div className="md:w-[600px] flex justify-start bg-dark-bg rounded-t-lg ">
-
-          {['privacy-security', 'terms-conditions', 'about-us'].map((tabId) => (
+      {/* Tab Navigation for Privacy and security, Terms & Conditions, About Us, and FAQs */}
+      <div className="border-b">
+        <div className="md:w-[800px] flex justify-start bg-dark-bg rounded-t-lg ">
+          {['privacy-security', 'terms-conditions', 'about-us', 'faqs'].map((tabId) => (
             <button
               key={tabId}
               className={`
                 flex-1 py-4 text-center text-lg font-medium relative focus:outline-none transition-colors duration-200
                 ${
                   activeTab === tabId
-                    ? 'text-[#00C1C9]' // Use Tailwind for active tab text color
+                    ? 'text-[#00C1C9]'
                     : 'text-light-gray-text hover:text-white'
                 }
               `}
@@ -140,41 +186,107 @@ const SettingsPage = ({ onBackClick }) => {
             >
               {tabContents[tabId].title}
               {activeTab === tabId && (
-                <span
-                  className="absolute bottom-0 left-0 right-0 h-[2px] -mb-[1px] bg-[#00C1C9]"
-                  // Use Tailwind for underline color
-                ></span>
+                <span className="absolute bottom-0 left-0 right-0 h-[2px] -mb-[1px] bg-[#00C1C9]"></span>
               )}
             </button>
           ))}
-
         </div>
       </div>
 
       {/* Content Area for the selected tab */}
-      <div className="bg-dark-bg p-4 rounded-b-lg -mt-px"> {/* -mt-px to cover the tab bottom border */}
-        {/* Title and date of the current content */}
-        <h2 className="text-xl font-semibold mb-1">{tabContents[activeTab].title}</h2>
-        <p className="text-sm text-light-gray-text mb-4">{tabContents[activeTab].date}</p>
+      <div className="bg-dark-bg p-4 rounded-b-lg -mt-px">
+        {activeTab !== 'faqs' && (
+          <>
+            {/* Title and date of the current content for non-FAQ tabs */}
+            <h2 className="text-xl font-semibold mb-1">{tabContents[activeTab].title}</h2>
+            <p className="text-sm text-light-gray-text mb-4">
+              {tabContents[activeTab].date}
+            </p>
 
-        {/* Jodit Editor */}
-        <div className="rounded-md mb-6 py-2 ">
-          <JoditEditor
-            className=' ' // Keep your custom class
-            ref={editor}
-            value={editableContent}
-            config={joditConfig}
-            // Use `onChange` to update state immediately, as Jodit's value prop expects it.
-            // `onBlur` can still be used for other side effects if needed, but `onChange` is for content updates.
-            onChange={(newContent) => setEditableContent(newContent)}
-          />
-        </div>
+            {/* Jodit Editor for non-FAQ tabs */}
+            <div className="rounded-md mb-6 py-2 ">
+              <JoditEditor
+                className=""
+                ref={editor}
+                value={editableContent}
+                config={joditConfig}
+                onChange={(newContent) => setEditableContent(newContent)}
+              />
+            </div>
+          </>
+        )}
+
+        {activeTab === 'faqs' && (
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* FAQ List Sidebar */}
+            <div className="md:w-1/3 border-r border-gray-700 pr-4">
+              <h3 className="text-lg font-semibold mb-3">Questions</h3>
+              <ul>
+                {faqs.map((faq) => (
+                  <li key={faq.id} className="mb-2">
+                    <button
+                      className={`text-left w-full p-2 rounded-md transition-colors duration-200 ${
+                        selectedFaq && selectedFaq.id === faq.id
+                          ? 'bg-gray-700 text-white'
+                          : 'text-light-gray-text hover:bg-gray-700 hover:text-white'
+                      }`}
+                      onClick={() => handleFaqSelection(faq.id)}
+                    >
+                      {faq.question}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* FAQ Editor Area */}
+            <div className="md:w-2/3">
+              {selectedFaq ? (
+                <>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="faq-question"
+                      className="block text-sm font-medium text-light-gray-text mb-1"
+                    >
+                      Question:
+                    </label>
+                    <input
+                      type="text"
+                      id="faq-question"
+                      value={selectedFaq.question}
+                      onChange={handleQuestionChange}
+                      className="w-full p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-[#00C1C9]"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label
+                      htmlFor="faq-answer"
+                      className="block text-sm font-medium text-light-gray-text mb-1"
+                    >
+                      Answer:
+                    </label>
+                    <JoditEditor
+                      className=" "
+                      ref={editor}
+                      value={editableContent}
+                      config={joditConfig}
+                      onChange={(newContent) => setEditableContent(newContent)}
+                    />
+                  </div>
+                </>
+              ) : (
+                <p className="text-light-gray-text">Select an FAQ to edit.</p>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Save & Change Button */}
         <div className="col-span-full mt-4">
           <button
-            type="button" // Changed from submit to button to prevent default form submission if this is part of a larger form
-            onClick={handleSaveAndChange} // Added onClick handler
+            type="button"
+            onClick={handleSaveAndChange}
             className="w-full mx-auto flex justify-center items-center rounded-[4px] bg-cyan-400 hover:bg-cyan-300 text-white py-2 font-medium border-b-4 border-lime-400"
           >
             Save & Change
