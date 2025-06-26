@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'; // Import PlusIcon and TrashIcon
 import dynamic from 'next/dynamic'; // Import dynamic for SSR compatibility
 
 // Mock data for dynamic content
@@ -74,21 +74,24 @@ const contentData = {
 // Dynamically import JoditEditor to prevent SSR issues
 const JoditEditor = dynamic(() => import('jodit-react'), { ssr: false });
 
+
 const SettingsPage = ({ onBackClick }) => {
   const editor = useRef(null);
   const [activeTab, setActiveTab] = useState('privacy-security');
   const [editableContent, setEditableContent] = useState('');
-  const [faqs, setFaqs] = useState(contentData.faqs.questions);
-  const [selectedFaq, setSelectedFaq] = useState(faqs[0] || null);
+  // Initialize FAQs from contentData, ensuring it's always an array
+  const [faqs, setFaqs] = useState(contentData.faqs.questions || []);
+  const [selectedFaq, setSelectedFaq] = useState(faqs.length > 0 ? faqs[0] : null);
 
   const [tabContents, setTabContents] = useState(contentData);
 
-  // Effect hook to update the editableContent or selectedFaq when the activeTab changes.
+  // Effect hook to update the editableContent or selectedFaq when the activeTab changes
+  // or when FAQs are added/deleted.
   useEffect(() => {
     if (activeTab === 'faqs') {
-      // For FAQs, ensure selectedFaq is set when the tab is activated
-      if (faqs.length > 0 && !selectedFaq) {
-        setSelectedFaq(faqs[0]);
+      // If no FAQ is selected or the selected FAQ was deleted, select the first one if available
+      if (!selectedFaq || !faqs.some(faq => faq.id === selectedFaq.id)) {
+        setSelectedFaq(faqs.length > 0 ? faqs[0] : null);
       }
       setEditableContent(selectedFaq ? selectedFaq.answer : '');
     } else {
@@ -128,7 +131,21 @@ const SettingsPage = ({ onBackClick }) => {
             : faq,
         ),
       );
-      alert(`FAQ "${selectedFaq.question}" updated!`);
+      // Custom confirmation dialog instead of alert()
+      const confirmSaveDialog = document.createElement('div');
+      confirmSaveDialog.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50';
+      confirmSaveDialog.innerHTML = `
+        <div class="bg-[#343434] p-6 rounded-lg shadow-lg text-white">
+          <p class="mb-4">FAQ "${selectedFaq.question}" updated!</p>
+          <button id="confirmOkBtn" class="bg-cyan-400 hover:bg-cyan-300 text-white py-2 px-4 rounded-[4px] border-b-4 border-lime-400">OK</button>
+        </div>
+      `;
+      document.body.appendChild(confirmSaveDialog);
+
+      document.getElementById('confirmOkBtn').onclick = () => {
+        document.body.removeChild(confirmSaveDialog);
+      };
+
     } else {
       setTabContents((prevContents) => ({
         ...prevContents,
@@ -137,13 +154,27 @@ const SettingsPage = ({ onBackClick }) => {
           text: editableContent, // Save the content from Jodit
         },
       }));
-      alert(`Content for "${tabContents[activeTab].title}" saved!`);
+      // Custom confirmation dialog instead of alert()
+      const confirmSaveDialog = document.createElement('div');
+      confirmSaveDialog.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50';
+      confirmSaveDialog.innerHTML = `
+        <div class="bg-[#343434] p-6 rounded-lg shadow-lg text-white">
+          <p class="mb-4">Content for "${tabContents[activeTab].title}" saved!</p>
+          <button id="confirmOkBtn" class="bg-cyan-400 hover:bg-cyan-300 text-white py-2 px-4 rounded-[4px] border-b-4 border-lime-400">OK</button>
+        </div>
+      `;
+      document.body.appendChild(confirmSaveDialog);
+
+      document.getElementById('confirmOkBtn').onclick = () => {
+        document.body.removeChild(confirmSaveDialog);
+      };
     }
     console.log(`Saving content for ${tabContents[activeTab].title}:`, editableContent);
   };
 
   const handleQuestionChange = (e) => {
     if (selectedFaq) {
+      // Fix: Changed selectedFsg to selectedFaq to correctly update the question
       setSelectedFaq({ ...selectedFaq, question: e.target.value });
     }
   };
@@ -152,8 +183,51 @@ const SettingsPage = ({ onBackClick }) => {
     setSelectedFaq(faqs.find((faq) => faq.id === faqId));
   };
 
+  // Handler for adding a new FAQ
+  const handleAddFaq = () => {
+    const newId = faqs.length > 0 ? Math.max(...faqs.map(faq => faq.id)) + 1 : 1;
+    const newFaq = {
+      id: newId,
+      question: 'New Question',
+      answer: '<p>New Answer</p>',
+    };
+    setFaqs((prevFaqs) => [...prevFaqs, newFaq]);
+    setSelectedFaq(newFaq); // Select the newly added FAQ
+    setEditableContent(newFaq.answer); // Set editor content to the new FAQ's answer
+  };
+
+  // Handler for deleting the selected FAQ
+  const handleDeleteFaq = () => {
+    if (selectedFaq) {
+      // Custom confirmation dialog instead of window.confirm()
+      const confirmDeleteDialog = document.createElement('div');
+      confirmDeleteDialog.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50';
+      confirmDeleteDialog.innerHTML = `
+        <div class="bg-[#343434] p-6 rounded-lg shadow-lg text-white">
+          <p class="mb-4">Are you sure you want to delete "${selectedFaq.question}"?</p>
+          <div class="flex justify-end gap-2">
+            <button id="confirmCancelBtn" class="bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-[4px]">Cancel</button>
+            <button id="confirmDeleteBtn" class="bg-red-600 hover:bg-red-500 text-white py-2 px-4 rounded-[4px]">Delete</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(confirmDeleteDialog);
+
+      document.getElementById('confirmDeleteBtn').onclick = () => {
+        setFaqs((prevFaqs) => prevFaqs.filter((faq) => faq.id !== selectedFaq.id));
+        setSelectedFaq(null); // Deselect the FAQ after deletion
+        setEditableContent(''); // Clear editor content
+        document.body.removeChild(confirmDeleteDialog);
+      };
+
+      document.getElementById('confirmCancelBtn').onclick = () => {
+        document.body.removeChild(confirmDeleteDialog);
+      };
+    }
+  };
+
   return (
-    <div className="bg-[#343434] rounded-2xl min-h-screen text-white p-6 sm:p-6 lg:p-8">
+    <div className="bg-[#343434] rounded-2xl min-h-screen text-white p-6 sm:p-6 lg:p-8 font-inter">
       {/* Header section with Back button and Settings title */}
       <div className="flex items-center mb-6">
         {onBackClick && (
@@ -169,13 +243,13 @@ const SettingsPage = ({ onBackClick }) => {
       </div>
 
       {/* Tab Navigation for Privacy and security, Terms & Conditions, About Us, and FAQs */}
-      <div className="border-b">
-        <div className="md:w-[800px] flex justify-start bg-dark-bg rounded-t-lg ">
+      <div className="border-b border-gray-700">
+        <div className="md:w-full flex justify-start bg-dark-bg rounded-t-lg overflow-x-auto"> {/* Added overflow-x-auto for smaller screens */}
           {['privacy-security', 'terms-conditions', 'about-us', 'faqs'].map((tabId) => (
             <button
               key={tabId}
               className={`
-                flex-1 py-4 text-center text-lg font-medium relative focus:outline-none transition-colors duration-200
+                flex-shrink-0 px-4 py-4 text-center text-lg font-medium relative focus:outline-none transition-colors duration-200
                 ${
                   activeTab === tabId
                     ? 'text-[#00C1C9]'
@@ -206,7 +280,7 @@ const SettingsPage = ({ onBackClick }) => {
             {/* Jodit Editor for non-FAQ tabs */}
             <div className="rounded-md mb-6 py-2 ">
               <JoditEditor
-                className=""
+                className="jodit-custom-theme" // Apply custom theme class if needed
                 ref={editor}
                 value={editableContent}
                 config={joditConfig}
@@ -221,6 +295,14 @@ const SettingsPage = ({ onBackClick }) => {
             {/* FAQ List Sidebar */}
             <div className="md:w-1/3 border-r border-gray-700 pr-4">
               <h3 className="text-lg font-semibold mb-3">Questions</h3>
+              <div className="mb-4">
+                <button
+                  onClick={handleAddFaq}
+                  className="w-full flex items-center justify-center gap-2 rounded-[4px] bg-lime-500 hover:bg-lime-400 text-white py-2 font-medium border-b-4 border-lime-600 mb-4"
+                >
+                  <PlusIcon className="h-5 w-5" /> Add New Question
+                </button>
+              </div>
               <ul>
                 {faqs.map((faq) => (
                   <li key={faq.id} className="mb-2">
@@ -267,22 +349,33 @@ const SettingsPage = ({ onBackClick }) => {
                       Answer:
                     </label>
                     <JoditEditor
-                      className=" "
+                      className="jodit-custom-theme" // Apply custom theme class if needed
                       ref={editor}
                       value={editableContent}
                       config={joditConfig}
                       onChange={(newContent) => setEditableContent(newContent)}
                     />
                   </div>
+
+                  {/* Delete FAQ Button */}
+                  {/* <div className="mt-4">
+                    <button
+                      type="button"
+                      onClick={handleDeleteFaq}
+                      className="w-full flex items-center justify-center gap-2 rounded-[4px] bg-red-600 hover:bg-red-500 text-white py-2 font-medium border-b-4 border-red-700"
+                    >
+                      <TrashIcon className="h-5 w-5" /> Delete FAQ
+                    </button>
+                  </div> */}
                 </>
               ) : (
-                <p className="text-light-gray-text">Select an FAQ to edit.</p>
+                <p className="text-light-gray-text">Select an FAQ to edit or add a new one.</p>
               )}
             </div>
           </div>
         )}
 
-        {/* Save & Change Button */}
+        {/* Save & Change Button (remains at the bottom of the main content area) */}
         <div className="col-span-full mt-4">
           <button
             type="button"
