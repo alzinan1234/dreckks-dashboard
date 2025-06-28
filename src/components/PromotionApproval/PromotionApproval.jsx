@@ -4,17 +4,10 @@
 import Image from "next/image";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter for navigation
 
 // Assuming these icons are in your public/icon directory
 import eye from "../../../public/icon/eye.svg";
-// Assuming you have icons for approve and reject, if not,
-// for demonstration, I'll use placeholders or existing ones
-// as per previous components' usage. If specific icons are needed,
-// they should be provided or created.
-// For now, I'll use a placeholder for a green check and red X.
-// Let's assume you have check.svg for approve and x-circle.svg for reject,
-// or we can just use the provided right.svg and trash.svg from previous contexts.
-// Given the image, the check and X are simple, so I'll try to emulate their colors.
 
 const dummyPromotions = [
   {
@@ -24,6 +17,8 @@ const dummyPromotions = [
     title: "20% Off Friday",
     status: "Pending", // Can be 'Pending', 'Approved', 'Rejected'
     dateSubmitted: "Aug. 15, 2025",
+    description: "Enjoy a fantastic 20% off on all pizzas and pasta every Friday! Perfect for a family dinner or a quick bite.",
+    availability: "Friday only, 5 PM - 10 PM",
   },
   {
     id: "promo-002",
@@ -32,6 +27,8 @@ const dummyPromotions = [
     title: "Happy Hour Deals",
     status: "Approved",
     dateSubmitted: "July 20, 2025",
+    description: "Unwind with our happy hour specials! Get discounted coffees, teas, and pastries. Enjoy the cozy ambiance.",
+    availability: "Monday to Friday, 3 PM - 6 PM",
   },
   {
     id: "promo-003",
@@ -40,6 +37,8 @@ const dummyPromotions = [
     title: "Buy One Get One",
     status: "Rejected",
     dateSubmitted: "Aug. 01, 2025",
+    description: "Our classic buy one get one free offer on all burgers. A perfect deal for sharing or doubling up!",
+    availability: "Daily, 11 AM - 9 PM",
   },
   {
     id: "promo-004",
@@ -48,10 +47,13 @@ const dummyPromotions = [
     title: "Live Music Saturdays",
     status: "Pending",
     dateSubmitted: "Sep. 01, 2025",
+    description: "Experience the best local bands live every Saturday night. Great food, great drinks, great music!",
+    availability: "Every Saturday, 8 PM - 11 PM",
   },
 ];
 
 export default function PromotionApproval() {
+  const router = useRouter(); // Initialize useRouter
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredPromotions, setFilteredPromotions] = useState(dummyPromotions);
 
@@ -78,7 +80,8 @@ export default function PromotionApproval() {
         promo.id === promoId ? { ...promo, status: "Approved" } : promo
       )
     );
-    alert(`Approved promotion: ${promoId}`);
+    // In a real application, you'd make an API call here.
+    console.log(`Approved promotion: ${promoId}`);
   };
 
   const handleReject = (promoId) => {
@@ -87,39 +90,25 @@ export default function PromotionApproval() {
         promo.id === promoId ? { ...promo, status: "Rejected" } : promo
       )
     );
-    alert(`Rejected promotion: ${promoId}`);
+    // In a real application, you'd make an API call here.
+    console.log(`Rejected promotion: ${promoId}`);
   };
 
-  const handleView = (promo) => {
-    alert(`Viewing details for promotion: ${promo.title} by ${promo.submittedBy}`);
-    // Implement modal or navigation to view full promotion details
+  const handleView = (promoId) => {
+    // Navigate to the dynamic promotion details page
+    router.push(`/admin/promotion-approval/${promoId}`);
   };
 
   const handleFilterClick = () => {
-    alert("Filter button clicked! (Implement your filter modal/logic here)");
+    console.log("Filter button clicked! (Implement your filter modal/logic here)");
   };
 
   return (
     <div className="bg-[#343434] p-4 rounded-lg shadow-lg">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-4">
-          {/* Back arrow icon */}
-          <button className="text-white hover:text-gray-300">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-              />
-            </svg>
-          </button>
+          {/* Back arrow icon - will navigate back using router.back() */}
+       
           <h2 className="text-[20px] font-semibold text-white">
             Promotion Approval
           </h2>
@@ -132,7 +121,7 @@ export default function PromotionApproval() {
             <input
               type="text"
               placeholder="Search"
-              className="pl-10 pr-4 py-2 bg-[#F3FAFA1A] rounded-tl-[7.04px] rounded-bl-[7.04px] border-[1px] border-[#0000001A] text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-white" // Added text-white for visibility
+              className="pl-10 pr-4 py-2 bg-[#F3FAFA1A] rounded-tl-[7.04px] rounded-bl-[7.04px] border-[1px] border-[#0000001A] text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-white"
               value={searchTerm}
               onChange={handleSearchChange}
             />
@@ -236,8 +225,8 @@ export default function PromotionApproval() {
                       {/* Approve (Green Check) */}
                       <button
                         onClick={() => handleApprove(promo.id)}
-                        className="p-1 rounded-full text-[#73D100] border border-[#73D100]"
-                        style={{ backgroundColor: '#0053B200' }} // Green background
+                        className="p-1 rounded-full text-[#73D100] border border-[#73D100] hover:bg-green-900 transition-colors duration-200"
+                        style={{ backgroundColor: '#0053B200' }}
                         title="Approve"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-5 h-5">
@@ -248,8 +237,8 @@ export default function PromotionApproval() {
                       {/* Reject (Red X) */}
                       <button
                         onClick={() => handleReject(promo.id)}
-                        className="p-1 rounded-full text-[#FF0000] border border-[#FF0000]"
-                        style={{ backgroundColor: '' }} // Red background
+                        className="p-1 rounded-full text-[#FF0000] border border-[#FF0000] hover:bg-red-900 transition-colors duration-200"
+                        style={{ backgroundColor: '' }}
                         title="Reject"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-5 h-5">
@@ -259,17 +248,16 @@ export default function PromotionApproval() {
 
                       {/* View (Purple Eye) */}
                       <button
-                        onClick={() => handleView(promo)}
-                        className="p-1 rounded-full text-white"
-                        style={{ backgroundColor: '' }} // Purple background
+                        onClick={() => handleView(promo.id)} // Pass promo.id to navigate
+                        className="p-1 rounded-full text-[#9900FF]  hover:bg-purple-900 transition-colors duration-200"
                         title="View Details"
                       >
-                         <Image
-                            src={eye}
-                            alt="View"
-                            width={28}
-                            height={30}
-                            className="inline"
+                        <Image
+                          src={eye}
+                          alt="View"
+                          width={28}
+                          height={30}
+                          className="inline"
                         />
                       </button>
                     </div>
