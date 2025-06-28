@@ -1,11 +1,11 @@
-// components/WithdrawalRequestsTable.js
 'use client';
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { EyeIcon } from '@heroicons/react/24/solid'; // For the view icon
 import Image from 'next/image';
-import WithdrawalDetailsModal from './WithdrawalDetailsModal'; // Import the new modal component
+// import WithdrawalDetailsModal from './WithdrawalDetailsModal'; // Remove this import as we are no longer using the modal
+import { useRouter } from 'next/navigation'; // Import useRouter for navigation
 
 // Mock data for Withdrawal Requests (replace with actual API calls in a real application)
 const getAllWithdrawalRequests = () => {
@@ -143,11 +143,12 @@ const ITEMS_PER_PAGE = 10; // Number of rows per page
 const PAGE_RANGE = 2; // Number of pages to show around the current page (e.g., if current is 5, shows 3,4,5,6,7)
 
 const WithdrawalRequests = () => {
+    const router = useRouter(); // Initialize useRouter
     const [currentPage, setCurrentPage] = useState(1);
     const [allRequests, setAllRequests] = useState([]); // Store all requests, filtered by search
     const [displayedRequests, setDisplayedRequests] = useState([]); // Store requests for current page
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedRequest, setSelectedRequest] = useState(null);
+    // const [isModalOpen, setIsModalOpen] = useState(false); // No longer needed
+    // const [selectedRequest, setSelectedRequest] = useState(null); // No longer needed
     const [searchTerm, setSearchTerm] = useState('');
     const [refreshTrigger, setRefreshTrigger] = useState(0); // State to trigger data re-fetch
 
@@ -181,18 +182,16 @@ const WithdrawalRequests = () => {
         }
     };
 
-    const openDetailsModal = (requestId) => {
-        const request = getWithdrawalRequestById(requestId); // Fetch the full request data
-        setSelectedRequest(request);
-        setIsModalOpen(true);
+    const openDetailsPage = (requestId) => {
+        router.push(`/admin/withdrawal-requests/${requestId}`); // Navigate to the dynamic details page
     };
 
-    const closeDetailsModal = () => {
-        setIsModalOpen(false);
-        setSelectedRequest(null);
-        // Refresh table data after modal close, in case a change was made in modal
-        setRefreshTrigger(prev => prev + 1);
-    };
+    // const closeDetailsModal = () => { // No longer needed
+    //     setIsModalOpen(false);
+    //     setSelectedRequest(null);
+    //     // Refresh table data after modal close, in case a change was made in modal
+    //     setRefreshTrigger(prev => prev + 1);
+    // };
 
     // Handle Approve Withdrawal Request (Green Check)
     const handleApproveWithdrawal = useCallback((requestId) => {
@@ -412,7 +411,7 @@ const WithdrawalRequests = () => {
                                                     </svg>
                                                 </button>
                                                 <button
-                                                    onClick={() => openDetailsModal(request.id)}
+                                                    onClick={() => openDetailsPage(request.id)} // Changed to openDetailsPage
                                                     className="text-[#9900FF] cursor-pointer border border-[#9900FF] hover:text-[#b377ff] p-2 rounded-full hover:bg-purple-900 transition-colors duration-200"
                                                     aria-label="View details"
                                                 >
@@ -433,12 +432,12 @@ const WithdrawalRequests = () => {
                     </table>
                 </div>
 
-                {/* Withdrawal Details Modal */}
-                <WithdrawalDetailsModal
+                {/* Withdrawal Details Modal - REMOVED */}
+                {/* <WithdrawalDetailsModal
                     isOpen={isModalOpen}
                     onClose={closeDetailsModal}
                     request={selectedRequest}
-                />
+                /> */}
             </div>
 
             {/* Pagination */}

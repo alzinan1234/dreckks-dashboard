@@ -1,3 +1,5 @@
+
+"use client"
 import WithdrawalRequests from '@/components/WithdrawalRequests/WithdrawalRequests'
 import React from 'react'
 
