@@ -11,7 +11,9 @@ export default function CreateSubscriptionModal({
   onCreateCategory,
 }) {
   const [title, setTitle] = useState("");
+
   const [billingCycle, setBillingCycle] = useState("");
+  const [category, setCategory] = useState(""); // New state for category
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
 
@@ -27,7 +29,7 @@ export default function CreateSubscriptionModal({
      <ModalWrapper title="Add New Subscriptions" onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4 px-10 py-2">
         <div className="flex justify-between">
-          <div>
+          {/* <div>
             <button
               type="button"
               onClick={onCreateCategory}
@@ -43,8 +45,8 @@ export default function CreateSubscriptionModal({
               </span>
               Create Category
             </button>
-          </div>
-       <div className="">
+          </div> */}
+       {/* <div className="">
            <button
             type="button"
             onClick={onViewCategory}
@@ -60,7 +62,7 @@ export default function CreateSubscriptionModal({
               </span>
             View Category
           </button>
-       </div>
+       </div> */}
         </div>
 
         <div>
@@ -106,6 +108,34 @@ export default function CreateSubscriptionModal({
     <ChevronDownIcon className="w-5 h-5 text-white absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
   </div>
 </div>
+
+{/* New Category dropdown field */}
+<div className="relative">
+    <label
+        htmlFor="category"
+        className="block text-white text-sm font-bold mb-2"
+    >
+        Category
+    </label>
+    <div className="relative">
+        <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="shadow appearance-none border border-[#929292] rounded w-full py-2 px-3 pr-10 text-white leading-tight focus:outline-none focus:shadow-outline"
+            required
+        >
+            <option className=" bg-black" value="">Select a category</option>
+            <option className="bg-gray-500" value="Vendor">user</option>
+            <option className="bg-gray-500" value="Vendor">Vendor</option>
+            <option className="bg-gray-500" value="Service Provider">Service Provider</option>
+        </select>
+        <ChevronDownIcon className="w-5 h-5 text-white absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+    </div>
+</div>
+
+
+
 
         <div>
           <label
