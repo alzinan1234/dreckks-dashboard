@@ -11,65 +11,50 @@ export default function CreateSubscriptionModal({
   onCreateCategory,
 }) {
   const [title, setTitle] = useState("");
-
   const [billingCycle, setBillingCycle] = useState("");
-  const [category, setCategory] = useState(""); // New state for category
-  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
+  const [features, setFeatures] = useState([]); // State to hold the list of features
+  const [newFeature, setNewFeature] = useState(""); // State for the new feature input
+
+  const handleAddFeature = () => {
+    if (newFeature.trim() !== "") {
+      setFeatures([...features, newFeature.trim()]);
+      setNewFeature(""); // Clear the input field
+    }
+  };
+
+  const handleRemoveFeature = (indexToRemove) => {
+    setFeatures(features.filter((_, index) => index !== indexToRemove));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here (e.g., send data to an API)
-    console.log({ title, billingCycle, description, price });
+    console.log({ title, billingCycle, category, price, features });
     onClose(); // Close modal after submission
   };
 
   return (
-
-     <ModalWrapper title="Add New Subscriptions" onClose={onClose}>
+    <ModalWrapper title="Add New Subscriptions" onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4 px-10 py-2">
         <div className="flex justify-between">
-          {/* <div>
-            <button
-              type="button"
-              onClick={onCreateCategory}
-              className="border  text-white font-semibold text-[12px] py-2 px-4 rounded  flex gap-2 items-center justify-center cursor-pointer"
-            >
-              <span>
-                <Image
-                  src="/icon/Create-Category.svg"
-                  alt="Create Category Icon"
-                  width={24}
-                  height={24}
-                />
-              </span>
-              Create Category
-            </button>
-          </div> */}
-       {/* <div className="">
-           <button
-            type="button"
-            onClick={onViewCategory}
-            className="  cursor-pointer border text-white font-semibold py-2 px-4 rounded text-[12px] flex gap-2 items-center justify-center"
-          >
+          {/* <button type="button" onClick={onCreateCategory} className="border text-white font-semibold text-[12px] py-2 px-4 rounded flex gap-2 items-center justify-center cursor-pointer">
             <span>
-                <Image
-                  src="/icon/View_alt.svg"
-                  alt="Create Category Icon"
-                  width={24}
-                  height={24}
-                />
-              </span>
+              <Image src="/icon/Create-Category.svg" alt="Create Category Icon" width={24} height={24} />
+            </span>
+            Create Category
+          </button> */}
+          {/* <button type="button" onClick={onViewCategory} className="cursor-pointer border text-white font-semibold py-2 px-4 rounded text-[12px] flex gap-2 items-center justify-center">
+            <span>
+              <Image src="/icon/View_alt.svg" alt="Create Category Icon" width={24} height={24} />
+            </span>
             View Category
-          </button>
-       </div> */}
+          </button> */}
         </div>
 
         <div>
-          <label
-            htmlFor="title"
-            className="block text-white text-sm font-bold mb-2"
-          >
+          <label htmlFor="title" className="block text-white text-sm font-bold mb-2">
             Title
           </label>
           <input
@@ -77,88 +62,99 @@ export default function CreateSubscriptionModal({
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="shadow appearance-none border border-[#929292] rounded w-full py-2 px-3  text-white leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border border-[#929292] rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
             placeholder="e.g., Premium Membership"
             required
           />
         </div>
-<div className="relative">
-  <label
-    htmlFor="billingCycle"
-    className="block text-white text-sm font-bold mb-2"
-  >
-    Billing cycle
-  </label>
 
-  <div className="relative">
-    <select
-      id="billingCycle"
-      value={billingCycle}
-      onChange={(e) => setBillingCycle(e.target.value)}
-      className="shadow appearance-none border border-[#929292] rounded w-full py-2 px-3 pr-10 text-white  leading-tight focus:outline-none focus:shadow-outline"
-      required
-    >
-      <option className=" bg-black" value="">Select a cycle</option>
-      <option className="bg-gray-500" value="monthly">Monthly</option>
-      <option className="bg-gray-500" value="annually">Annually</option>
-      <option className="bg-gray-500" value="quarterly">Quarterly</option>
-    </select>
-
-    {/* Custom arrow icon */}
-    <ChevronDownIcon className="w-5 h-5 text-white absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
-  </div>
-</div>
-
-{/* New Category dropdown field */}
-<div className="relative">
-    <label
-        htmlFor="category"
-        className="block text-white text-sm font-bold mb-2"
-    >
-        Category
-    </label>
-    <div className="relative">
-        <select
-            id="category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="shadow appearance-none border border-[#929292] rounded w-full py-2 px-3 pr-10 text-white leading-tight focus:outline-none focus:shadow-outline"
-            required
-        >
-            <option className=" bg-black" value="">Select a category</option>
-            <option className="bg-gray-500" value="Vendor">user</option>
-            <option className="bg-gray-500" value="Vendor">Vendor</option>
-            <option className="bg-gray-500" value="Service Provider">Service Provider</option>
-        </select>
-        <ChevronDownIcon className="w-5 h-5 text-white absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
-    </div>
-</div>
-
-
-
-
-        <div>
-          <label
-            htmlFor="description"
-            className="block text-white text-sm font-bold mb-2"
-          >
-            Description
+        <div className="relative">
+          <label htmlFor="billingCycle" className="block text-white text-sm font-bold mb-2">
+            Billing cycle
           </label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows="4"
-            className="shadow appearance-none border border-[#929292] rounded w-full py-2 px-3  text-white leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter subscription description"
-          ></textarea>
+          <div className="relative">
+            <select
+              id="billingCycle"
+              value={billingCycle}
+              onChange={(e) => setBillingCycle(e.target.value)}
+              className="shadow appearance-none border border-[#929292] rounded w-full py-2 px-3 pr-10 text-white leading-tight focus:outline-none focus:shadow-outline"
+              required
+            >
+              <option className="bg-black" value="">Select a cycle</option>
+              <option className="bg-gray-500" value="monthly">Monthly</option>
+              <option className="bg-gray-500" value="annually">Annually</option>
+              <option className="bg-gray-500" value="quarterly">Quarterly</option>
+            </select>
+            <ChevronDownIcon className="w-5 h-5 text-white absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+          </div>
+        </div>
+
+        <div className="relative">
+          <label htmlFor="category" className="block text-white text-sm font-bold mb-2">
+            Category
+          </label>
+          <div className="relative">
+            <select
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="shadow appearance-none border border-[#929292] rounded w-full py-2 px-3 pr-10 text-white leading-tight focus:outline-none focus:shadow-outline"
+              required
+            >
+              <option className="bg-black" value="">Select a category</option>
+              <option className="bg-gray-500" value="User">User</option>
+              <option className="bg-gray-500" value="Vendor">Vendor</option>
+              <option className="bg-gray-500" value="Service Provider">Service Provider</option>
+            </select>
+            <ChevronDownIcon className="w-5 h-5 text-white absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+          </div>
         </div>
 
         <div>
-          <label
-            htmlFor="price"
-            className="block text-white text-sm font-bold mb-2"
-          >
+          <label htmlFor="features" className="block text-white text-sm font-bold mb-2">
+            Features
+          </label>
+          <div className="flex items-center space-x-2">
+            <input
+              type="text"
+              id="features"
+              value={newFeature}
+              onChange={(e) => setNewFeature(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleAddFeature();
+                }
+              }}
+              className="shadow appearance-none border border-[#929292] rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Add a new feature"
+            />
+            <button
+              type="button"
+              onClick={handleAddFeature}
+              className="bg-cyan-400 hover:bg-cyan-300 text-white font-bold py-2 px-4 rounded"
+            >
+              Add
+            </button>
+          </div>
+          <div className="mt-2 flex flex-wrap gap-2 p-2 border border-[#929292] rounded min-h-[40px]">
+            {features.map((feature, index) => (
+              <span key={index} className="bg-[#555] text-white text-sm px-3 py-1 rounded-full flex items-center gap-2">
+                {feature}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveFeature(index)}
+                  className="text-white hover:text-gray-200"
+                >
+                  &times;
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="price" className="block text-white text-sm font-bold mb-2">
             Price
           </label>
           <input
@@ -166,22 +162,21 @@ export default function CreateSubscriptionModal({
             id="price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
-            className="shadow appearance-none border border-[#929292] rounded w-full py-2 px-3  text-white leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border border-[#929292] rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
             placeholder="e.g., 2000"
             required
           />
         </div>
 
         <div className="col-span-full mt-[160px]">
-              <button
+          <button
             type="submit"
-            className="w-full mx-auto flex justify-center items-center  rounded-full bg-cyan-400 hover:bg-cyan-300 text-white py-2 font-medium  border-b-4 border-lime-400"
+            className="w-full mx-auto flex justify-center items-center rounded-full bg-cyan-400 hover:bg-cyan-300 text-white py-2 font-medium border-b-4 border-lime-400"
           >
             Save
           </button>
-          </div>
+        </div>
       </form>
     </ModalWrapper>
-
   );
 }
