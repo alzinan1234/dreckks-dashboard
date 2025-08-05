@@ -132,7 +132,7 @@ export default function CreateSubscriptionModal({
             <button
               type="button"
               onClick={handleAddFeature}
-              className="bg-cyan-400 hover:bg-cyan-300 text-white font-bold py-2 px-4 rounded"
+              className="bg-cyan-400 hover:bg-cyan-300 text-white font-bold py-2 px-4 rounded border-b-4 border-lime-400"
             >
               Add
             </button>
