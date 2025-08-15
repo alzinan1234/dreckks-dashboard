@@ -1,14 +1,13 @@
 "use client"
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-
+import { Loader2, XCircle } from "lucide-react";
 import React, { useState } from "react";
+import axios from "axios";
 import ModalWrapper from "./ModalWrapper";
 import Image from "next/image";
 
 export default function CreateSubscriptionModal({
   onClose,
-  onViewCategory,
-  onCreateCategory,
 }) {
   const [title, setTitle] = useState("");
   const [billingCycle, setBillingCycle] = useState("");
@@ -16,6 +15,8 @@ export default function CreateSubscriptionModal({
   const [price, setPrice] = useState("");
   const [features, setFeatures] = useState([]); // State to hold the list of features
   const [newFeature, setNewFeature] = useState(""); // State for the new feature input
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({ type: "", text: "" });
 
   const handleAddFeature = () => {
     if (newFeature.trim() !== "") {
@@ -28,30 +29,60 @@ export default function CreateSubscriptionModal({
     setFeatures(features.filter((_, index) => index !== indexToRemove));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here (e.g., send data to an API)
-    console.log({ title, billingCycle, category, price, features });
-    onClose(); // Close modal after submission
+    setLoading(true);
+    setMessage({ type: "", text: "" });
+
+    try {
+      const payload = {
+        title,
+        billingCycle: billingCycle,
+        category: category,
+        price: parseFloat(price),
+        features,
+        isActive: true
+      };
+
+      const response = await axios.post(
+        "https://dreckks-backend.onrender.com/api/v1/subscription/create-subscription",
+        payload
+      );
+
+      console.log("API Response:", response.data);
+      setMessage({ type: "success", text: "Subscription created successfully!" });
+
+      // Close modal after a short delay to show success message
+      setTimeout(() => {
+        onClose();
+      }, 1500);
+    } catch (err) {
+      console.error("API Error:", err.response ? err.response.data : err.message);
+      setMessage({
+        type: "error",
+        text: `Failed to create subscription: ${err.response?.data?.message || err.message || "Unknown error"}`,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <ModalWrapper title="Add New Subscriptions" onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4 px-10 py-2">
-        <div className="flex justify-between">
-          {/* <button type="button" onClick={onCreateCategory} className="border text-white font-semibold text-[12px] py-2 px-4 rounded flex gap-2 items-center justify-center cursor-pointer">
-            <span>
-              <Image src="/icon/Create-Category.svg" alt="Create Category Icon" width={24} height={24} />
-            </span>
-            Create Category
-          </button> */}
-          {/* <button type="button" onClick={onViewCategory} className="cursor-pointer border text-white font-semibold py-2 px-4 rounded text-[12px] flex gap-2 items-center justify-center">
-            <span>
-              <Image src="/icon/View_alt.svg" alt="Create Category Icon" width={24} height={24} />
-            </span>
-            View Category
-          </button> */}
-        </div>
+        
+        {/* Status Message Display */}
+        {message.text && (
+          <div
+            className={`p-3 rounded-md mb-4 ${
+              message.type === "success"
+                ? "bg-green-500 text-white"
+                : "bg-red-500 text-white"
+            }`}
+          >
+            {message.text}
+          </div>
+        )}
 
         <div>
           <label htmlFor="title" className="block text-white text-sm font-bold mb-2">
@@ -82,8 +113,8 @@ export default function CreateSubscriptionModal({
             >
               <option className="bg-black" value="">Select a cycle</option>
               <option className="bg-gray-500" value="monthly">Monthly</option>
-              <option className="bg-gray-500" value="annually">Annually</option>
               <option className="bg-gray-500" value="quarterly">Quarterly</option>
+              <option className="bg-gray-500" value="yearly">Annually</option>
             </select>
             <ChevronDownIcon className="w-5 h-5 text-white absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
           </div>
@@ -102,9 +133,9 @@ export default function CreateSubscriptionModal({
               required
             >
               <option className="bg-black" value="">Select a category</option>
-              <option className="bg-gray-500" value="User">User</option>
-              <option className="bg-gray-500" value="Vendor">Vendor</option>
-              <option className="bg-gray-500" value="Service Provider">Service Provider</option>
+              <option className="bg-gray-500" value="USER">User</option>
+              <option className="bg-gray-500" value="HOSPITALITY_VENUE">Hospitality Venue</option>
+              <option className="bg-gray-500" value="SERVICE_PROVIDER">Service Provider</option>
             </select>
             <ChevronDownIcon className="w-5 h-5 text-white absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
           </div>
@@ -171,9 +202,17 @@ export default function CreateSubscriptionModal({
         <div className="col-span-full mt-[160px]">
           <button
             type="submit"
-            className="w-full mx-auto flex justify-center items-center rounded-full bg-cyan-400 hover:bg-cyan-300 text-white py-2 font-medium border-b-4 border-lime-400"
+            className="w-full mx-auto flex justify-center items-center rounded-full bg-cyan-400 hover:bg-cyan-300 text-white py-2 font-medium border-b-4 border-lime-400 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={loading}
           >
-            Save
+            {loading ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="animate-spin" size={20} />
+                Saving...
+              </span>
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </form>
