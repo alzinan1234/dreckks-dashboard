@@ -1,27 +1,39 @@
 "use client"
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { Loader2, XCircle } from "lucide-react";
-import React, { useState } from "react";
-import axios from "axios";
+import { Loader2 } from "lucide-react";
+import React, { useState, useEffect } from "react"; // ADDED useEffect
 import ModalWrapper from "./ModalWrapper";
-import Image from "next/image";
 
-export default function CreateSubscriptionModal({
-  onClose,
-}) {
+// CHANGED: Added onSave and initialData to props
+export default function CreateSubscriptionModal({ onClose, onSave, initialData }) {
+  // --- STATE MANAGEMENT ---
   const [title, setTitle] = useState("");
   const [billingCycle, setBillingCycle] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
-  const [features, setFeatures] = useState([]); // State to hold the list of features
-  const [newFeature, setNewFeature] = useState(""); // State for the new feature input
+  const [features, setFeatures] = useState([]);
+  const [newFeature, setNewFeature] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({ type: "", text: "" });
+  const [error, setError] = useState(""); // Simplified error state
 
+  // ADDED: useEffect to pre-fill the form if we are editing
+  useEffect(() => {
+    if (initialData) {
+      setTitle(initialData.title || "");
+      setBillingCycle(initialData.billingCycle || "");
+      setCategory(initialData.category || "");
+      setPrice(initialData.price || "");
+      setFeatures(initialData.features || []);
+    }
+  }, [initialData]);
+
+  const isEditing = !!initialData; // A flag to know if we are in edit mode
+
+  // --- FEATURE HANDLERS ---
   const handleAddFeature = () => {
     if (newFeature.trim() !== "") {
       setFeatures([...features, newFeature.trim()]);
-      setNewFeature(""); // Clear the input field
+      setNewFeature("");
     }
   };
 
@@ -29,61 +41,53 @@ export default function CreateSubscriptionModal({
     setFeatures(features.filter((_, index) => index !== indexToRemove));
   };
 
+  // --- FORM SUBMISSION ---
+  // CHANGED: This function now passes data to the parent instead of calling the API
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage({ type: "", text: "" });
+    setError("");
+
+    const payload = {
+      title,
+      billingCycle,
+      category,
+      price: parseFloat(price),
+      features,
+      isActive: true
+    };
+    
+    // If we are editing, we must include the ID
+    if(isEditing) {
+        payload._id = initialData._id;
+    }
 
     try {
-      const payload = {
-        title,
-        billingCycle: billingCycle,
-        category: category,
-        price: parseFloat(price),
-        features,
-        isActive: true
-      };
-
-      const response = await axios.post(
-        "https://dreckks-backend.onrender.com/api/v1/subscription/create-subscription",
-        payload
-      );
-
-      console.log("API Response:", response.data);
-      setMessage({ type: "success", text: "Subscription created successfully!" });
-
-      // Close modal after a short delay to show success message
-      setTimeout(() => {
-        onClose();
-      }, 1500);
+      // Call the onSave function passed from the parent page
+      await onSave(payload);
+      // The parent will handle closing the modal on success
     } catch (err) {
-      console.error("API Error:", err.response ? err.response.data : err.message);
-      setMessage({
-        type: "error",
-        text: `Failed to create subscription: ${err.response?.data?.message || err.message || "Unknown error"}`,
-      });
-    } finally {
-      setLoading(false);
-    }
+      console.error("Save Operation Failed:", err);
+      setError("Failed to save subscription. Please try again.");
+      setLoading(false); // Stop loading only on error
+    } 
+    // No finally block needed, as the modal will close on success
   };
-
+  
+  // --- RENDER LOGIC ---
   return (
-    <ModalWrapper title="Add New Subscriptions" onClose={onClose}>
+    // CHANGED: The title is now dynamic
+    <ModalWrapper title={isEditing ? "Edit Subscription" : "Add New Subscription"} onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4 px-10 py-2">
         
-        {/* Status Message Display */}
-        {message.text && (
-          <div
-            className={`p-3 rounded-md mb-4 ${
-              message.type === "success"
-                ? "bg-green-500 text-white"
-                : "bg-red-500 text-white"
-            }`}
-          >
-            {message.text}
+        {/* Simplified Error Message Display */}
+        {error && (
+          <div className="p-3 rounded-md mb-4 bg-red-500 text-white">
+            {error}
           </div>
         )}
 
+        {/* --- FORM FIELDS (NO CHANGE TO JSX STRUCTURE) --- */}
         <div>
           <label htmlFor="title" className="block text-white text-sm font-bold mb-2">
             Title
@@ -199,7 +203,7 @@ export default function CreateSubscriptionModal({
           />
         </div>
 
-        <div className="col-span-full mt-[160px]">
+        <div className="col-span-full pt-4">
           <button
             type="submit"
             className="w-full mx-auto flex justify-center items-center rounded-full bg-cyan-400 hover:bg-cyan-300 text-white py-2 font-medium border-b-4 border-lime-400 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -211,7 +215,8 @@ export default function CreateSubscriptionModal({
                 Saving...
               </span>
             ) : (
-              "Save"
+              // CHANGED: Dynamic button text
+              isEditing ? "Update Subscription" : "Create Subscription"
             )}
           </button>
         </div>
