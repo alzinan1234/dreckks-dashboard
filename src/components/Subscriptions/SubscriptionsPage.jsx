@@ -1,24 +1,22 @@
+// components/SubscriptionsPage.jsx (Refactored)
 "use client";
 import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import CreateSubscriptionModal from "./CreateSubscriptionModal";
+import UpdateSubscriptionModal from "./UpdateSubscriptionModal"; // New import
 import { Loader2 } from "lucide-react";
 
 const ITEMS_PER_PAGE = 3;
 
 export default function SubscriptionsPage() {
-  // State for UI management
   const [showCreateSubscriptionModal, setShowCreateSubscriptionModal] = useState(false);
   const [editingSubscription, setEditingSubscription] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState("All");
 
-  // State for API data and status
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // --- API FUNCTIONS ---
 
   const fetchSubscriptions = async () => {
     setLoading(true);
@@ -35,6 +33,7 @@ export default function SubscriptionsPage() {
   };
 
   const fetchSingleSubscription = async (id) => {
+    setLoading(true); // Added loading state for the single fetch
     try {
       const response = await axios.get(`https://dreckks-backend.onrender.com/api/v1/subscription/${id}`);
       return response.data.data;
@@ -42,6 +41,8 @@ export default function SubscriptionsPage() {
       console.error("Failed to fetch single subscription:", err);
       setError("Failed to load subscription details. Please try again.");
       return null;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,31 +50,24 @@ export default function SubscriptionsPage() {
     fetchSubscriptions();
   }, []);
 
-  // --- FILTERING AND PAGINATION LOGIC ---
-
   const filteredSubscriptions = useMemo(() => {
+    // ... (logic is the same)
     const normalize = (str) => (str || "").toLowerCase().replace(/[\s_]/g, "");
-
     if (selectedFilter === "All") {
       return subscriptions;
     }
-
     const normalizedFilter = normalize(selectedFilter);
-    return subscriptions.filter((sub) => {
-      const normalizedCategory = normalize(sub.category);
-      return normalizedCategory === normalizedFilter;
-    });
+    return subscriptions.filter((sub) => normalize(sub.category) === normalizedFilter);
   }, [subscriptions, selectedFilter]);
 
   const totalPages = Math.ceil(filteredSubscriptions.length / ITEMS_PER_PAGE);
 
   const paginatedSubscriptions = useMemo(() => {
+    // ... (logic is the same)
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     return filteredSubscriptions.slice(startIndex, endIndex);
   }, [currentPage, filteredSubscriptions]);
-
-  // --- EVENT HANDLERS ---
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -82,76 +76,57 @@ export default function SubscriptionsPage() {
   };
 
   const handleEditClick = async (subscriptionId) => {
-    setLoading(true);
     const subscriptionData = await fetchSingleSubscription(subscriptionId);
     if (subscriptionData) {
       setEditingSubscription(subscriptionData);
-      setShowCreateSubscriptionModal(true);
     }
-    setLoading(false);
   };
 
-  // --- CRUD Operations with API calls ---
+  // New function to handle the update from the modal
+  const handleSubscriptionUpdated = (updatedSubscription) => {
+    // Optimistically update the list in the parent
+    setSubscriptions(currentSubscriptions =>
+      currentSubscriptions.map(sub =>
+        sub._id === updatedSubscription._id ? updatedSubscription : sub
+      )
+    );
+    // Close the modal and clear the editing state
+    setEditingSubscription(null);
+  };
+  
   const handleAddSubscription = async (newSubscription) => {
     try {
       await axios.post("https://dreckks-backend.onrender.com/api/v1/subscription/create-subscription", newSubscription);
       fetchSubscriptions();
-      closeCreateSubscriptionModal();
+      setShowCreateSubscriptionModal(false);
     } catch (err) {
       console.error("Failed to add subscription:", err);
       alert("Failed to add subscription. Please try again.");
     }
   };
 
-  const handleUpdateSubscription = async (updatedSubscription) => {
-    const originalSubscriptions = [...subscriptions];
-    setSubscriptions(currentSubscriptions =>
-      currentSubscriptions.map(sub =>
-        sub._id === updatedSubscription._id ? updatedSubscription : sub
-      )
-    );
-    closeCreateSubscriptionModal();
-    try {
-      await axios.patch(`https://dreckks-backend.onrender.com/api/v1/subscription/${updatedSubscription._id}`, updatedSubscription);
-    } catch (err) {
-      console.error("Failed to update subscription:", err);
-      alert("Failed to update subscription. Reverting changes.");
-      setSubscriptions(originalSubscriptions);
-    }
-  };
-
-  // --- ENHANCED DELETE FUNCTION ---
   const handleDeleteSubscription = async (id) => {
-    // CHANGED: This function now performs an optimistic delete.
     if (window.confirm("Are you sure you want to delete this subscription?")) {
       const originalSubscriptions = [...subscriptions];
-
-      // Optimistically remove the subscription from the UI
       setSubscriptions(currentSubscriptions => currentSubscriptions.filter(sub => sub._id !== id));
-
       try {
-        // Send the delete request to the backend
         await axios.delete(`https://dreckks-backend.onrender.com/api/v1/subscription/${id}`);
       } catch (err) {
         console.error("Failed to delete subscription:", err);
         alert("Failed to delete subscription. Please try again.");
-        // If the API call fails, revert the change in the UI
         setSubscriptions(originalSubscriptions);
       }
     }
   };
 
-  // --- MODAL CONTROLS ---
   const openCreateSubscriptionModal = () => {
     setEditingSubscription(null);
     setShowCreateSubscriptionModal(true);
   };
+
   const closeCreateSubscriptionModal = () => {
     setShowCreateSubscriptionModal(false);
-    setEditingSubscription(null);
   };
-
-  // --- RENDER LOGIC AND JSX (No Changes Below) ---
 
   const pageNumbers = useMemo(() => {
     const pages = [];
@@ -172,9 +147,11 @@ export default function SubscriptionsPage() {
     return pages;
   }, [currentPage, totalPages]);
 
+
   return (
     <div>
       <div className="bg-[#2E2E2E] min-h-screen text-white p-8 rounded">
+        {/* ... (UI remains the same) */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-[20px] font-semibold">Subscriptions</h1>
           <div className="flex items-center gap-4">
@@ -188,7 +165,7 @@ export default function SubscriptionsPage() {
                 className="appearance-none bg-transparent border border-[#404040] text-white py-2 pl-4 pr-8 rounded-[18px] focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
                 style={{
                   background:
-                    "url(\"data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>\") no-repeat right 8px center",
+                    "url(\"data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>\") no-repeat right 8px center",
                   backgroundSize: "20px",
                 }}
               >
@@ -218,6 +195,7 @@ export default function SubscriptionsPage() {
             </button>
           </div>
         </div>
+
         {loading && (
           <div className="flex justify-center py-8">
             <Loader2 className="animate-spin text-cyan-400" size={40} />
@@ -271,18 +249,23 @@ export default function SubscriptionsPage() {
         {showCreateSubscriptionModal && (
           <CreateSubscriptionModal
             onClose={closeCreateSubscriptionModal}
+            onSave={handleAddSubscription}
+          />
+        )}
+        
+        {/* NEW: Conditional rendering for the Update Modal */}
+        {editingSubscription && (
+          <UpdateSubscriptionModal
+            onClose={() => setEditingSubscription(null)}
             initialData={editingSubscription}
-            onSave={
-              editingSubscription
-                ? handleUpdateSubscription
-                : handleAddSubscription
-            }
+            onSubscriptionUpdated={handleSubscriptionUpdated}
           />
         )}
       </div>
 
       {!loading && totalPages > 1 && (
         <div className="flex justify-end items-center mt-6 gap-2 text-sm">
+          {/* ... (Pagination UI remains the same) */}
           <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} className="w-8 h-8 flex items-center justify-center rounded-full border hover:bg-[#2d2d2d] text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed">
             <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
               <path d="M6.99995 13C6.99995 13 1.00001 8.58107 0.999999 6.99995C0.999986 5.41884 7 1 7 1" stroke="#E2E2E2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
