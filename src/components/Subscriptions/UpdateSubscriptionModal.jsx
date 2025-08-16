@@ -49,18 +49,21 @@ export default function UpdateSubscriptionModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-  <div className="bg-[#2E2E2E] rounded-2xl shadow-2xl w-full max-w-md p-8 relative text-white border border-[#929292]">
-        <button
+  <div className="bg-[#2E2E2E] rounded-2xl shadow-2xl w-full max-w-3xl p-8 relative text-white border border-[#E4E4E4]">
+        <div className='flex justify-between items-center mb-6'>
+            <h2 className="text-2xl font-bold   text-white">Update Subscription</h2>
+            <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-300 hover:text-cyan-400 text-2xl font-bold"
+          className="   text-gray-300 hover:text-cyan-400 text-2xl font-bold"
           aria-label="Close"
         >
-          &times;
+           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
-        <h2 className="text-3xl font-bold mb-6 text-center text-cyan-400">Update Subscription</h2>
+        
+        </div>
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-cyan-300 font-semibold mb-1">Title</label>
+            <label className="block text-white font-semibold mb-1">Title</label>
             <input
               name="title"
               value={formData.title || ''}
@@ -71,7 +74,7 @@ export default function UpdateSubscriptionModal({
             />
           </div>
           <div>
-            <label className="block text-cyan-300 font-semibold mb-1">Price</label>
+            <label className="block text-white font-semibold mb-1">Price</label>
             <input
               name="price"
               type="number"
@@ -83,7 +86,7 @@ export default function UpdateSubscriptionModal({
             />
           </div>
           <div>
-            <label className="block text-cyan-300 font-semibold mb-1">Billing Cycle</label>
+            <label className="block text-white font-semibold mb-1">Billing Cycle</label>
             <input
               name="billingCycle"
               value={formData.billingCycle || ''}
@@ -94,7 +97,7 @@ export default function UpdateSubscriptionModal({
             />
           </div>
           <div>
-            <label className="block text-cyan-300 font-semibold mb-1">Category</label>
+            <label className="block text-white font-semibold mb-1">Category</label>
             <input
               name="category"
               value={formData.category || ''}
@@ -105,7 +108,7 @@ export default function UpdateSubscriptionModal({
             />
           </div>
           <div>
-            <label className="block text-cyan-300 font-semibold mb-1">Features (comma-separated)</label>
+            <label className="block text-white font-semibold mb-1">Features (comma-separated)</label>
             <textarea
               name="features"
               value={formData.features ? formData.features.join(', ') : ''}
@@ -127,7 +130,7 @@ export default function UpdateSubscriptionModal({
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-cyan-400 text-white font-semibold hover:bg-cyan-500 flex items-center gap-2 disabled:opacity-50"
+              className="px-4 py-2 rounded bg-cyan-400 hover:bg-cyan-300  border-b-4 border-lime-400 text-white font-semibold  flex items-center gap-2 disabled:opacity-50"
             >
               {loading ? (
                 <Loader2 className="animate-spin" size={18} />
